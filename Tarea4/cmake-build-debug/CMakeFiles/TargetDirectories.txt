@@ -1,0 +1,3 @@
+/home/dell/Escritorio/Tarea_4_Paradigmas/Tarea4/cmake-build-debug/CMakeFiles/Tarea4.dir
+/home/dell/Escritorio/Tarea_4_Paradigmas/Tarea4/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/dell/Escritorio/Tarea_4_Paradigmas/Tarea4/cmake-build-debug/CMakeFiles/rebuild_cache.dir
