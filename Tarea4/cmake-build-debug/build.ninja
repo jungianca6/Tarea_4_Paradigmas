@@ -67,6 +67,12 @@ build CMakeFiles/Tarea4.dir/INI/ini.c.o: C_COMPILER__Tarea4_unscanned_Debug /hom
   OBJECT_DIR = CMakeFiles/Tarea4.dir
   OBJECT_FILE_DIR = CMakeFiles/Tarea4.dir/INI
 
+build CMakeFiles/Tarea4.dir/Config/config.c.o: C_COMPILER__Tarea4_unscanned_Debug /home/space-ba/CLionProjects/Tarea_4_C/Tarea4/Config/config.c || cmake_object_order_depends_target_Tarea4
+  DEP_FILE = CMakeFiles/Tarea4.dir/Config/config.c.o.d
+  FLAGS = -g -std=gnu11 -fdiagnostics-color=always
+  OBJECT_DIR = CMakeFiles/Tarea4.dir
+  OBJECT_FILE_DIR = CMakeFiles/Tarea4.dir/Config
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target Tarea4
@@ -75,7 +81,7 @@ build CMakeFiles/Tarea4.dir/INI/ini.c.o: C_COMPILER__Tarea4_unscanned_Debug /hom
 #############################################
 # Link the executable Tarea4
 
-build Tarea4: C_EXECUTABLE_LINKER__Tarea4_Debug CMakeFiles/Tarea4.dir/main.c.o CMakeFiles/Tarea4.dir/Client/client.c.o CMakeFiles/Tarea4.dir/INI/ini.c.o
+build Tarea4: C_EXECUTABLE_LINKER__Tarea4_Debug CMakeFiles/Tarea4.dir/main.c.o CMakeFiles/Tarea4.dir/Client/client.c.o CMakeFiles/Tarea4.dir/INI/ini.c.o CMakeFiles/Tarea4.dir/Config/config.c.o
   FLAGS = -g
   LINK_LIBRARIES = -Wl,-rpath,/usr/local/lib  -lraylib  -lm  -lpthread  -ldl  -lcjson
   LINK_PATH = -L/usr/local/lib

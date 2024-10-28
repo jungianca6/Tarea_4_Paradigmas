@@ -2,46 +2,12 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
-
 #include "raylib.h"
 #include "./Client/data.h"
 #include "./Client/client.h"
-#include "./INI/ini.h"
+#include "./Config/config.h"
 
-#define PORT 12346
 #define MAX_INPUT_SIZE 256
-
-// Estructura para almacenar configuraciones
-typedef struct {
-    int port;
-    int max_input_size;
-} Config;
-
-// Callback para manejar las configuraciones
-int handler(void* user, const char* section, const char* name, const char* value) {
-    Config* config = (Config*)user;
-    if (strcmp(section, "Settings") == 0) {
-        if (strcmp(name, "port") == 0) {
-            config->port = atoi(value);
-            printf("Loaded port: %d\n", config->port); // Debug: Print loaded port
-            return 1;
-        } else if (strcmp(name, "max_input_size") == 0) {
-            config->max_input_size = atoi(value);
-            printf("Loaded max_input_size: %d\n", config->max_input_size); // Debug: Print loaded max_input_size
-            return 1;
-        }
-    }
-    return 0; // No se manejó la clave
-}
-
-// Función para cargar configuraciones desde un archivo INI
-int load_config(const char* filename, Config* config) {
-    if (ini_parse(filename, handler, config) < 0) {
-        printf("Can't load '%s'\n", filename);
-        return 0;
-    }
-    return 1;
-}
 
 
 int main(void)
@@ -52,8 +18,10 @@ int main(void)
         fprintf(stderr, "Failed to load config\n");
         return EXIT_FAILURE;
     }
+
     // Imprimir el puerto cargado
     printf("Puerto cargado desde config: %d\n", config.port);
+    printf("Puerto cargado desde config: %d\n", config.max_input_size);
 
     const int screenWidth = 800;
     const int screenHeight = 450;
@@ -68,7 +36,7 @@ int main(void)
     char input[MAX_INPUT_SIZE] = "Hello from the client!"; // Mensaje por defecto
 
     // Inicializa el socket
-    initialize_socket(&sock, &server_addr, PORT);
+    initialize_socket(&sock, &server_addr, config.port, config.ip_address);
 
     // Bucle principal
     while (!WindowShouldClose()) {

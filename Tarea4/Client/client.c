@@ -70,7 +70,7 @@ void receive_message(int socket_fd) {
 }
 
 // Function to initialize the socket
-int initialize_socket(int *sock, struct sockaddr_in *server_addr, int port) {
+int initialize_socket(int *sock, struct sockaddr_in *server_addr, int port, const char *ip_address) {
     // Create socket
     *sock = socket(AF_INET, SOCK_STREAM, 0);
     if (*sock < 0) {
@@ -81,7 +81,7 @@ int initialize_socket(int *sock, struct sockaddr_in *server_addr, int port) {
     // Configure the server address
     server_addr->sin_family = AF_INET;
     server_addr->sin_port = htons(port);
-    server_addr->sin_addr.s_addr = inet_addr("127.0.0.1"); // localhost
+    server_addr->sin_addr.s_addr = inet_addr(ip_address); // Usar la dirección IP proporcionada
 
     // Connect to the server
     if (connect(*sock, (struct sockaddr*)server_addr, sizeof(*server_addr)) < 0) {
