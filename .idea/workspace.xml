@@ -23,12 +23,74 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="75554750-353e-47f0-ae30-1498d22c2337" name="Changes" comment="commit">
-      <change beforePath="$PROJECT_DIR$/Tarea4/Client/client.c" beforeDir="false" afterPath="$PROJECT_DIR$/Tarea4/Client/client.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Tarea4/cmake-build-debug/.cmake/api/v1/reply/index-2024-10-28T05-08-08-0791.json" beforeDir="false" />
+    <list default="true" id="75554750-353e-47f0-ae30-1498d22c2337" name="Changes" comment="EL cliente escucha mensajes permanentemente">
+      <change afterPath="$PROJECT_DIR$/Tarea4/INI/.github/FUNDING.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Tarea4/INI/.github/workflows/tests.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Tarea4/INI/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Tarea4/INI/LICENSE.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Tarea4/INI/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Tarea4/INI/cpp/INIReader.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Tarea4/INI/cpp/INIReader.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Tarea4/INI/examples/INIReaderExample.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Tarea4/INI/examples/config.def" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Tarea4/INI/examples/cpptest.sh" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Tarea4/INI/examples/cpptest.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Tarea4/INI/examples/ini_dump.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Tarea4/INI/examples/ini_example.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Tarea4/INI/examples/ini_xmacros.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Tarea4/INI/examples/meson.build" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Tarea4/INI/examples/test.ini" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Tarea4/INI/fuzzing/build.sh" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Tarea4/INI/fuzzing/fuzz.sh" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Tarea4/INI/fuzzing/inihfuzz.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Tarea4/INI/fuzzing/testcases/case1.ini" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Tarea4/INI/ini.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Tarea4/INI/ini.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Tarea4/INI/meson.build" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Tarea4/INI/meson_options.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Tarea4/INI/tests/bad_comment.ini" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Tarea4/INI/tests/bad_multi.ini" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Tarea4/INI/tests/bad_section.ini" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Tarea4/INI/tests/baseline_alloc.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Tarea4/INI/tests/baseline_allow_no_value.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Tarea4/INI/tests/baseline_call_handler_on_new_section.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Tarea4/INI/tests/baseline_disallow_inline_comments.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Tarea4/INI/tests/baseline_handler_lineno.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Tarea4/INI/tests/baseline_heap.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Tarea4/INI/tests/baseline_heap_max_line.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Tarea4/INI/tests/baseline_heap_realloc.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Tarea4/INI/tests/baseline_heap_realloc_max_line.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Tarea4/INI/tests/baseline_heap_string.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Tarea4/INI/tests/baseline_multi.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Tarea4/INI/tests/baseline_multi_max_line.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Tarea4/INI/tests/baseline_single.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Tarea4/INI/tests/baseline_stop_on_first_error.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Tarea4/INI/tests/baseline_string.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Tarea4/INI/tests/bom.ini" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Tarea4/INI/tests/duplicate_sections.ini" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Tarea4/INI/tests/long_section.ini" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Tarea4/INI/tests/meson.build" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Tarea4/INI/tests/multi_line.ini" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Tarea4/INI/tests/no_value.ini" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Tarea4/INI/tests/normal.ini" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Tarea4/INI/tests/runtest.sh" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Tarea4/INI/tests/unittest.bat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Tarea4/INI/tests/unittest.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Tarea4/INI/tests/unittest.sh" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Tarea4/INI/tests/unittest_alloc.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Tarea4/INI/tests/unittest_string.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Tarea4/INI/tests/user_error.ini" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tarea4/Config.ini" beforeDir="false" afterPath="$PROJECT_DIR$/Tarea4/config.ini" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tarea4/Config/Config.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tarea4/Config/Config.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tarea4/cmake-build-debug/.cmake/api/v1/reply/index-2024-10-28T08-03-35-0686.json" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Tarea4/cmake-build-debug/.ninja_deps" beforeDir="false" afterPath="$PROJECT_DIR$/Tarea4/cmake-build-debug/.ninja_deps" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Tarea4/cmake-build-debug/.ninja_log" beforeDir="false" afterPath="$PROJECT_DIR$/Tarea4/cmake-build-debug/.ninja_log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tarea4/cmake-build-debug/CMakeFiles/Tarea4.dir/main.c.o" beforeDir="false" afterPath="$PROJECT_DIR$/Tarea4/cmake-build-debug/CMakeFiles/Tarea4.dir/main.c.o" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tarea4/cmake-build-debug/Tarea4" beforeDir="false" afterPath="$PROJECT_DIR$/Tarea4/cmake-build-debug/Tarea4" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Tarea4/cmake-build-debug/Testing/Temporary/LastTest.log" beforeDir="false" afterPath="$PROJECT_DIR$/Tarea4/cmake-build-debug/Testing/Temporary/LastTest.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tarea4/main.c" beforeDir="false" afterPath="$PROJECT_DIR$/Tarea4/main.c" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -78,7 +140,7 @@
     &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
     &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;cliente__C&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/home/space-ba/CLionProjects/Tarea_4_C/Tarea4/CMakeLists.txt&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/space-ba/CLionProjects/Tarea_4_C/Tarea4&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -88,6 +150,11 @@
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/Tarea4" />
+    </key>
+  </component>
   <component name="RunManager">
     <configuration default="true" type="CLionExternalRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true">
       <method v="2">
@@ -120,7 +187,15 @@
       <option name="project" value="LOCAL" />
       <updated>1730079477549</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="EL cliente escucha mensajes permanentemente">
+      <option name="closed" value="true" />
+      <created>1730103000933</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1730103000933</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -156,6 +231,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="commit" />
-    <option name="LAST_COMMIT_MESSAGE" value="commit" />
+    <MESSAGE value="EL cliente escucha mensajes permanentemente" />
+    <option name="LAST_COMMIT_MESSAGE" value="EL cliente escucha mensajes permanentemente" />
   </component>
 </project>
