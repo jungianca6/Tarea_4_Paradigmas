@@ -8,5 +8,6 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" exported="" name="ejlchina.data.gson" level="project" />
+    <orderEntry type="library" name="autonomouslogic.jacksonobjectstream.jackson.object.stream" level="project" />
   </component>
 </module>

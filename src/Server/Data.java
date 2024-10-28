@@ -1,21 +1,24 @@
 package Server;
 
-class Data {
-    String message;
-    int number;
-    int status;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
+public class Data {
+    @JsonProperty("message")
+    public String message;
+
+    @JsonProperty("number")
+    public int number;
+
+    @JsonProperty("status")
+    public int status;
+
+    // Constructor por defecto
+    public Data() {}
+
+    // Constructor con parámetros
     public Data(String message, int number, int status) {
         this.message = message;
         this.number = number;
         this.status = status;
     }
-
-    // Constructor vacío
-    public Data() {
-        this.message = ""; // Inicializa message como una cadena vacía
-        this.number = 0;   // Inicializa number en 0
-        this.status = 0; // Inicializa status como false
-    }
 }
-
