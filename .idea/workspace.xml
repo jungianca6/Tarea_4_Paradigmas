@@ -24,26 +24,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="75554750-353e-47f0-ae30-1498d22c2337" name="Changes" comment="commit">
-      <change beforePath="$PROJECT_DIR$/Tarea4/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Tarea4/CMakeLists.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Tarea4/cmake-build-debug/.cmake/api/v1/reply/cache-v2-433d4cc927a4fbe862f7.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Tarea4/cmake-build-debug/.cmake/api/v1/reply/cmakeFiles-v1-d445bd5f2fc089bca874.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Tarea4/cmake-build-debug/.cmake/api/v1/reply/codemodel-v2-ada9b5cd1700c1994d31.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Tarea4/cmake-build-debug/.cmake/api/v1/reply/index-2024-10-19T09-43-13-0022.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Tarea4/cmake-build-debug/.cmake/api/v1/reply/target-Tarea4-Debug-184f2785c7f6e295d81e.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tarea4/Client/client.c" beforeDir="false" afterPath="$PROJECT_DIR$/Tarea4/Client/client.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tarea4/cmake-build-debug/.cmake/api/v1/reply/index-2024-10-28T05-08-08-0791.json" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Tarea4/cmake-build-debug/.ninja_deps" beforeDir="false" afterPath="$PROJECT_DIR$/Tarea4/cmake-build-debug/.ninja_deps" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Tarea4/cmake-build-debug/.ninja_log" beforeDir="false" afterPath="$PROJECT_DIR$/Tarea4/cmake-build-debug/.ninja_log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Tarea4/cmake-build-debug/CMakeCache.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Tarea4/cmake-build-debug/CMakeCache.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Tarea4/cmake-build-debug/CMakeFiles/3.29.6/CMakeSystem.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/Tarea4/cmake-build-debug/CMakeFiles/3.29.6/CMakeSystem.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Tarea4/cmake-build-debug/CMakeFiles/CMakeConfigureLog.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/Tarea4/cmake-build-debug/CMakeFiles/CMakeConfigureLog.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Tarea4/cmake-build-debug/CMakeFiles/Tarea4.dir/main.c.o" beforeDir="false" afterPath="$PROJECT_DIR$/Tarea4/cmake-build-debug/CMakeFiles/Tarea4.dir/main.c.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Tarea4/cmake-build-debug/CMakeFiles/TargetDirectories.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Tarea4/cmake-build-debug/CMakeFiles/TargetDirectories.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Tarea4/cmake-build-debug/CMakeFiles/clion-Debug-log.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Tarea4/cmake-build-debug/CMakeFiles/clion-Debug-log.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Tarea4/cmake-build-debug/CMakeFiles/rules.ninja" beforeDir="false" afterPath="$PROJECT_DIR$/Tarea4/cmake-build-debug/CMakeFiles/rules.ninja" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Tarea4/cmake-build-debug/Tarea4" beforeDir="false" afterPath="$PROJECT_DIR$/Tarea4/cmake-build-debug/Tarea4" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Tarea4/cmake-build-debug/Testing/Temporary/LastTest.log" beforeDir="false" afterPath="$PROJECT_DIR$/Tarea4/cmake-build-debug/Testing/Temporary/LastTest.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Tarea4/cmake-build-debug/build.ninja" beforeDir="false" afterPath="$PROJECT_DIR$/Tarea4/cmake-build-debug/build.ninja" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Tarea4/cmake-build-debug/cmake_install.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/Tarea4/cmake-build-debug/cmake_install.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Tarea4/main.c" beforeDir="false" afterPath="$PROJECT_DIR$/Tarea4/main.c" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -63,7 +48,8 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$PROJECT_DIR$/Tarea4/main.c" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Tarea4/Config/Config.c" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Tarea4/Config/Config.h" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="ProjectApplicationVersion">
     <option name="ide" value="CLion" />
@@ -80,35 +66,35 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "C/C++ File.main.c - Default.executor": "Run",
-    "C/C++ File.main.c.executor": "Run",
-    "CMake Application.Tarea4.executor": "Run",
-    "RunOnceActivity.RadMigrateCodeStyle": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.cidr.known.project.marker": "true",
-    "RunOnceActivity.readMode.enableVisualFormatting": "true",
-    "cf.first.check.clang-format": "false",
-    "cidr.known.project.marker": "true",
-    "git-widget-placeholder": "cliente__C",
-    "last_opened_file_path": "/home/space-ba/CLionProjects/Tarea_4_C/Tarea4/CMakeLists.txt",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "CPPToolchains",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;C/C++ File.main.c - Default.executor&quot;: &quot;Run&quot;,
+    &quot;C/C++ File.main.c.executor&quot;: &quot;Run&quot;,
+    &quot;CMake Application.Tarea4.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.RadMigrateCodeStyle&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.readMode.enableVisualFormatting&quot;: &quot;true&quot;,
+    &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
+    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;cliente__C&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/space-ba/CLionProjects/Tarea_4_C/Tarea4/CMakeLists.txt&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;CPPToolchains&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager">
     <configuration default="true" type="CLionExternalRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true">
       <method v="2">
         <option name="CLION.EXTERNAL.BUILD" enabled="true" />
       </method>
     </configuration>
-    <configuration name="Tarea4" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Tarea4" TARGET_NAME="Tarea4" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="Tarea4" RUN_TARGET_NAME="Tarea4">
+    <configuration name="Tarea4" type="CMakeRunConfiguration" factoryName="Application" singleton="false" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Tarea4" TARGET_NAME="Tarea4" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="Tarea4" RUN_TARGET_NAME="Tarea4">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
@@ -150,7 +136,19 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="origin/cliente_C" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
           </value>
         </entry>
       </map>

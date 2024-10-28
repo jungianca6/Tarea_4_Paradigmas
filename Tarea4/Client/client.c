@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <unistd.h>      // For close()
-#include <arpa/inet.h>  // For sockaddr_in, inet_addr
+#include <unistd.h>
+#include <arpa/inet.h>
 #include "client.h"
 #include <sys/select.h>
 #include <cjson/cJSON.h>
