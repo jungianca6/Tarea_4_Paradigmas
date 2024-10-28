@@ -3,12 +3,17 @@ project(Tarea4 C)
 
 set(CMAKE_C_STANDARD 11)
 
-set(RAYLIB_DIR "~/Downloads/raylib-5.0_linux_amd64")
+set(RAYLIB_DIR "/usr/local")
+set(CJSON_DIR "/usr/local/include")
 
 include_directories(${RAYLIB_DIR}/include)
+include_directories(${CJSON_DIR})
 
 link_directories(${RAYLIB_DIR}/lib)
 
-add_executable(Tarea4 main.c)
+add_executable(Tarea4 main.c
+        Client/data.h
+        Client/client.h
+        Client/client.c)
 
-target_link_libraries(Tarea4 raylib m pthread dl)
+target_link_libraries(Tarea4 raylib m pthread dl cjson)
