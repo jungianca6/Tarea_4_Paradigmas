@@ -1,8 +1,7 @@
 package Observer;
 
-import Server.ClientInfo;
+import Server.Client.ClientInfo;
 import java.util.List;
-import Game.Partida;
 
 // Interfaz del observador (Observer)
 public interface Observer {

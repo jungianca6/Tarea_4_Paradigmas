@@ -1,4 +1,4 @@
-package Server;
+package Server.Client;
 
 
 import Game.Partida;

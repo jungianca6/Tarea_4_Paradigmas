@@ -3,6 +3,8 @@ import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+
+import Server.Client.ClientInfo;
 import org.ini4j.Ini;
 import Server.*;
 import Observer.Observer;

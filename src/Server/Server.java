@@ -5,10 +5,11 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 import Observer.*;
 import Game.Partida;
+import Server.Client.ClientHandler;
+import Server.Client.ClientInfo;
 
 public class Server implements Observable{
     private String ipAddress; // Atributo para la dirección IP
