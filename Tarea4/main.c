@@ -9,8 +9,7 @@
 
 #define MAX_INPUT_SIZE 256
 
-int main(void)
-{
+int main(void) {
     // Cargar la configuración
     Config config;
     if (!load_config("../config.ini", &config)) {
@@ -18,7 +17,6 @@ int main(void)
         return EXIT_FAILURE;
     }
 
-    // Imprimir el puerto cargado
     printf("Puerto cargado desde config: %d\n", config.port);
     printf("Puerto cargado desde config: %d\n", config.max_input_size);
 
@@ -36,6 +34,9 @@ int main(void)
 
     // Inicializa el socket
     initialize_socket(&sock, &server_addr, config.port, config.ip_address);
+
+    // Bandera para controlar el estado del registro
+    int registered = 0;
 
     // Bucle principal
     while (!WindowShouldClose()) {
@@ -57,40 +58,31 @@ int main(void)
             receive_message(sock); // Recibir respuesta
         }
 
-        // Verifica si el usuario presiona ENTER para enviar el mensaje
-        if (IsKeyPressed(KEY_ENTER)) {
-            strcpy(data.message, input); // Copiar el mensaje de entrada
-            data.number = 42; // Número de ejemplo
-            data.status = 1;  // Estado de ejemplo
-
-            // Enviar el mensaje normal al servidor
-            send_message(sock, data);
-            memset(input, 0, sizeof(input)); // Limpiar la entrada
-        }
-
         // Manejo de registro como "Player" o "Spectator"
-        if (IsKeyPressed(KEY_P)) {
+        if (IsKeyPressed(KEY_P) && !registered) {
             // Enviar mensaje de registro como "Player"
-            send_register_message(sock, "Player"); // Enviar al servidor
+            send_register_message(sock, "Player");
             printf("Registrado como Player\n");
-        } else if (IsKeyPressed(KEY_S)) {
+            registered = 1; // Cambiar el estado a registrado
+        } else if (IsKeyPressed(KEY_S) && !registered) {
             // Enviar mensaje de registro como "Spectator"
-            send_register_message(sock, "Spectator"); // Enviar al servidor
+            send_register_message(sock, "Spectator");
             printf("Registrado como Spectator\n");
+            registered = 1; // Cambiar el estado a registrado
         }
 
         // Dibuja la interfaz gráfica
         BeginDrawing();
         ClearBackground(RAYWHITE);
 
-        DrawText("Enter a message:", 20, 20, 20, LIGHTGRAY);
-        DrawText(input, 20, 50, 20, LIGHTGRAY);
-
-        // Mostrar instrucciones
-        DrawText("Press ENTER to send the message.", 20, 100, 20, LIGHTGRAY);
         DrawText("Press P to register as Player.", 20, 130, 20, LIGHTGRAY);
         DrawText("Press S to register as Spectator.", 20, 160, 20, LIGHTGRAY);
-        DrawText("Press ESC to exit.", 20, 190, 20, LIGHTGRAY);
+        if (registered) {
+            DrawText("Successfully registered! Now you can see available parties.", 20, 190, 20, LIGHTGRAY);
+        } else {
+            DrawText("You need to register first!", 20, 190, 20, LIGHTGRAY);
+        }
+        DrawText("Press ESC to exit.", 20, 220, 20, LIGHTGRAY);
 
         EndDrawing();
 

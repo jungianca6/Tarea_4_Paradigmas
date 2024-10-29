@@ -18,6 +18,8 @@ add_executable(Tarea4 main.c
         INI/ini.c
         Config/config.h
         Config/config.c
-        Client/register_data.h)
+        Client/register_data.h
+        Client/parties_data.h
+        Client/partie.h)
 
 target_link_libraries(Tarea4 raylib m pthread dl cjson)
