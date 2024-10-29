@@ -9,7 +9,6 @@
 
 #define MAX_INPUT_SIZE 256
 
-
 int main(void)
 {
     // Cargar la configuración
@@ -64,9 +63,20 @@ int main(void)
             data.number = 42; // Número de ejemplo
             data.status = 1;  // Estado de ejemplo
 
-            // Enviar el mensaje al servidor
+            // Enviar el mensaje normal al servidor
             send_message(sock, data);
             memset(input, 0, sizeof(input)); // Limpiar la entrada
+        }
+
+        // Manejo de registro como "Player" o "Spectator"
+        if (IsKeyPressed(KEY_P)) {
+            // Enviar mensaje de registro como "Player"
+            send_register_message(sock, "Player"); // Enviar al servidor
+            printf("Registrado como Player\n");
+        } else if (IsKeyPressed(KEY_S)) {
+            // Enviar mensaje de registro como "Spectator"
+            send_register_message(sock, "Spectator"); // Enviar al servidor
+            printf("Registrado como Spectator\n");
         }
 
         // Dibuja la interfaz gráfica
@@ -78,7 +88,9 @@ int main(void)
 
         // Mostrar instrucciones
         DrawText("Press ENTER to send the message.", 20, 100, 20, LIGHTGRAY);
-        DrawText("Press ESC to exit.", 20, 130, 20, LIGHTGRAY);
+        DrawText("Press P to register as Player.", 20, 130, 20, LIGHTGRAY);
+        DrawText("Press S to register as Spectator.", 20, 160, 20, LIGHTGRAY);
+        DrawText("Press ESC to exit.", 20, 190, 20, LIGHTGRAY);
 
         EndDrawing();
 

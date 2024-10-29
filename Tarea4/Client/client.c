@@ -8,6 +8,32 @@
 #include <cjson/cJSON.h>
 
 
+void send_register_message(int socket_fd, const char* type) {
+    // Crear la estructura de registro
+    RegisterData register_data; // Cambiar aquí a RegisterData
+    strcpy(register_data.type, type); // Copiar el tipo a la estructura
+
+    // Serializar la estructura a JSON
+    cJSON *json = cJSON_CreateObject();
+    cJSON_AddStringToObject(json, "type", register_data.type);
+
+    char *jsonString = cJSON_PrintUnformatted(json);
+    printf("Enviando JSON de registro: %s\n", jsonString);
+
+    size_t jsonLength = strlen(jsonString);
+    char *jsonWithNewline = malloc(jsonLength + 2); // +2 para '\n' y '\0'
+    sprintf(jsonWithNewline, "%s\n", jsonString);
+
+    ssize_t bytes_sent = send(socket_fd, jsonWithNewline, strlen(jsonWithNewline), 0);
+    if (bytes_sent < 0) {
+        perror("Error sending register message");
+    }
+
+    cJSON_Delete(json);
+    free(jsonString);
+    free(jsonWithNewline);
+}
+
 void send_message(int socket_fd, Data data) {
     cJSON *json = cJSON_CreateObject();
     cJSON_AddStringToObject(json, "message", data.message);
@@ -29,7 +55,6 @@ void send_message(int socket_fd, Data data) {
     cJSON_Delete(json);
     free(jsonString);
     free(jsonWithNewline);
-
 }
 
 
