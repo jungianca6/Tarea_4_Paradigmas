@@ -177,10 +177,12 @@ public class Main implements Observer {
         SwingUtilities.invokeLater(() -> {
             clientListModel.clear(); // Limpia el modelo
             for (ClientInfo client : clients) {
-                // Solo añadir clientes de tipo "Player"
-                if ("Player".equals(client.getClientType())) {
-                    clientListModel.addElement("Tipo: " + client.getClientType() + ", IP: " + client.getIpAddress() + ", Puerto: " + client.getPort());
+                // Solo añadir clientes de tipo "Player" o "Spectator"
+                String clientInfo = "Tipo: " + client.getClientType() + ", IP: " + client.getIpAddress() + ", Puerto: " + client.getPort();
+                if (client.getPartida() != null) { // Verificar si el cliente tiene una partida asociada
+                    clientInfo += ", Partida ID: " + client.getPartida().getId_partida(); // Agregar ID de partida
                 }
+                clientListModel.addElement(clientInfo); // Añadir información del cliente
             }
         });
     }

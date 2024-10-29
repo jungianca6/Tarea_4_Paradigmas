@@ -1,6 +1,8 @@
 package Server;
 
 
+import Game.Partida;
+
 import java.net.Socket;
 import java.util.UUID;
 
@@ -11,6 +13,7 @@ public class ClientInfo {
     private String ipAddress; // Dirección IP del cliente
     private int port; // Puerto del cliente
     private String client_type; // Tipo de cliente: "jugador", "espectador" o "Client"
+    private Partida partida; // Partida asociada al cliente
 
     public ClientInfo(Socket socket, UUID clientId, String ipAddress, int port) {
         this.socket = socket;
@@ -42,5 +45,13 @@ public class ClientInfo {
 
     public void setClientType(String client_type) {
         this.client_type = client_type; // Setter para actualizar el tipo de cliente
+    }
+
+    public Partida getPartida() {
+        return partida; // Getter para obtener la partida asociada
+    }
+
+    public void setPartida(Partida partida) {
+        this.partida = partida; // Setter para actualizar la partida asociada
     }
 }

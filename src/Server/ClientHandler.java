@@ -12,7 +12,6 @@ class ClientHandler implements Runnable{
     private Socket socket;
     private UUID clientId; // Usar UUID como ID del cliente
     private Server server;
-    private Partida partida; // Campo para la partida
 
     public ClientHandler(Socket socket, Server server) {
         this.socket = socket;
@@ -42,7 +41,7 @@ class ClientHandler implements Runnable{
                         // Deserializa el JSON a JsonNode para acceder a sus propiedades
                         JsonNode jsonNode = objectMapper.readTree(lectura_json);
                         String typeMessage = jsonNode.has("type_message") ? jsonNode.get("type_message").asText() : "";
-
+                        System.out.println(typeMessage);
                         // Determinar el tipo de mensaje
                         switch (typeMessage) {
                             case "register":
@@ -55,11 +54,27 @@ class ClientHandler implements Runnable{
                                 receive_client_Data(data); // Lógica para manejar el mensaje de datos
                                 break;
 
-                            case "partida":
-                                Partida partida = objectMapper.treeToValue(jsonNode, Partida.class);
-                                receive_client_partie_choice(partida); // Lógica para manejar la partida
-                                break;
+                            case "choice":
+                                try {
+                                    // Deserializa el JSON a Party_Choice_Data
+                                    Party_Choice_Data choiceData = objectMapper.treeToValue(jsonNode, Party_Choice_Data.class);
 
+                                    // Extrae la información de la partida
+                                    String idPartidaString = choiceData.getId_partida();
+                                    String ip = choiceData.getIp();
+                                    int puerto = choiceData.getPuerto();
+
+                                    // Convertir el String a UUID
+                                    UUID idPartida = UUID.fromString(idPartidaString);
+
+                                    // Crea la instancia de Partida con la información extraída
+                                    Partida partida = new Partida(idPartida, ip, puerto);
+
+                                    // Llama a la función que maneja la lógica de la elección de partida
+                                    receive_client_partie_choice(partida);
+                                } catch (Exception e) {
+                                    System.err.println("Error al procesar el mensaje: " + e.getMessage());
+                                }
                             default:
                                 System.out.println("Tipo de mensaje desconocido: " + typeMessage);
                                 break;
@@ -122,11 +137,12 @@ class ClientHandler implements Runnable{
                         client.setClientType(type);
                         System.out.println("Cliente actualizado: " + client.getClientId() + ", Tipo: " + client.getClientType());
 
-                        // Si es un Player, crear una nueva partida
+                        // Si es un Player, crear una nueva partida y asociarla al cliente
                         if ("Player".equals(type)) {
                             UUID partidaId = UUID.randomUUID(); // Generar un nuevo ID para la partida
                             Partida nuevaPartida = new Partida(partidaId, client.getIpAddress(), client.getPort());
-                            server.addPartie(nuevaPartida); // Método para agregar la partida en el servidor
+                            server.addPartie(nuevaPartida); // Agregar la nueva partida a la lista del servidor
+                            client.setPartida(nuevaPartida); // Asocia la partida al cliente
                             System.out.println("Partida creada con ID: " + nuevaPartida.getId_partida());
                         }
 
@@ -171,14 +187,23 @@ class ClientHandler implements Runnable{
     }
 
     private void receive_client_partie_choice(Partida partida) {
-        // Actualiza el atributo partida del cliente actual
-        this.partida = partida; // Asigna la partida recibida al atributo del cliente
+        // Busca el cliente actual en la lista de clientes
+        synchronized (Server.clients) {
+            for (ClientInfo client : Server.clients) {
+                // Verifica si el ID del cliente coincide
+                if (client.getClientId().equals(this.clientId)) {
+                    // Actualiza el atributo partida del cliente actual
+                    client.setPartida(partida); // Asigna la partida recibida al cliente
+                    server.notifyClientListUpdated();
 
-        // Imprimir el estado actualizado para fines de depuración
-        System.out.println("Cliente " + clientId + " ha seleccionado la partida: ID: " + partida.getId_partida() + ", IP: " + partida.getIp() + ", Puerto: " + partida.getPuerto());
+                    // Imprimir el estado actualizado para fines de depuración
+                    System.out.println("Cliente " + clientId + " ha seleccionado la partida: ID: "
+                            + partida.getId_partida() + ", IP: " + partida.getIp() + ", Puerto: " + partida.getPuerto());
+                    break; // Sale del bucle después de encontrar y actualizar al cliente
+                }
+            }
+        }
     }
-
-
 
     // Método para imprimir los clientes conectados
     private void printConnectedClients() {
