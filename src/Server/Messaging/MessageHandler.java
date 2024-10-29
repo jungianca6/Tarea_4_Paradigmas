@@ -24,188 +24,263 @@ public class MessageHandler {
     private final UUID clientId;
     private final ObjectMapper objectMapper = new ObjectMapper();
 
+    /**
+     * Constructor de MessageHandler.
+     *
+     * @param server La instancia del servidor que maneja la comunicación.
+     * @param socket El socket del cliente para la comunicación.
+     * @param clientId El identificador único del cliente.
+     */
     public MessageHandler(Server server, Socket socket, UUID clientId) {
-        this.server = server;
-        this.socket = socket;
-        this.clientId = clientId;
+        this.server = server; // Inicializa la instancia del servidor
+        this.socket = socket; // Inicializa el socket del cliente
+        this.clientId = clientId; // Inicializa el identificador único del cliente
     }
 
     /**
-     * Handles incoming JSON messages from the client.
-     * @param messageJson The received message in JSON format.
+     * Maneja los mensajes JSON entrantes del cliente.
+     *
+     * @param messageJson El mensaje recibido en formato JSON.
      */
     public void handleMessage(String messageJson) {
+        // Verifica si el mensaje está vacío
         if (messageJson.isEmpty()) {
-            System.out.println("Received an empty message.");
-            return;
+            System.out.println("Se recibió un mensaje vacío."); // Notifica que el mensaje está vacío
+            return; // Sale del método
         }
 
         try {
+            // Convierte el mensaje JSON en un nodo
             JsonNode jsonNode = objectMapper.readTree(messageJson);
+            // Obtiene el tipo de mensaje del nodo
             String messageType = jsonNode.path("type_message").asText();
 
-            // Route the message to the correct handler based on the type
+            // Dirige el mensaje al manejador correcto según el tipo
             switch (messageType) {
-                case "register":
-                    handleRegistration(jsonNode);
+                case "register": // Si el tipo es "register"
+                    handleRegistration(jsonNode); // Maneja el registro
                     break;
-                case "data":
-                    handleDataMessage(jsonNode);
+                case "data": // Si el tipo es "data"
+                    handleDataMessage(jsonNode); // Maneja el mensaje de datos
                     break;
-                case "choice":
-                    handleChoiceMessage(jsonNode);
+                case "choice": // Si el tipo es "choice"
+                    handleChoiceMessage(jsonNode); // Maneja el mensaje de elección
                     break;
-                default:
-                    System.out.println("Unknown message type: " + messageType);
+                default: // Si el tipo de mensaje es desconocido
+                    System.out.println("Tipo de mensaje desconocido: " + messageType);
             }
         } catch (IOException e) {
-            System.err.println("Error processing message: " + e.getMessage());
+            // Maneja excepciones al procesar el mensaje
+            System.err.println("Error procesando el mensaje: " + e.getMessage());
         }
     }
 
     /**
-     * Handles the registration message from the client.
-     * @param jsonNode The JSON node representing the message.
+     * Maneja el mensaje de registro del cliente.
+     *
+     * @param jsonNode El nodo JSON que representa el mensaje.
      */
     private void handleRegistration(JsonNode jsonNode) {
         try {
+            // Convierte el nodo JSON en un objeto Register_Data
             Register_Data registerData = objectMapper.treeToValue(jsonNode, Register_Data.class);
-            System.out.println("Client ID: " + clientId);
+            System.out.println("ID del cliente: " + clientId); // Muestra el ID del cliente
+            // Registra el tipo de cliente (Player o Spectator)
             registerClientType(registerData);
         } catch (IOException e) {
-            System.err.println("Error processing registration: " + e.getMessage());
+            // Maneja excepciones al procesar el registro
+            System.err.println("Error procesando el registro: " + e.getMessage());
         }
     }
 
     /**
-     * Registers the client type (Player or Spectator) and handles game creation or spectator joining.
-     * @param registerData The data from the registration message.
+     * Registra el tipo de cliente (Player o Spectator) y maneja la creación de juegos o la unión de espectadores.
+     *
+     * @param registerData Los datos del mensaje de registro.
      */
     private void registerClientType(Register_Data registerData) {
-        String type = registerData.getType();
+        String type = registerData.getType(); // Obtiene el tipo de cliente
 
+        // Verifica si el tipo de cliente es válido
         if (!isValidClientType(type)) {
-            System.out.println("Invalid client type: " + type);
-            return;
+            System.out.println("Tipo de cliente inválido: " + type);
+            return; // Sale del método si el tipo es inválido
         }
 
-        synchronized (Server.clients) {
-            ClientInfo clientInfo = getClientInfo();
-            clientInfo.setClientType(type);
-            System.out.println("Client " + clientId + " registered as " + type.toLowerCase() + ".");
+        synchronized (Server.clients) { // Sincroniza el acceso a la lista de clientes
+            ClientInfo clientInfo = getClientInfo(); // Obtiene la información del cliente
+            clientInfo.setClientType(type); // Establece el tipo de cliente
+            System.out.println("Cliente " + clientId + " registrado como " + type.toLowerCase() + ".");
 
+            // Si es un jugador, crea un nuevo juego
             if ("Player".equals(type)) {
                 createNewGameForClient(clientInfo);
-            } else {
+            } else { // Si es un espectador, envía la lista de juegos disponibles
                 sendGameListToClient(clientInfo);
             }
         }
-
-        server.notifyClientListUpdated();
+        server.notifyClientListUpdated(); // Notifica que la lista de clientes ha sido actualizada
     }
 
     /**
-     * Handles the data message from the client.
-     * @param jsonNode The JSON node representing the message.
+     * Maneja el mensaje de datos del cliente.
+     *
+     * @param jsonNode El nodo JSON que representa el mensaje.
      */
     private void handleDataMessage(JsonNode jsonNode) {
         try {
+            // Convierte el nodo JSON en un objeto Data
             Data data = objectMapper.treeToValue(jsonNode, Data.class);
-            processClientData(data);
+            processClientData(data); // Procesa los datos del cliente
         } catch (IOException e) {
-            System.err.println("Error processing data message: " + e.getMessage());
+            // Maneja excepciones al procesar el mensaje de datos
+            System.err.println("Error procesando el mensaje de datos: " + e.getMessage());
         }
     }
 
     /**
-     * Handles the client's choice message for selecting a game.
-     * @param jsonNode The JSON node representing the message.
+     * Maneja el mensaje de elección del cliente para seleccionar un juego.
+     *
+     * @param jsonNode El nodo JSON que representa el mensaje.
      */
     private void handleChoiceMessage(JsonNode jsonNode) {
         try {
+            // Convierte el nodo JSON en un objeto Party_Choice_Data
             Party_Choice_Data choiceData = objectMapper.treeToValue(jsonNode, Party_Choice_Data.class);
+            // Crea una nueva partida con la información de elección
             Partida partida = new Partida(UUID.fromString(choiceData.getId_partida()), choiceData.getIp(), choiceData.getPuerto());
-            updateClientChoice(partida);
+            updateClientChoice(partida); // Actualiza la elección del cliente
         } catch (Exception e) {
-            System.err.println("Error processing party choice: " + e.getMessage());
+            // Maneja excepciones al procesar la elección de la partida
+            System.err.println("Error procesando la elección de la partida: " + e.getMessage());
         }
     }
 
+    /**
+     * Verifica si el tipo de cliente es válido (Player o Spectator).
+     *
+     * @param type El tipo de cliente.
+     * @return true si el tipo es válido, false de lo contrario.
+     */
     private boolean isValidClientType(String type) {
         return "Player".equals(type) || "Spectator".equals(type);
     }
 
+
+    /**
+     * Obtiene la información del cliente correspondiente al ID del cliente.
+     *
+     * @return El objeto ClientInfo asociado al cliente.
+     * @throws IllegalStateException Si no se encuentra el cliente.
+     */
     private ClientInfo getClientInfo() {
         return Server.clients.stream()
                 .filter(client -> client.getClientId().equals(clientId))
                 .findFirst()
-                .orElseThrow(() -> new IllegalStateException("Client not found"));
+                .orElseThrow(() -> new IllegalStateException("Cliente no encontrado"));
     }
 
+    /**
+     * Crea un nuevo juego para el cliente.
+     *
+     * @param clientInfo La información del cliente que está creando el juego.
+     */
     private void createNewGameForClient(ClientInfo clientInfo) {
-        UUID gameId = UUID.randomUUID();
-        Partida newGame = new Partida(gameId, clientInfo.getIpAddress(), clientInfo.getPort());
-        server.addPartie(newGame);
-        clientInfo.setPartida(newGame);
-        System.out.println("Game created with ID: " + newGame.getId_partida());
+        UUID gameId = UUID.randomUUID(); // Genera un ID único para la nueva partida
+        Partida newGame = new Partida(gameId, clientInfo.getIpAddress(), clientInfo.getPort()); // Crea la nueva partida
+        server.addPartie(newGame); // Agrega la partida al servidor
+        clientInfo.setPartida(newGame); // Asocia la partida al cliente
+        System.out.println("Juego creado con ID: " + newGame.getId_partida());
     }
 
+    /**
+     * Envía la lista de juegos disponibles al cliente.
+     *
+     * @param client La información del cliente al que se enviará la lista.
+     */
     private void sendGameListToClient(ClientInfo client) {
-        Parties_Data partiesData = new Parties_Data("data_parties");
-        server.getParties().forEach(partiesData::addPartida);
+        Parties_Data partiesData = new Parties_Data("data_parties"); // Crea un objeto para almacenar la lista de partidas
+        server.getParties().forEach(partiesData::addPartida); // Agrega las partidas al objeto de datos
 
-        sendMessageToClient(client, partiesData.toJson());
+        sendMessageToClient(client, partiesData.toJson()); // Envía la lista de partidas al cliente
     }
 
+    /**
+     * Procesa los datos recibidos del cliente.
+     *
+     * @param data Los datos enviados por el cliente.
+     */
     private void processClientData(Data data) {
-        System.out.println("Client " + clientId);
-        System.out.println("Message received: " + data.message);
-        System.out.println("Number received: " + data.number);
-        System.out.println("Status received: " + data.status);
+        System.out.println("Cliente " + clientId);
+        System.out.println("Mensaje recibido: " + data.message);
+        System.out.println("Número recibido: " + data.number);
+        System.out.println("Estado recibido: " + data.status);
 
-        sendResponseToAllClients(data);
+        sendResponseToAllClients(data); // Envía la respuesta a todos los clientes
     }
 
+    /**
+     * Actualiza la elección del cliente en una partida.
+     *
+     * @param partida La partida seleccionada por el cliente.
+     */
     private void updateClientChoice(Partida partida) {
         synchronized (Server.clients) {
-            ClientInfo clientInfo = getClientInfo();
-            clientInfo.setPartida(partida);
-            server.notifyClientListUpdated();
+            ClientInfo clientInfo = getClientInfo(); // Obtiene la información del cliente
+            clientInfo.setPartida(partida); // Actualiza la partida del cliente
+            server.notifyClientListUpdated(); // Notifica que la lista de clientes ha sido actualizada
 
-            System.out.println("Client " + clientId + " has selected game: ID: "
-                    + partida.getId_partida() + ", IP: " + partida.getIp() + ", Port: " + partida.getPuerto());
+            System.out.println("Cliente " + clientId + " ha seleccionado el juego: ID: "
+                    + partida.getId_partida() + ", IP: " + partida.getIp() + ", Puerto: " + partida.getPuerto());
         }
     }
 
+    /**
+     * Envía una respuesta a todos los clientes, excepto al que envió el mensaje.
+     *
+     * @param data Los datos a enviar como respuesta.
+     */
     private void sendResponseToAllClients(Data data) {
-        String jsonResponse = createResponseJson(data);
+        String jsonResponse = createResponseJson(data); // Crea la respuesta en formato JSON
 
         synchronized (server.clients) {
             for (ClientInfo client : server.clients) {
-                if (!client.getSocket().equals(socket)) {
+                if (!client.getSocket().equals(socket)) { // No envía respuesta al cliente que envió el mensaje
                     sendMessageToClient(client, jsonResponse);
                 }
             }
         }
     }
 
+    /**
+     * Crea un JSON de respuesta basado en los datos recibidos.
+     *
+     * @param data Los datos del cliente que se utilizarán en la respuesta.
+     * @return La respuesta en formato JSON.
+     */
     private String createResponseJson(Data data) {
         try {
-            Data responseData = new Data("data", "Message received: " + data.message, data.number * 2, 1);
-            return objectMapper.writeValueAsString(responseData);
+            Data responseData = new Data("data", "Mensaje recibido: " + data.message, data.number * 2, 1); // Prepara los datos de respuesta
+            return objectMapper.writeValueAsString(responseData); // Convierte a JSON
         } catch (IOException e) {
-            System.err.println("Error creating JSON response: " + e.getMessage());
-            return "{}";
+            System.err.println("Error al crear la respuesta JSON: " + e.getMessage());
+            return "{}"; // Retorna un JSON vacío en caso de error
         }
     }
 
+    /**
+     * Envía un mensaje JSON al cliente.
+     *
+     * @param client La información del cliente al que se enviará el mensaje.
+     * @param message El mensaje a enviar en formato JSON.
+     */
     private void sendMessageToClient(ClientInfo client, String message) {
         try {
-            PrintWriter out = new PrintWriter(client.getSocket().getOutputStream(), true);
-            out.println(message);
-            System.out.println("Message sent to client " + client.getClientId() + ": " + message);
+            PrintWriter out = new PrintWriter(client.getSocket().getOutputStream(), true); // Prepara el flujo de salida
+            out.println(message); // Envía el mensaje
+            System.out.println("Mensaje enviado al cliente " + client.getClientId() + ": " + message); // Registra el mensaje enviado
         } catch (IOException e) {
-            System.err.println("Error sending message to client " + client.getClientId() + ": " + e.getMessage());
+            System.err.println("Error al enviar mensaje al cliente " + client.getClientId() + ": " + e.getMessage()); // Registra el error durante el envío
         }
     }
 }
