@@ -1,8 +1,4 @@
-package Server;
-
-import Game.Partida;
-
-import java.util.UUID;
+package Server.Comunication_Data;
 
 public class Party_Choice_Data {
     private String type_message; // Tipo de mensaje

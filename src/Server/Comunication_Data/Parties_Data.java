@@ -1,4 +1,4 @@
-package Server;
+package Server.Comunication_Data;
 
 import java.util.ArrayList;
 import java.util.List;

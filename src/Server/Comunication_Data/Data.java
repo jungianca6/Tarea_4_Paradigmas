@@ -1,4 +1,4 @@
-package Server;
+package Server.Comunication_Data;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
