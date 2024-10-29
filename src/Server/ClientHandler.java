@@ -28,7 +28,6 @@ class ClientHandler implements Runnable {
     public void run() {
         try (BufferedReader input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
              PrintWriter output = new PrintWriter(socket.getOutputStream(), true)) {
-
             String messageJson;
             while ((messageJson = input.readLine()) != null) {
                 handleClientMessage(messageJson);
