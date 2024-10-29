@@ -7,6 +7,109 @@
 #include <sys/select.h>
 #include <cjson/cJSON.h>
 
+extern PartyList partyList; // Lista global de partidas
+
+
+void receive_message(int socket_fd) {
+    char buffer[1024]; // Buffer para almacenar la respuesta
+    ssize_t bytes_received = recv(socket_fd, buffer, sizeof(buffer) - 1, 0); // Deja espacio para el terminador nulo
+
+    printf("Esperando recibir mensaje...\n");
+
+    if (bytes_received < 0) {
+        perror("Error receiving message");
+        exit(EXIT_FAILURE);
+    } else if (bytes_received == 0) {
+        // Si bytes_received es 0, significa que el socket se ha cerrado
+        printf("El servidor ha cerrado la conexión.\n");
+        close_socket(socket_fd);
+        exit(EXIT_FAILURE);
+    }
+
+    buffer[bytes_received] = '\0'; // Termina la cadena
+    printf("Mensaje recibido (%ld bytes): %s\n", bytes_received, buffer); // Imprimir el mensaje recibido
+
+    // Parsear el JSON
+    cJSON *json = cJSON_Parse(buffer);
+    if (json == NULL) {
+        printf("Error parsing JSON: %s\n", cJSON_GetErrorPtr());
+        exit(EXIT_FAILURE);
+    }
+
+    // Obtener el tipo de mensaje
+    cJSON *json_type_message = cJSON_GetObjectItem(json, "type_message");
+    if (json_type_message == NULL || json_type_message->valuestring == NULL) {
+        printf("Error: no se encontró el campo 'type_message' en el JSON.\n");
+        cJSON_Delete(json);
+        return; // O puedes decidir cerrar el socket aquí
+    }
+
+    if (strcmp(json_type_message->valuestring, "data_parties") == 0) {
+        // Manejo del mensaje de tipo "data_parties"
+        DataParties data_parties;
+        strcpy(data_parties.type_message, json_type_message->valuestring);
+        cJSON *json_message = cJSON_GetObjectItem(json, "message");
+        if (json_message != NULL) {
+            strcpy(data_parties.message, json_message->valuestring);
+        }
+
+        // Procesar la lista de partidas
+        cJSON *json_parties = cJSON_GetObjectItem(json, "parties");
+        data_parties.num_parties = cJSON_GetArraySize(json_parties);
+
+        // Inicializa el arreglo de partidas
+        data_parties.parties = malloc(data_parties.num_parties * sizeof(Partida));
+        if (data_parties.parties == NULL) {
+            perror("Error allocating memory for parties");
+            cJSON_Delete(json);
+            return; // O puedes decidir cerrar el socket aquí
+        }
+
+        for (int i = 0; i < data_parties.num_parties; i++) {
+            cJSON *party = cJSON_GetArrayItem(json_parties, i);
+            if (party != NULL) {
+                cJSON *id_partida = cJSON_GetObjectItem(party, "id_partida");
+                cJSON *ip = cJSON_GetObjectItem(party, "ip");
+                cJSON *puerto = cJSON_GetObjectItem(party, "puerto");
+                if (id_partida != NULL && ip != NULL && puerto != NULL) {
+                    strcpy(data_parties.parties[i].id_partida, id_partida->valuestring);
+                    strcpy(data_parties.parties[i].ip, ip->valuestring);
+                    data_parties.parties[i].puerto = puerto->valueint;
+                }
+            }
+        }
+
+        // Llama a la función para actualizar la lista de partidas en la interfaz gráfica
+        update_party_list(&data_parties);
+
+        // Libera la memoria
+        free(data_parties.parties);
+    } else {
+        printf("Error: tipo de mensaje desconocido.\n");
+    }
+
+    // Limpiar
+    cJSON_Delete(json);
+}
+
+
+void update_party_list(DataParties *data_parties) {
+    // Actualiza la lista global de partidas
+    partyList.count = data_parties->num_parties;
+    partyList.parties = realloc(partyList.parties, partyList.count * sizeof(Partida));
+    for (int i = 0; i < partyList.count; i++) {
+        strcpy(partyList.parties[i].id_partida, data_parties->parties[i].id_partida);
+        strcpy(partyList.parties[i].ip, data_parties->parties[i].ip);
+        partyList.parties[i].puerto = data_parties->parties[i].puerto;
+    }
+
+    // Imprimir las partidas en la consola para verificar
+    printf("Partidas disponibles:\n");
+    for (int i = 0; i < partyList.count; i++) {
+        printf("ID: %s, IP: %s, Puerto: %d\n", partyList.parties[i].id_partida, partyList.parties[i].ip, partyList.parties[i].puerto);
+    }
+}
+
 void send_register_message(int socket_fd, const char* type) {
     // Crear la estructura de registro
     RegisterData register_data;
@@ -58,81 +161,47 @@ void send_message(int socket_fd, Data data) {
     free(jsonWithNewline);
 }
 
-void receive_message(int socket_fd) {
-    char buffer[1024]; // Buffer para almacenar la respuesta
-    ssize_t bytes_received = recv(socket_fd, buffer, sizeof(buffer) - 1, 0); // Deja espacio para el terminador nulo
-
-    if (bytes_received < 0) {
-        perror("Error receiving message");
-        exit(EXIT_FAILURE);
-    }
-
-    buffer[bytes_received] = '\0'; // Termina la cadena
-    printf("Mensaje recibido: %s\n", buffer); // Imprimir el mensaje recibido
-
-    // Parsear el JSON
-    cJSON *json = cJSON_Parse(buffer);
+void send_choice_message(int socket_fd, const char* party_id, const char* ip, int port) {
+    // Crear un objeto JSON
+    cJSON *json = cJSON_CreateObject();
     if (json == NULL) {
-        printf("Error parsing JSON: %s\n", cJSON_GetErrorPtr());
-        exit(EXIT_FAILURE);
+        fprintf(stderr, "Error creando JSON\n");
+        return;
     }
 
-    // Obtener el tipo de mensaje
-    cJSON *json_type_message = cJSON_GetObjectItem(json, "type_message");
-    if (json_type_message != NULL && json_type_message->valuestring != NULL) {
-        if (strcmp(json_type_message->valuestring, "data") == 0) {
-            // Manejo del mensaje de tipo "data"
-            cJSON *json_message = cJSON_GetObjectItem(json, "message");
-            cJSON *json_number = cJSON_GetObjectItem(json, "number");
-            cJSON *json_status = cJSON_GetObjectItem(json, "status");
+    // Añadir los campos al objeto JSON
+    cJSON_AddStringToObject(json, "type_message", "choice"); // Tipo de mensaje
+    cJSON_AddStringToObject(json, "id_partida", party_id); // ID de la partida
+    cJSON_AddStringToObject(json, "ip", ip); // IP de la partida
+    cJSON_AddNumberToObject(json, "puerto", port); // Puerto de la partida
 
-            if (json_message != NULL && json_number != NULL && json_status != NULL) {
-                printf("Mensaje: %s\n", json_message->valuestring);
-                printf("Número: %d\n", json_number->valueint);
-                printf("Estado: %d\n", json_status->valueint);
-            } else {
-                printf("Error: no se encontraron todos los campos en el JSON de tipo 'data'.\n");
-            }
-        } else if (strcmp(json_type_message->valuestring, "data_parties") == 0) {
-            // Manejo del mensaje de tipo "data_parties"
-            cJSON *json_message = cJSON_GetObjectItem(json, "message");
-            cJSON *json_parties = cJSON_GetObjectItem(json, "parties");
-            cJSON *json_num_parties = cJSON_GetObjectItem(json, "num_parties");
+    // Convertir el objeto JSON a una cadena
+    char *jsonString = cJSON_PrintUnformatted(json);
+    if (jsonString == NULL) {
+        fprintf(stderr, "Error imprimiendo JSON\n");
+        cJSON_Delete(json); // Liberar el objeto JSON
+        return;
+    }
 
-            if (json_message != NULL && json_parties != NULL && json_num_parties != NULL) {
-                printf("Mensaje de partidas: %s\n", json_message->valuestring);
-                int num_parties = json_num_parties->valueint;
-                printf("Número de partidas: %d\n", num_parties);
+    // Imprimir el mensaje en formato JSON
+    printf("Enviando JSON de elección: %s\n", jsonString);
 
-                // Procesar la lista de partidas
-                if (cJSON_IsArray(json_parties)) {
-                    for (int i = 0; i < num_parties; i++) {
-                        cJSON *party = cJSON_GetArrayItem(json_parties, i);
-                        if (party != NULL) {
-                            cJSON *id_partida = cJSON_GetObjectItem(party, "id_partida");
-                            cJSON *ip = cJSON_GetObjectItem(party, "ip");
-                            cJSON *puerto = cJSON_GetObjectItem(party, "puerto");
-                            if (id_partida != NULL && ip != NULL && puerto != NULL) {
-                                printf("Partida %d: ID = %s, IP = %s, Puerto = %d\n",
-                                       i + 1, id_partida->valuestring, ip->valuestring, puerto->valueint);
-                            }
-                        }
-                    }
-                }
-            } else {
-                printf("Error: no se encontraron todos los campos en el JSON de tipo 'data_parties'.\n");
-            }
-        } else {
-            printf("Error: tipo de mensaje desconocido.\n");
-        }
-    } else {
-        printf("Error: no se encontró el campo 'type_message' en el JSON.\n");
+    // Agregar un salto de línea al final de la cadena JSON
+    size_t jsonLength = strlen(jsonString);
+    char *jsonWithNewline = malloc(jsonLength + 2); // +2 para '\n' y '\0'
+    sprintf(jsonWithNewline, "%s\n", jsonString);
+
+    // Enviar la cadena JSON al servidor
+    ssize_t bytes_sent = send(socket_fd, jsonWithNewline, strlen(jsonWithNewline), 0);
+    if (bytes_sent < 0) {
+        perror("Error enviando mensaje de elección");
     }
 
     // Limpiar
-    cJSON_Delete(json);
+    free(jsonWithNewline); // Liberar la cadena con el salto de línea
+    free(jsonString); // Liberar la cadena JSON
+    cJSON_Delete(json); // Liberar el objeto JSON
 }
-
 
 
 // Function to initialize the socket

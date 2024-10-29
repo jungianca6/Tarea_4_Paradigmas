@@ -23,12 +23,10 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="75554750-353e-47f0-ae30-1498d22c2337" name="Changes" comment="Se agrego un nuevo metodo de registro para enviar al servidor el tipo de jugador que sera">
+    <list default="true" id="75554750-353e-47f0-ae30-1498d22c2337" name="Changes" comment="Se modificaron los metodos de recibimiento de datos para implmentar una etiqueta que permita identificar el tipo de mensaje, ademas se anadio una condicion para que un usuario solo pueda registrarse una vez. Se anadieron 2 tipos de datos nuevos">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Tarea4/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Tarea4/CMakeLists.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Tarea4/Client/client.c" beforeDir="false" afterPath="$PROJECT_DIR$/Tarea4/Client/client.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Tarea4/Client/data.h" beforeDir="false" afterPath="$PROJECT_DIR$/Tarea4/Client/data.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Tarea4/Client/register_data.h" beforeDir="false" afterPath="$PROJECT_DIR$/Tarea4/Client/register_data.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tarea4/Client/client.h" beforeDir="false" afterPath="$PROJECT_DIR$/Tarea4/Client/client.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Tarea4/cmake-build-debug/.ninja_deps" beforeDir="false" afterPath="$PROJECT_DIR$/Tarea4/cmake-build-debug/.ninja_deps" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Tarea4/cmake-build-debug/.ninja_log" beforeDir="false" afterPath="$PROJECT_DIR$/Tarea4/cmake-build-debug/.ninja_log" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Tarea4/cmake-build-debug/CMakeFiles/Tarea4.dir/Client/client.c.o" beforeDir="false" afterPath="$PROJECT_DIR$/Tarea4/cmake-build-debug/CMakeFiles/Tarea4.dir/Client/client.c.o" afterDir="false" />
@@ -136,7 +134,7 @@
       <workItem from="1730079502444" duration="301000" />
       <workItem from="1730079854004" duration="15087000" />
       <workItem from="1730175132676" duration="9942000" />
-      <workItem from="1730226801309" duration="7945000" />
+      <workItem from="1730226801309" duration="13706000" />
     </task>
     <task id="LOCAL-00001" summary="commit">
       <option name="closed" value="true" />
@@ -186,7 +184,15 @@
       <option name="project" value="LOCAL" />
       <updated>1730183823687</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="Se modificaron los metodos de recibimiento de datos para implmentar una etiqueta que permita identificar el tipo de mensaje, ademas se anadio una condicion para que un usuario solo pueda registrarse una vez. Se anadieron 2 tipos de datos nuevos">
+      <option name="closed" value="true" />
+      <created>1730236253319</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1730236253319</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -227,6 +233,7 @@
     <MESSAGE value="Recibe la ip y puerto mediante la configuracion de los INI" />
     <MESSAGE value="Implementacion de los INI completa" />
     <MESSAGE value="Se agrego un nuevo metodo de registro para enviar al servidor el tipo de jugador que sera" />
-    <option name="LAST_COMMIT_MESSAGE" value="Se agrego un nuevo metodo de registro para enviar al servidor el tipo de jugador que sera" />
+    <MESSAGE value="Se modificaron los metodos de recibimiento de datos para implmentar una etiqueta que permita identificar el tipo de mensaje, ademas se anadio una condicion para que un usuario solo pueda registrarse una vez. Se anadieron 2 tipos de datos nuevos" />
+    <option name="LAST_COMMIT_MESSAGE" value="Se modificaron los metodos de recibimiento de datos para implmentar una etiqueta que permita identificar el tipo de mensaje, ademas se anadio una condicion para que un usuario solo pueda registrarse una vez. Se anadieron 2 tipos de datos nuevos" />
   </component>
 </project>

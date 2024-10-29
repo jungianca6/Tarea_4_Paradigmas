@@ -6,19 +6,16 @@
 #include "./Client/data.h"
 #include "./Client/client.h"
 #include "./Config/config.h"
-
 #define MAX_INPUT_SIZE 256
+
+
+PartyList partyList; // Lista global de partidas
+int selectedPartyIndex = 0; // Índice de la partida seleccionada
 
 int main(void) {
     // Cargar la configuración
     Config config;
-    if (!load_config("../config.ini", &config)) {
-        fprintf(stderr, "Failed to load config\n");
-        return EXIT_FAILURE;
-    }
-
-    printf("Puerto cargado desde config: %d\n", config.port);
-    printf("Puerto cargado desde config: %d\n", config.max_input_size);
+    load_config("../config.ini", &config);
 
     const int screenWidth = 800;
     const int screenHeight = 450;
@@ -26,11 +23,13 @@ int main(void) {
     InitWindow(screenWidth, screenHeight, "Raylib Client Example");
     SetTargetFPS(60);
 
+    // Inicializa la lista de partidas
+    partyList.parties = malloc(10 * sizeof(Partida)); // Inicializar con espacio para 10 partidas
+    partyList.count = 0; // Inicializar la lista de partidas
+
     // Variables del socket
     int sock;
     struct sockaddr_in server_addr;
-    Data data;
-    char input[MAX_INPUT_SIZE] = "Hello from the client!"; // Mensaje por defecto
 
     // Inicializa el socket
     initialize_socket(&sock, &server_addr, config.port, config.ip_address);
@@ -71,42 +70,55 @@ int main(void) {
             registered = 1; // Cambiar el estado a registrado
         }
 
-        // Dibuja la interfaz gráfica
-        BeginDrawing();
-        ClearBackground(RAYWHITE);
-
-        DrawText("Press P to register as Player.", 20, 130, 20, LIGHTGRAY);
-        DrawText("Press S to register as Spectator.", 20, 160, 20, LIGHTGRAY);
-        if (registered) {
-            DrawText("Successfully registered! Now you can see available parties.", 20, 190, 20, LIGHTGRAY);
-        } else {
-            DrawText("You need to register first!", 20, 190, 20, LIGHTGRAY);
-        }
-        DrawText("Press ESC to exit.", 20, 220, 20, LIGHTGRAY);
-
-        EndDrawing();
-
-        // Captura la entrada de texto
-        if (IsKeyPressed(KEY_BACKSPACE)) {
-            int len = strlen(input);
-            if (len > 0) input[len - 1] = '\0'; // Eliminar el último carácter
-        } else {
-            // Agregar texto a la entrada
-            for (int i = 32; i < 126; i++) {
-                if (IsKeyPressed(i)) {
-                    int len = strlen(input);
-                    if (len < MAX_INPUT_SIZE - 1) {
-                        input[len] = (char)i;
-                        input[len + 1] = '\0'; // Agregar carácter y terminador nulo
-                    }
-                }
+        // Manejo de selección de partidas
+        if (partyList.count > 0) {
+            if (IsKeyPressed(KEY_DOWN)) {
+                selectedPartyIndex = (selectedPartyIndex + 1) % partyList.count; // Mover hacia abajo en la lista
+            }
+            if (IsKeyPressed(KEY_UP)) {
+                selectedPartyIndex = (selectedPartyIndex - 1 + partyList.count) % partyList.count; // Mover hacia arriba en la lista
+            }
+            if (IsKeyPressed(KEY_ENTER)) {
+                // Enviar mensaje de elección de partida al servidor
+                send_choice_message(sock, partyList.parties[selectedPartyIndex].id_partida,
+                                         partyList.parties[selectedPartyIndex].ip,
+                                         partyList.parties[selectedPartyIndex].puerto);
+                printf("Seleccionada la partida: %s\n", partyList.parties[selectedPartyIndex].id_partida);
             }
         }
+
+        // Limpiar la pantalla
+        BeginDrawing();
+        ClearBackground(RAYWHITE);
+        DrawText("Presiona 'P' para registrarte como Player", 10, 10, 20, DARKGRAY);
+        DrawText("Presiona 'S' para registrarte como Spectator", 10, 40, 20, DARKGRAY);
+
+        // Dibujar la lista de partidas disponibles
+        if (partyList.count > 0) {
+            DrawText("Partidas disponibles:", 10, 80, 20, DARKGRAY);
+            for (int i = 0; i < partyList.count; i++) {
+                char text[128];
+                snprintf(text, sizeof(text), "ID: %s, IP: %s, Puerto: %d",
+                         partyList.parties[i].id_partida,
+                         partyList.parties[i].ip,
+                         partyList.parties[i].puerto);
+                if (i == selectedPartyIndex) {
+                    DrawText(text, 10, 110 + i * 30, 20, BLUE); // Resaltar la partida seleccionada
+                } else {
+                    DrawText(text, 10, 110 + i * 30, 20, DARKGRAY);
+                }
+            }
+        } else {
+            DrawText("No hay partidas disponibles.", 10, 80, 20, DARKGRAY);
+        }
+
+        EndDrawing();
     }
 
-    // Cerrar el socket
+    // Cerrar el socket y liberar memoria
     close_socket(sock);
-    CloseWindow(); // Cerrar la ventana y el contexto OpenGL
+    free(partyList.parties);
+    CloseWindow();
 
     return 0;
 }
