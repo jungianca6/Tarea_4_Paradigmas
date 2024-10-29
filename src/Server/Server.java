@@ -3,11 +3,17 @@ package Server;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.List;
 
+import Observer.*;
 
-public class Server {
+public class Server implements Observable{
     private String ipAddress; // Atributo para la dirección IP
     private int port;         // Atributo para el puerto
+    private List<Observer> observers = new ArrayList<>(); // Lista de observadores
+    public static final List<ClientInfo> clients = new ArrayList<>(); // Lista de clientes conectados
+
 
     // Constructor que recibe la dirección IP y el puerto
     public Server(String ipAddress, int port) {
@@ -16,20 +22,38 @@ public class Server {
     }
 
     public void start() {
-        try (ServerSocket serverSocket = new ServerSocket(this.port)) {
-            System.out.println("Servidor escuchando en el puerto " + this.port);
-
+        try (ServerSocket serverSocket = new ServerSocket(port)) {
+            System.out.println("Servidor iniciado en " + ipAddress + ":" + port);
             while (true) {
-                try {
-                    Socket clientSocket = serverSocket.accept();
-                    System.out.println("Cliente conectado desde: " + clientSocket.getInetAddress() + ":" + clientSocket.getPort());
-                    new Thread(new ClientHandler(clientSocket)).start(); // Manejar cada cliente en un hilo separado
-                } catch (IOException e) {
-                    System.out.println("Error al aceptar la conexión: " + e.getMessage());
-                }
+                Socket clientSocket = serverSocket.accept();
+                ClientHandler clientHandler = new ClientHandler(clientSocket, this);
+                new Thread(clientHandler).start();
             }
         } catch (IOException e) {
             System.out.println("Error al iniciar el servidor: " + e.getMessage());
         }
     }
+
+    @Override
+    public void addObserver(Observer observer) {
+        observers.add(observer);
+    }
+
+    @Override
+    public void removeObserver(Observer observer) {
+        observers.remove(observer);
+    }
+
+    @Override
+    public void notifyObservers() {
+        for (Observer observer : observers) {
+            observer.update(clients);
+        }
+    }
+
+    // Método para notificar a los observadores sobre la lista de clientes
+    public void notifyClientListUpdated() {
+        notifyObservers(); // Llama a notifyObservers para actualizar la lista
+    }
+
 }

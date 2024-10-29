@@ -12,6 +12,7 @@ public class Data {
     @JsonProperty("status")
     public int status;
 
+
     // Constructor por defecto
     public Data() {}
 
