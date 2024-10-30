@@ -19,4 +19,3 @@ void update_party_list(DataParties *data_parties);
 void send_choice_message(int socket_fd, const char* party_id, const char* ip, int port);
 
 #endif // CLIENT_H
-

@@ -20,6 +20,7 @@ add_executable(Tarea4 main.c
         Config/config.c
         Client/register_data.h
         Client/parties_data.h
-        Client/partie.h)
+        Client/partie.h
+        Client/end_data.h)
 
 target_link_libraries(Tarea4 raylib m pthread dl cjson)
