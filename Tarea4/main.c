@@ -5,42 +5,74 @@
 #include <time.h>
 #include <math.h>
 
-int main(void)
-{
-    // Initialization
-    //--------------------------------------------------------------------------------------
-    const int screenWidth = 800;
-    const int screenHeight = 450;
+//Variables que contienen las dimensiones de la pantalla del juego.
+const int screen_w = 500;
+const int screen_h = 600;
 
-    InitWindow(screenWidth, screenHeight, "raylib [core] example - basic window");
+typedef struct {
+    Rectangle rect;
+    float w;
+    float h;
+} Brick_factory;
 
-    SetTargetFPS(60);               // Set our game to run at 60 frames-per-second
-    //--------------------------------------------------------------------------------------
+typedef struct {
+    Brick_factory base;
+    Color color;
+} Brick;
 
-    // Main game loop
-    while (!WindowShouldClose())    // Detect window close button or ESC key
-    {
-        // Update
-        //----------------------------------------------------------------------------------
-        // TODO: Update your variables here
-        //----------------------------------------------------------------------------------
+typedef struct {
+    Brick *data;
+    size_t size;
+    size_t capacity;
+} BrickArray;
 
-        // Draw
-        //----------------------------------------------------------------------------------
+
+//Struct con la bola y sus caracteristicas
+struct Ball {
+    Vector2 pos;
+    Vector2 accel;
+    float vel;
+    float r;
+};
+
+//Struct con el jugador y sus caracteristicas
+struct Player {
+    Rectangle rect;
+    float velocity;
+    int score;
+    int lives;
+    int level;
+    float w;
+    float h;
+};
+
+typedef struct {
+    float time;
+    float duration;
+    bool active;
+} Timer;
+
+
+int main(void) {
+
+    InitWindow(screen_w, screen_h, "breakOutTec");
+
+    SetTargetFPS(60);
+
+    srand((unsigned int)time(NULL));
+
+
+    while (!WindowShouldClose()) {
+        
         BeginDrawing();
+        ClearBackground(BLUE);
 
-        ClearBackground(RAYWHITE);
-
-        DrawText("Congrats! You created your first window!", 190, 200, 20, LIGHTGRAY);
 
         EndDrawing();
-        //----------------------------------------------------------------------------------
     }
 
-    // De-Initialization
-    //--------------------------------------------------------------------------------------
-    CloseWindow();        // Close window and OpenGL context
-    //--------------------------------------------------------------------------------------
 
+
+    CloseWindow();
     return 0;
 }

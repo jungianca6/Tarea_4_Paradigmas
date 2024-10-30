@@ -1,0 +1,1 @@
+/usr/bin/cc -g CMakeFiles/Tarea4.dir/main.c.o -o Tarea4   -L/home/dell/Downloads/raylib-5.0_linux_amd64/lib  -Wl,-rpath,/home/dell/Downloads/raylib-5.0_linux_amd64/lib -lraylib -lm -lpthread -ldl
