@@ -2,10 +2,7 @@ package Server.Messaging;
 
 import Game.Partida;
 import Server.Client.ClientInfo;
-import Server.Comunication_Data.Data;
-import Server.Comunication_Data.Parties_Data;
-import Server.Comunication_Data.Party_Choice_Data;
-import Server.Comunication_Data.Register_Data;
+import Server.Comunication_Data.*;
 import Server.Server;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -186,7 +183,7 @@ public class MessageHandler {
      * @param clientInfo La información del cliente que está creando el juego.
      */
     private void createNewGameForClient(ClientInfo clientInfo) {
-        UUID gameId = UUID.randomUUID(); // Genera un ID único para la nueva partida
+        UUID gameId = clientInfo.getClientId(); // Genera un ID único para la nueva partida
         Partida newGame = new Partida(gameId, clientInfo.getIpAddress(), clientInfo.getPort()); // Crea la nueva partida
         server.addPartie(newGame); // Agrega la partida al servidor
         clientInfo.setPartida(newGame); // Asocia la partida al cliente
@@ -251,6 +248,36 @@ public class MessageHandler {
             }
         }
     }
+
+    /**
+     * Envía un mensaje de finalización de juego a todos los clientes.
+     */
+    private void sendGameEndMessage() {
+        Game_end_Data gameEndData = new Game_end_Data(); // Crea una instancia con el tipo de mensaje "end"
+        String jsonMessage = createGameEndResponseJson(gameEndData); // Convierte a JSON
+
+        synchronized (server.clients) {
+            for (ClientInfo client : server.clients) {
+                sendMessageToClient(client, jsonMessage); // Envía el mensaje a todos los clientes
+            }
+        }
+    }
+
+    /**
+     * Crea un JSON de respuesta basado en el mensaje de finalización del juego.
+     *
+     * @param gameEndData Los datos del juego que se utilizarán en la respuesta.
+     * @return La respuesta en formato JSON.
+     */
+    private String createGameEndResponseJson(Game_end_Data gameEndData) {
+        try {
+            return objectMapper.writeValueAsString(gameEndData); // Convierte a JSON
+        } catch (IOException e) {
+            System.err.println("Error al crear la respuesta JSON de finalización de juego: " + e.getMessage());
+            return "{}"; // Retorna un JSON vacío en caso de error
+        }
+    }
+
 
     /**
      * Crea un JSON de respuesta basado en los datos recibidos.

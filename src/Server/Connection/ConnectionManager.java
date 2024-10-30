@@ -1,6 +1,8 @@
 package Server.Connection;
+import Server.Client.ClientInfo;
 import Server.Server;
 import java.net.Socket;
+import java.util.UUID;
 
 
 /**
@@ -23,16 +25,28 @@ public class ConnectionManager {
     }
 
     /**
-     * Desconecta al cliente del servidor.
+     * Desconecta a un cliente del servidor.
      * Elimina la información del cliente de la lista de clientes
-     * y notifica la actualización de la lista de clientes.
+     * y notifica la actualización de la lista. Si el cliente es
+     * del tipo "Player", también se elimina la partida asociada.
      */
     public void disconnectClient() {
         synchronized (Server.clients) {
-            // Se elimina al cliente de la lista
-            Server.clients.removeIf(client -> client.getSocket().equals(socket));
-            server.notifyClientListUpdated(); // Notifica que la lista de clientes ha sido actualizada
-            System.out.println("Client disconnected: " + socket.getInetAddress().getHostAddress()); // Mensaje de desconexión
+            // Buscar el cliente y su partida asociada
+            for (ClientInfo client : Server.clients) {
+                if (client.getSocket().equals(socket)) {
+                    // Si el cliente es de tipo "Player", eliminar la partida
+                    if ("Player".equals(client.getClientType())) {
+                        UUID clientId = client.getClientId(); // Obtener el ID del cliente
+                        // Intentar eliminar la partida correspondiente
+                        Server.parties.removeIf(party -> party.getId_partida().equals(clientId));
+                    }
+                    // Eliminar al cliente de la lista
+                    Server.clients.remove(client);
+                    server.notifyClientListUpdated(); // Notifica que la lista de clientes ha sido actualizada
+                    return; // Salir del método una vez que se ha desconectado el cliente
+                }
+            }
         }
     }
 }
