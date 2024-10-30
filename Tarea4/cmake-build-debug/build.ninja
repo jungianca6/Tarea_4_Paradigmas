@@ -39,7 +39,7 @@ include CMakeFiles/rules.ninja
 #############################################
 # Logical path to working directory; prefix for absolute paths.
 
-cmake_ninja_workdir = /home/space-ba/CLionProjects/Tarea_4_C/Tarea4/cmake-build-debug/
+cmake_ninja_workdir = /home/space-ba/CLionProjects/BreakoutTEC/Tarea4/cmake-build-debug/
 # =============================================================================
 # Object build statements for EXECUTABLE target Tarea4
 
@@ -49,27 +49,27 @@ cmake_ninja_workdir = /home/space-ba/CLionProjects/Tarea_4_C/Tarea4/cmake-build-
 
 build cmake_object_order_depends_target_Tarea4: phony || .
 
-build CMakeFiles/Tarea4.dir/main.c.o: C_COMPILER__Tarea4_unscanned_Debug /home/space-ba/CLionProjects/Tarea_4_C/Tarea4/main.c || cmake_object_order_depends_target_Tarea4
+build CMakeFiles/Tarea4.dir/main.c.o: C_COMPILER__Tarea4_unscanned_Debug /home/space-ba/CLionProjects/BreakoutTEC/Tarea4/main.c || cmake_object_order_depends_target_Tarea4
   DEP_FILE = CMakeFiles/Tarea4.dir/main.c.o.d
-  FLAGS = -g -std=gnu11 -fdiagnostics-color=always
+  FLAGS = -std=gnu11 -fdiagnostics-color=always
   OBJECT_DIR = CMakeFiles/Tarea4.dir
   OBJECT_FILE_DIR = CMakeFiles/Tarea4.dir
 
-build CMakeFiles/Tarea4.dir/Client/client.c.o: C_COMPILER__Tarea4_unscanned_Debug /home/space-ba/CLionProjects/Tarea_4_C/Tarea4/Client/client.c || cmake_object_order_depends_target_Tarea4
+build CMakeFiles/Tarea4.dir/Client/client.c.o: C_COMPILER__Tarea4_unscanned_Debug /home/space-ba/CLionProjects/BreakoutTEC/Tarea4/Client/client.c || cmake_object_order_depends_target_Tarea4
   DEP_FILE = CMakeFiles/Tarea4.dir/Client/client.c.o.d
-  FLAGS = -g -std=gnu11 -fdiagnostics-color=always
+  FLAGS = -std=gnu11 -fdiagnostics-color=always
   OBJECT_DIR = CMakeFiles/Tarea4.dir
   OBJECT_FILE_DIR = CMakeFiles/Tarea4.dir/Client
 
-build CMakeFiles/Tarea4.dir/INI/ini.c.o: C_COMPILER__Tarea4_unscanned_Debug /home/space-ba/CLionProjects/Tarea_4_C/Tarea4/INI/ini.c || cmake_object_order_depends_target_Tarea4
+build CMakeFiles/Tarea4.dir/INI/ini.c.o: C_COMPILER__Tarea4_unscanned_Debug /home/space-ba/CLionProjects/BreakoutTEC/Tarea4/INI/ini.c || cmake_object_order_depends_target_Tarea4
   DEP_FILE = CMakeFiles/Tarea4.dir/INI/ini.c.o.d
-  FLAGS = -g -std=gnu11 -fdiagnostics-color=always
+  FLAGS = -std=gnu11 -fdiagnostics-color=always
   OBJECT_DIR = CMakeFiles/Tarea4.dir
   OBJECT_FILE_DIR = CMakeFiles/Tarea4.dir/INI
 
-build CMakeFiles/Tarea4.dir/Config/config.c.o: C_COMPILER__Tarea4_unscanned_Debug /home/space-ba/CLionProjects/Tarea_4_C/Tarea4/Config/config.c || cmake_object_order_depends_target_Tarea4
+build CMakeFiles/Tarea4.dir/Config/config.c.o: C_COMPILER__Tarea4_unscanned_Debug /home/space-ba/CLionProjects/BreakoutTEC/Tarea4/Config/config.c || cmake_object_order_depends_target_Tarea4
   DEP_FILE = CMakeFiles/Tarea4.dir/Config/config.c.o.d
-  FLAGS = -g -std=gnu11 -fdiagnostics-color=always
+  FLAGS = -std=gnu11 -fdiagnostics-color=always
   OBJECT_DIR = CMakeFiles/Tarea4.dir
   OBJECT_FILE_DIR = CMakeFiles/Tarea4.dir/Config
 
@@ -82,7 +82,6 @@ build CMakeFiles/Tarea4.dir/Config/config.c.o: C_COMPILER__Tarea4_unscanned_Debu
 # Link the executable Tarea4
 
 build Tarea4: C_EXECUTABLE_LINKER__Tarea4_Debug CMakeFiles/Tarea4.dir/main.c.o CMakeFiles/Tarea4.dir/Client/client.c.o CMakeFiles/Tarea4.dir/INI/ini.c.o CMakeFiles/Tarea4.dir/Config/config.c.o
-  FLAGS = -g
   LINK_LIBRARIES = -Wl,-rpath,/usr/local/lib  -lraylib  -lm  -lpthread  -ldl  -lcjson
   LINK_PATH = -L/usr/local/lib
   OBJECT_DIR = CMakeFiles/Tarea4.dir
@@ -96,7 +95,7 @@ build Tarea4: C_EXECUTABLE_LINKER__Tarea4_Debug CMakeFiles/Tarea4.dir/main.c.o C
 # Utility command for edit_cache
 
 build CMakeFiles/edit_cache.util: CUSTOM_COMMAND
-  COMMAND = cd /home/space-ba/CLionProjects/Tarea_4_C/Tarea4/cmake-build-debug && /snap/clion/296/bin/cmake/linux/x64/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
+  COMMAND = cd /home/space-ba/CLionProjects/BreakoutTEC/Tarea4/cmake-build-debug && /snap/clion/296/bin/cmake/linux/x64/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
   DESC = No interactive CMake dialog available...
   restat = 1
 
@@ -107,7 +106,7 @@ build edit_cache: phony CMakeFiles/edit_cache.util
 # Utility command for rebuild_cache
 
 build CMakeFiles/rebuild_cache.util: CUSTOM_COMMAND
-  COMMAND = cd /home/space-ba/CLionProjects/Tarea_4_C/Tarea4/cmake-build-debug && /snap/clion/296/bin/cmake/linux/x64/bin/cmake --regenerate-during-build -S/home/space-ba/CLionProjects/Tarea_4_C/Tarea4 -B/home/space-ba/CLionProjects/Tarea_4_C/Tarea4/cmake-build-debug
+  COMMAND = cd /home/space-ba/CLionProjects/BreakoutTEC/Tarea4/cmake-build-debug && /snap/clion/296/bin/cmake/linux/x64/bin/cmake --regenerate-during-build -S/home/space-ba/CLionProjects/BreakoutTEC/Tarea4 -B/home/space-ba/CLionProjects/BreakoutTEC/Tarea4/cmake-build-debug
   DESC = Running CMake to regenerate build system...
   pool = console
   restat = 1
@@ -123,7 +122,7 @@ build rebuild_cache: phony CMakeFiles/rebuild_cache.util
 # =============================================================================
 
 #############################################
-# Folder: /home/space-ba/CLionProjects/Tarea_4_C/Tarea4/cmake-build-debug
+# Folder: /home/space-ba/CLionProjects/BreakoutTEC/Tarea4/cmake-build-debug
 
 build all: phony Tarea4
 
@@ -134,14 +133,14 @@ build all: phony Tarea4
 #############################################
 # Re-run CMake if any of its inputs changed.
 
-build build.ninja: RERUN_CMAKE | /home/space-ba/CLionProjects/Tarea_4_C/Tarea4/CMakeLists.txt /snap/clion/296/bin/cmake/linux/x64/share/cmake-3.29/Modules/CMakeCInformation.cmake /snap/clion/296/bin/cmake/linux/x64/share/cmake-3.29/Modules/CMakeCommonLanguageInclude.cmake /snap/clion/296/bin/cmake/linux/x64/share/cmake-3.29/Modules/CMakeGenericSystem.cmake /snap/clion/296/bin/cmake/linux/x64/share/cmake-3.29/Modules/CMakeInitializeConfigs.cmake /snap/clion/296/bin/cmake/linux/x64/share/cmake-3.29/Modules/CMakeLanguageInformation.cmake /snap/clion/296/bin/cmake/linux/x64/share/cmake-3.29/Modules/CMakeSystemSpecificInformation.cmake /snap/clion/296/bin/cmake/linux/x64/share/cmake-3.29/Modules/CMakeSystemSpecificInitialize.cmake /snap/clion/296/bin/cmake/linux/x64/share/cmake-3.29/Modules/Compiler/CMakeCommonCompilerMacros.cmake /snap/clion/296/bin/cmake/linux/x64/share/cmake-3.29/Modules/Compiler/GNU-C.cmake /snap/clion/296/bin/cmake/linux/x64/share/cmake-3.29/Modules/Compiler/GNU.cmake /snap/clion/296/bin/cmake/linux/x64/share/cmake-3.29/Modules/Platform/Linux-GNU-C.cmake /snap/clion/296/bin/cmake/linux/x64/share/cmake-3.29/Modules/Platform/Linux-GNU.cmake /snap/clion/296/bin/cmake/linux/x64/share/cmake-3.29/Modules/Platform/Linux-Initialize.cmake /snap/clion/296/bin/cmake/linux/x64/share/cmake-3.29/Modules/Platform/Linux.cmake /snap/clion/296/bin/cmake/linux/x64/share/cmake-3.29/Modules/Platform/UnixPaths.cmake CMakeCache.txt CMakeFiles/3.29.6/CMakeCCompiler.cmake CMakeFiles/3.29.6/CMakeSystem.cmake
+build build.ninja: RERUN_CMAKE | /home/space-ba/CLionProjects/BreakoutTEC/Tarea4/CMakeLists.txt /snap/clion/296/bin/cmake/linux/x64/share/cmake-3.29/Modules/CMakeCInformation.cmake /snap/clion/296/bin/cmake/linux/x64/share/cmake-3.29/Modules/CMakeCommonLanguageInclude.cmake /snap/clion/296/bin/cmake/linux/x64/share/cmake-3.29/Modules/CMakeGenericSystem.cmake /snap/clion/296/bin/cmake/linux/x64/share/cmake-3.29/Modules/CMakeInitializeConfigs.cmake /snap/clion/296/bin/cmake/linux/x64/share/cmake-3.29/Modules/CMakeLanguageInformation.cmake /snap/clion/296/bin/cmake/linux/x64/share/cmake-3.29/Modules/CMakeSystemSpecificInformation.cmake /snap/clion/296/bin/cmake/linux/x64/share/cmake-3.29/Modules/CMakeSystemSpecificInitialize.cmake /snap/clion/296/bin/cmake/linux/x64/share/cmake-3.29/Modules/Compiler/CMakeCommonCompilerMacros.cmake /snap/clion/296/bin/cmake/linux/x64/share/cmake-3.29/Modules/Compiler/GNU-C.cmake /snap/clion/296/bin/cmake/linux/x64/share/cmake-3.29/Modules/Compiler/GNU.cmake /snap/clion/296/bin/cmake/linux/x64/share/cmake-3.29/Modules/Platform/Linux-GNU-C.cmake /snap/clion/296/bin/cmake/linux/x64/share/cmake-3.29/Modules/Platform/Linux-GNU.cmake /snap/clion/296/bin/cmake/linux/x64/share/cmake-3.29/Modules/Platform/Linux-Initialize.cmake /snap/clion/296/bin/cmake/linux/x64/share/cmake-3.29/Modules/Platform/Linux.cmake /snap/clion/296/bin/cmake/linux/x64/share/cmake-3.29/Modules/Platform/UnixPaths.cmake CMakeCache.txt CMakeFiles/3.29.6/CMakeCCompiler.cmake CMakeFiles/3.29.6/CMakeSystem.cmake
   pool = console
 
 
 #############################################
 # A missing CMake input file is not an error.
 
-build /home/space-ba/CLionProjects/Tarea_4_C/Tarea4/CMakeLists.txt /snap/clion/296/bin/cmake/linux/x64/share/cmake-3.29/Modules/CMakeCInformation.cmake /snap/clion/296/bin/cmake/linux/x64/share/cmake-3.29/Modules/CMakeCommonLanguageInclude.cmake /snap/clion/296/bin/cmake/linux/x64/share/cmake-3.29/Modules/CMakeGenericSystem.cmake /snap/clion/296/bin/cmake/linux/x64/share/cmake-3.29/Modules/CMakeInitializeConfigs.cmake /snap/clion/296/bin/cmake/linux/x64/share/cmake-3.29/Modules/CMakeLanguageInformation.cmake /snap/clion/296/bin/cmake/linux/x64/share/cmake-3.29/Modules/CMakeSystemSpecificInformation.cmake /snap/clion/296/bin/cmake/linux/x64/share/cmake-3.29/Modules/CMakeSystemSpecificInitialize.cmake /snap/clion/296/bin/cmake/linux/x64/share/cmake-3.29/Modules/Compiler/CMakeCommonCompilerMacros.cmake /snap/clion/296/bin/cmake/linux/x64/share/cmake-3.29/Modules/Compiler/GNU-C.cmake /snap/clion/296/bin/cmake/linux/x64/share/cmake-3.29/Modules/Compiler/GNU.cmake /snap/clion/296/bin/cmake/linux/x64/share/cmake-3.29/Modules/Platform/Linux-GNU-C.cmake /snap/clion/296/bin/cmake/linux/x64/share/cmake-3.29/Modules/Platform/Linux-GNU.cmake /snap/clion/296/bin/cmake/linux/x64/share/cmake-3.29/Modules/Platform/Linux-Initialize.cmake /snap/clion/296/bin/cmake/linux/x64/share/cmake-3.29/Modules/Platform/Linux.cmake /snap/clion/296/bin/cmake/linux/x64/share/cmake-3.29/Modules/Platform/UnixPaths.cmake CMakeCache.txt CMakeFiles/3.29.6/CMakeCCompiler.cmake CMakeFiles/3.29.6/CMakeSystem.cmake: phony
+build /home/space-ba/CLionProjects/BreakoutTEC/Tarea4/CMakeLists.txt /snap/clion/296/bin/cmake/linux/x64/share/cmake-3.29/Modules/CMakeCInformation.cmake /snap/clion/296/bin/cmake/linux/x64/share/cmake-3.29/Modules/CMakeCommonLanguageInclude.cmake /snap/clion/296/bin/cmake/linux/x64/share/cmake-3.29/Modules/CMakeGenericSystem.cmake /snap/clion/296/bin/cmake/linux/x64/share/cmake-3.29/Modules/CMakeInitializeConfigs.cmake /snap/clion/296/bin/cmake/linux/x64/share/cmake-3.29/Modules/CMakeLanguageInformation.cmake /snap/clion/296/bin/cmake/linux/x64/share/cmake-3.29/Modules/CMakeSystemSpecificInformation.cmake /snap/clion/296/bin/cmake/linux/x64/share/cmake-3.29/Modules/CMakeSystemSpecificInitialize.cmake /snap/clion/296/bin/cmake/linux/x64/share/cmake-3.29/Modules/Compiler/CMakeCommonCompilerMacros.cmake /snap/clion/296/bin/cmake/linux/x64/share/cmake-3.29/Modules/Compiler/GNU-C.cmake /snap/clion/296/bin/cmake/linux/x64/share/cmake-3.29/Modules/Compiler/GNU.cmake /snap/clion/296/bin/cmake/linux/x64/share/cmake-3.29/Modules/Platform/Linux-GNU-C.cmake /snap/clion/296/bin/cmake/linux/x64/share/cmake-3.29/Modules/Platform/Linux-GNU.cmake /snap/clion/296/bin/cmake/linux/x64/share/cmake-3.29/Modules/Platform/Linux-Initialize.cmake /snap/clion/296/bin/cmake/linux/x64/share/cmake-3.29/Modules/Platform/Linux.cmake /snap/clion/296/bin/cmake/linux/x64/share/cmake-3.29/Modules/Platform/UnixPaths.cmake CMakeCache.txt CMakeFiles/3.29.6/CMakeCCompiler.cmake CMakeFiles/3.29.6/CMakeSystem.cmake: phony
 
 
 #############################################
