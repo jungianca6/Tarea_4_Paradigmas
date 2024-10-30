@@ -6,8 +6,8 @@
 #include <math.h>
 
 //Variables que contienen las dimensiones de la pantalla del juego.
-const int screen_w = 500;
-const int screen_h = 600;
+const int screenWide = 500;
+const int screenHeight = 600;
 
 typedef struct {
     Rectangle rect;
@@ -52,10 +52,16 @@ typedef struct {
     bool active;
 } Timer;
 
+Texture2D background_text;
+struct Player player;
+struct Ball ball;
+BrickArray bricks;
+bool gg = false;
+
 
 int main(void) {
 
-    InitWindow(screen_w, screen_h, "breakOutTec");
+    InitWindow(screenWide, screenHeight, "breakOutTec");
 
     SetTargetFPS(60);
 
@@ -63,7 +69,7 @@ int main(void) {
 
 
     while (!WindowShouldClose()) {
-        
+
         BeginDrawing();
         ClearBackground(BLUE);
 
