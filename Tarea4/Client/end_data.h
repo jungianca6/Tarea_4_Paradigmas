@@ -7,7 +7,7 @@
 
 // Definición de la estructura Game_end_Data
 typedef struct {
-    char type_message[50]; // Tipo de mensaje (ej. "end")
+    char type_message[10]; // Tipo de mensaje (ej. "end")
 } Game_end_Data;
 
 #endif //END_DATA_H

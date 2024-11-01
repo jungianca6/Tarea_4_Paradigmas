@@ -84,7 +84,8 @@ void receive_message(int socket_fd) {
 
         // Libera la memoria
         free(data_parties.parties);
-    } else {
+    }
+    else {
         printf("Error: tipo de mensaje desconocido.\n");
     }
 
