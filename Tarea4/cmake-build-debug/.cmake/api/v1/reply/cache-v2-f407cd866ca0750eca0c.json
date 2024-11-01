@@ -55,7 +55,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "/home/dell/Escritorio/Tarea_4_Paradigmas/Tarea4/cmake-build-debug"
+			"value" : "/home/koki/Escritorio/pene/Tarea_4_Paradigmas/Tarea4/cmake-build-debug"
 		},
 		{
 			"name" : "CMAKE_CACHE_MAJOR_VERSION",
@@ -415,7 +415,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "/home/dell/Escritorio/Tarea_4_Paradigmas/Tarea4/cmake-build-debug/CMakeFiles/pkgRedirects"
+			"value" : "/home/koki/Escritorio/pene/Tarea_4_Paradigmas/Tarea4/cmake-build-debug/CMakeFiles/pkgRedirects"
 		},
 		{
 			"name" : "CMAKE_GENERATOR",
@@ -475,7 +475,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "/home/dell/Escritorio/Tarea_4_Paradigmas/Tarea4"
+			"value" : "/home/koki/Escritorio/pene/Tarea_4_Paradigmas/Tarea4"
 		},
 		{
 			"name" : "CMAKE_INSTALL_PREFIX",
@@ -1027,7 +1027,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "/home/dell/Escritorio/Tarea_4_Paradigmas/Tarea4/cmake-build-debug"
+			"value" : "/home/koki/Escritorio/pene/Tarea_4_Paradigmas/Tarea4/cmake-build-debug"
 		},
 		{
 			"name" : "Tarea4_IS_TOP_LEVEL",
@@ -1051,7 +1051,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "/home/dell/Escritorio/Tarea_4_Paradigmas/Tarea4"
+			"value" : "/home/koki/Escritorio/pene/Tarea_4_Paradigmas/Tarea4"
 		},
 		{
 			"name" : "_CMAKE_LINKER_PUSHPOP_STATE_SUPPORTED",

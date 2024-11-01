@@ -4,7 +4,7 @@
 # compile C with /usr/bin/cc
 C_DEFINES = 
 
-C_INCLUDES = -I/home/dell/Downloads/raylib-5.0_linux_amd64/include
+C_INCLUDES = -I/home/koki/Downloads/raylib-5.0_linux_amd64/include
 
 C_FLAGS = -g -std=gnu11 -fdiagnostics-color=always
 

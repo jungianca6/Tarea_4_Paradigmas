@@ -63,7 +63,7 @@
 			[
 				{
 					"backtrace" : 4,
-					"path" : "/home/dell/Downloads/raylib-5.0_linux_amd64/include"
+					"path" : "/home/koki/Downloads/raylib-5.0_linux_amd64/include"
 				}
 			],
 			"language" : "C",
@@ -96,11 +96,11 @@
 			},
 			{
 				"backtrace" : 2,
-				"fragment" : "-L/home/dell/Downloads/raylib-5.0_linux_amd64/lib",
+				"fragment" : "-L/home/koki/Downloads/raylib-5.0_linux_amd64/lib",
 				"role" : "libraryPath"
 			},
 			{
-				"fragment" : "-Wl,-rpath,/home/dell/Downloads/raylib-5.0_linux_amd64/lib",
+				"fragment" : "-Wl,-rpath,/home/koki/Downloads/raylib-5.0_linux_amd64/lib",
 				"role" : "libraries"
 			},
 			{
