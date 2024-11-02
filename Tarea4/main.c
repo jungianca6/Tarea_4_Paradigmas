@@ -219,6 +219,7 @@ void Game_update() {
     ball.pos.y = ball.pos.y + ((ball.vel * ball.accel.y) * framet);
 
     // Colisión entre la bola y los bloques
+// Colisión entre la bola y los bloques
     for (int i = 0; i < bricks.size; i++) {
         Brick brick = bricks.data[i];
         if (CheckCollisionCircleRec(ball.pos, ball.r, brick.base.rect)) {
@@ -232,12 +233,9 @@ void Game_update() {
             player.score += 10; // Aumenta el puntaje
 
             // Verifica si el bloque tiene un poder y actúa según el poder
-// Verifica si el bloque tiene un poder y actúa según el poder
-// Define los límites de velocidad
             const float MAX_SPEED = 450.0f;  // Velocidad máxima
             const float MIN_SPEED = 150.0f;   // Velocidad mínima
 
-// Actualiza la velocidad de la bola según el poder del ladrillo
             if (brick.power == INCREASE_LENGTH) {
                 player.w *= 2;
                 if (player.w > 150)
@@ -251,24 +249,20 @@ void Game_update() {
             } else if (brick.power == INCREASE_LIVES) {
                 player.lives++;
             } else if (brick.power == INCREASE_SPEED) {
-                ball.vel *= 1.2f;  // Aumenta la velocidad de la bola un 20%
-                // Limitar la velocidad máxima
+                ball.vel *= 1.2f;
                 if (ball.vel > MAX_SPEED) {
                     ball.vel = MAX_SPEED;
                 }
             } else if (brick.power == DECREASE_SPEED) {
-                ball.vel *= 0.8f;  // Disminuye la velocidad de la bola un 20%
-                // Limitar la velocidad mínima
+                ball.vel *= 0.8f;
                 if (ball.vel < MIN_SPEED) {
                     ball.vel = MIN_SPEED;
                 }
             }
+            printf("Velocidad de la bola: %.2f\n", ball.vel);  // C para C++
 
-// Imprimir la velocidad actual de la bola
-            printf("Velocidad de la bola: %.2f\n", player.w);  // C para C++
-
-
-
+            // Imprime mensaje de destrucción del bloque
+            printf("El bloque se destruyó en la posición: (x: %.2f, y: %.2f)\n", brick.base.rect.x, brick.base.rect.y);
             // Eliminar el bloque
             for (int j = i; j < bricks.size - 1; j++) {
                 bricks.data[j] = bricks.data[j + 1];
@@ -279,6 +273,7 @@ void Game_update() {
             break;
         }
     }
+
 
 
 
@@ -312,12 +307,21 @@ void Game_update() {
 
 
     //Colision entre la bola y el jugador.
+// Colisión entre la bola y el jugador.
     if (CheckCollisionCircleRec(ball.pos, ball.r, player.rect)) {
-        //Se genera un numero aleatorio y se le saca modulo 2.
-        //Esto causa un escenario 50/50 para decidir la direccion aleatoriamente.
-        ball.accel.x = (rand() % 2 == 0 ? 1 : -1) * ball.accel.x;
-        ball.accel.y = ball.accel.y * -1;
+        // Calcula la posición relativa de la bola con respecto al centro de la raqueta.
+        float relativePosition = (ball.pos.x - (player.rect.x + player.rect.width / 2)) / (player.rect.width / 2);
+
+        // Ajusta el ángulo de rebote en el eje X basándose en la posición relativa.
+        ball.accel.x = relativePosition;  // Cuanto más lejos del centro, mayor el ángulo en X.
+        ball.accel.y = -fabs(ball.accel.y);  // Invierte la dirección en Y y asegura que siempre vaya hacia arriba.
+
+        // Normaliza el vector de aceleración para mantener la velocidad constante.
+        float magnitude = sqrt(ball.accel.x * ball.accel.x + ball.accel.y * ball.accel.y);
+        ball.accel.x /= magnitude;
+        ball.accel.y /= magnitude;
     }
+
 
     //Colision entre el jugador y las paredes
     if (player.rect.x < 0) {
