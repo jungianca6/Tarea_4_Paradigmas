@@ -26,10 +26,14 @@ struct Player player;
 struct Ball ball;
 BrickArray bricks;
 bool gg = false;
-bool menuActive = true; // Controla si el menú está activo
+int menuActive = 0; // Controla si el menú está activo
 // Variables del socket
 int sock;
 struct sockaddr_in server_addr;
+
+PartyList partyList; // Lista global de partidas
+int selectedPartyIndex = 0; // Índice de la partida seleccionada
+
 
 void Spawn_bricks(BrickArray *brick_array) {
     Brick new_brick;
@@ -119,7 +123,7 @@ void DrawMenu() {
 
     // Detecta si el botón de "Play" fue presionado
     if (playHover && IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
-        menuActive = false; // Cambia a modo de juego
+        menuActive = 1; // Cambia a modo de juego
         // Enviar mensaje de registro como "Player"
         send_register_message(sock, "Player");
         printf("Registrado como Player\n");
@@ -127,6 +131,7 @@ void DrawMenu() {
 
     // Detecta si el botón de "Observar" fue presionado
     if (observeHover && IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
+        menuActive = 2;
         // Acción para el modo de observación
         // Enviar mensaje de registro como "Spectator"
         send_register_message(sock, "Spectator");
@@ -243,9 +248,6 @@ void Game_update() {
         }
     }
 
-
-
-
     //Chequeo de si todos los bloues estan destruidos, si ese es el caso, se aumenta el nivel, se reestablecen los bloques y se aumenta la velocidad de la bola.
     if (bricks.size == 0) {
         player.level++;
@@ -274,9 +276,7 @@ void Game_update() {
         return;
     }
 
-
-    //Colision entre la bola y el jugador.
-// Colisión entre la bola y el jugador.
+    // Colisión entre la bola y el jugador.
     if (CheckCollisionCircleRec(ball.pos, ball.r, player.rect)) {
         // Calcula la posición relativa de la bola con respecto al centro de la raqueta.
         float relativePosition = (ball.pos.x - (player.rect.x + player.rect.width / 2)) / (player.rect.width / 2);
@@ -383,14 +383,12 @@ int main(void) {
     partyList.parties = malloc(10 * sizeof(Partida)); // Inicializar con espacio para 10 partidas
     partyList.count = 0; // Inicializar la lista de partidas
 
-    /*
     // Inicializa el socket
-    initialize_socket(&sock, &server_addr, config.port, config.ip_address);
-    */
+    // initialize_socket(&sock, &server_addr, config.port, config.ip_address);
 
     InitWindow(screen_w, screen_h, "breakOutTec");
 
-    SetTargetFPS(60);
+    SetTargetFPS(165);
     srand((unsigned int)time(NULL));
 
     Game_startup(&bricks);
@@ -417,12 +415,33 @@ int main(void) {
             receive_message(sock); // Recibir respuesta
         }
 
-        if (menuActive) {
+        if (menuActive == 0) {
             DrawMenu(); // Dibuja el menú si está activo
-        } else {
+        } else if (menuActive == 1){
             ClearBackground(BLUE);
             Game_update();  // Actualiza el estado del juego
             Game_render();  // Dibuja el juego
+        } else if (menuActive == 2) {
+            send_register_message(sock, "Spectator");
+            ClearBackground(BLUE);
+            // Dibujar la lista de partidas disponibles
+            if (partyList.count > 0) {
+                DrawText("Partidas disponibles:", 10, 80, 20, DARKGRAY);
+                for (int i = 0; i < partyList.count; i++) {
+                    char text[128];
+                    snprintf(text, sizeof(text), "ID: %s, IP: %s, Puerto: %d",
+                             partyList.parties[i].id_partida,
+                             partyList.parties[i].ip,
+                             partyList.parties[i].puerto);
+                    if (i == selectedPartyIndex) {
+                        DrawText(text, 10, 110 + i * 30, 20, WHITE); // Resaltar la partida seleccionada
+                    } else {
+                        DrawText(text, 10, 110 + i * 30, 20, DARKGRAY);
+                    }
+                }
+            } else {
+                DrawText("No hay partidas disponibles.", 10, 80, 20, DARKGRAY);
+            }
         }
 
         EndDrawing();
@@ -433,10 +452,6 @@ int main(void) {
     CloseWindow();
     return 0;
 }
-
-
-PartyList partyList; // Lista global de partidas
-int selectedPartyIndex = 0; // Índice de la partida seleccionada
 
 
 /*
