@@ -169,16 +169,24 @@ void Game_update() {
                 ball.accel.y = ball.accel.y * -1;
             }
 
-            player.score += 10;
+            player.score += 10; // Aumenta el puntaje
+
+            // Aumentar la vida del jugador solo si se destruye un bloque de la fila central (fila 3)
+            if (brick.base.rect.y == 50 + (3 * 26)) { // 50 es la posición Y inicial, 26 es la altura del bloque
+                player.lives++;
+            }
+
+            // Eliminar el bloque
             for (int j = i; j < bricks.size - 1; j++) {
                 bricks.data[j] = bricks.data[j + 1];
             }
 
             bricks.size--;
-            i--;
+            i--; // Decrementa 'i' para verificar el siguiente bloque en la próxima iteración
             break;
         }
     }
+
 
 
     //Chequeo de si todos los bloues estan destruidos, si ese es el caso, se aumenta el nivel, se reestablecen los bloques y se aumenta la velocidad de la bola.
