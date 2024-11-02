@@ -145,14 +145,27 @@ void DrawMenu() {
 
     // Dibuja el botón de "Play"
     Rectangle playButton = { screen_w / 2 - 50, screen_h / 2, 100, 50 };
-    DrawRectangleRec(playButton, GRAY);
+    bool playHover = CheckCollisionPointRec(GetMousePosition(), playButton);
+    DrawRectangleRec(playButton, playHover ? LIGHTGRAY : GRAY);
     DrawText("Play", playButton.x + 20, playButton.y + 10, 30, BLACK);
 
+    // Dibuja el botón de "Observar"
+    Rectangle observeButton = { screen_w / 2 - 50, screen_h / 2 + 100, 100, 50 };
+    bool observeHover = CheckCollisionPointRec(GetMousePosition(), observeButton);
+    DrawRectangleRec(observeButton, observeHover ? LIGHTGRAY : GRAY);
+    DrawText("Spectate", observeButton.x + 10, observeButton.y + 10, 30, BLACK);
+
     // Detecta si el botón de "Play" fue presionado
-    if (CheckCollisionPointRec(GetMousePosition(), playButton) && IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
+    if (playHover && IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
         menuActive = false; // Cambia a modo de juego
     }
+
+    // Detecta si el botón de "Observar" fue presionado
+    if (observeHover && IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
+        // Acción para el modo de observación
+    }
 }
+
 
 void Game_startup(BrickArray *brick_array) {
 
