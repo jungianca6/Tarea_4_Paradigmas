@@ -15,12 +15,17 @@ typedef struct {
     float h;
 } Brick_factory;
 
+typedef enum {
+    NO_POWER,
+    INCREASE_LENGTH,
+    DECREASE_LENGTH,
+    INCREASE_LIVES // Nuevo poder para aumentar vidas
+} PowerType;
 typedef struct {
     Brick_factory base;
     Color color;
-    bool hasPower; // Indica si el bloque tiene un poder
+    PowerType power; // Cambiamos hasPower por power
 } Brick;
-
 
 typedef struct {
     Brick *data;
@@ -85,8 +90,17 @@ void Spawn_bricks(BrickArray *brick_array) {
                 new_brick.color = GREEN;
             }
 
-            // Establece aleatoriamente si el bloque tiene un poder (por ejemplo, un 30% de probabilidad)
-            new_brick.hasPower = (rand() % 10 < 3); // 30% de probabilidad
+            // Asigna poderes aleatorios: 25% cada uno para aumentar longitud, disminuir longitud, aumentar vidas o ninguno
+            int randomPower = rand() % 12; // Ajusta la probabilidad total
+            if (randomPower < 3) {
+                new_brick.power = INCREASE_LENGTH;
+            } else if (randomPower < 6) {
+                new_brick.power = DECREASE_LENGTH;
+            } else if (randomPower < 9) {
+                new_brick.power = INCREASE_LIVES; // Nuevo poder para aumentar vidas
+            } else {
+                new_brick.power = NO_POWER;
+            }
 
             brick_array->data[brick_array->size++] = new_brick;
         }
@@ -98,16 +112,21 @@ void Spawn_bricks(BrickArray *brick_array) {
 void PrintBricks(const BrickArray *brick_array) {
     for (int i = 0; i < brick_array->size; i++) {
         Brick brick = brick_array->data[i];
-        printf("Brick %d: Color: %d, Position: (%f, %f), Size: (%f, %f), Has Power: %s\n",
+        printf("Brick %d: Color: %d, Position: (%f, %f), Size: (%f, %f), Power Type: %s\n",
                i,
                brick.color, // Suponiendo que 'color' es un entero o enum
                brick.base.rect.x,
                brick.base.rect.y,
                brick.base.rect.width,
                brick.base.rect.height,
-               brick.hasPower ? "Yes" : "No");
+               (brick.power == NO_POWER) ? "None" :
+               (brick.power == INCREASE_LENGTH) ? "Increase Length" :
+               (brick.power == DECREASE_LENGTH) ? "Decrease Length" :
+               (brick.power == INCREASE_LIVES) ? "Increase Lives" : "Unknown"); // Agregado el poder de aumentar vidas
     }
 }
+
+
 
 void DrawMenu() {
     // Dibuja el fondo del menú
@@ -162,12 +181,11 @@ void Game_startup(BrickArray *brick_array) {
 }
 
 void Game_update() {
-
     float framet = GetFrameTime();
 
     if (gg) return;
 
-    //Control del jugador sobre la barra de juego.
+    // Control del jugador sobre la barra de juego.
     if(IsKeyDown(KEY_LEFT)) {
         player.rect.x -= player.velocity * framet;
     }
@@ -175,14 +193,11 @@ void Game_update() {
         player.rect.x += player.velocity * framet;
     }
 
-    //Actualizacion de la posicion de la bola
+    // Actualización de la posición de la bola
     ball.pos.x = ball.pos.x + ((ball.vel * ball.accel.x) * framet);
     ball.pos.y = ball.pos.y + ((ball.vel * ball.accel.y) * framet);
 
-    //------------------Seccion de colisiones y otras interacciones del juego----------------------
-
-    //Colision entre la bola y los bloques.
-// Colisión entre la bola y los bloques.
+    // Colisión entre la bola y los bloques
     for (int i = 0; i < bricks.size; i++) {
         Brick brick = bricks.data[i];
         if (CheckCollisionCircleRec(ball.pos, ball.r, brick.base.rect)) {
@@ -195,17 +210,19 @@ void Game_update() {
 
             player.score += 10; // Aumenta el puntaje
 
-            // Aumentar la vida del jugador solo si se destruye un bloque de la fila central (fila 3)
-            if (brick.base.rect.y == 50 + (3 * 26)) {
-                player.lives++;
+            // Verifica si el bloque tiene un poder y actúa según el poder
+// Verifica si el bloque tiene un poder y actúa según el poder
+            if (brick.power == INCREASE_LENGTH) {
+                player.w += 10; // Aumenta la longitud de la paleta
+                player.rect.width = player.w; // Actualiza el ancho del rectángulo del jugador
+            } else if (brick.power == DECREASE_LENGTH) {
+                player.w -= 10; // Disminuye la longitud de la paleta
+                if (player.w < 10) player.w = 10; // Asegura que la longitud no sea negativa
+                player.rect.width = player.w; // Actualiza el ancho del rectángulo del jugador
+            } else if (brick.power == INCREASE_LIVES) {
+                player.lives++; // Aumenta las vidas
             }
 
-            // Verifica si el bloque tiene un poder
-            if (brick.hasPower) {
-                // Implementa la lógica para otorgar un poder al jugador
-                // Por ejemplo: aumentar la velocidad de la bola, añadir más vidas, etc.
-                player.lives++; // Ejemplo: aumentar la vida del jugador
-            }
 
             // Eliminar el bloque
             for (int j = i; j < bricks.size - 1; j++) {
