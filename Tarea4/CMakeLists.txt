@@ -21,6 +21,14 @@ add_executable(Tarea4 main.c
         Client/register_data.h
         Client/parties_data.h
         Client/partie.h
-        Client/end_data.h)
+        Client/end_data.h
+        Components/brick_factory.h
+        Components/power_type.h
+        Components/timer.h
+        Components/player.h
+        Components/ball.h
+        Components/brick.h
+        Components/brick_array.h
+)
 
 target_link_libraries(Tarea4 raylib m pthread dl cjson)
