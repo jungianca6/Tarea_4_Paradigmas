@@ -27,6 +27,9 @@ struct Ball ball;
 BrickArray bricks;
 bool gg = false;
 bool menuActive = true; // Controla si el menú está activo
+// Variables del socket
+int sock;
+struct sockaddr_in server_addr;
 
 void Spawn_bricks(BrickArray *brick_array) {
     Brick new_brick;
@@ -117,11 +120,18 @@ void DrawMenu() {
     // Detecta si el botón de "Play" fue presionado
     if (playHover && IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
         menuActive = false; // Cambia a modo de juego
+        // Enviar mensaje de registro como "Player"
+        send_register_message(sock, "Player");
+        printf("Registrado como Player\n");
     }
 
     // Detecta si el botón de "Observar" fue presionado
     if (observeHover && IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
         // Acción para el modo de observación
+        // Enviar mensaje de registro como "Spectator"
+        send_register_message(sock, "Spectator");
+        printf("Registrado como Spectator\n");
+
     }
 }
 
@@ -365,6 +375,19 @@ void Game_shutdown() {
 
 
 int main(void) {
+    // Cargar la configuración
+    Config config;
+    load_config("../config.ini", &config);
+
+    // Inicializa la lista de partidas
+    partyList.parties = malloc(10 * sizeof(Partida)); // Inicializar con espacio para 10 partidas
+    partyList.count = 0; // Inicializar la lista de partidas
+
+    /*
+    // Inicializa el socket
+    initialize_socket(&sock, &server_addr, config.port, config.ip_address);
+    */
+
     InitWindow(screen_w, screen_h, "breakOutTec");
 
     SetTargetFPS(60);
@@ -374,6 +397,25 @@ int main(void) {
 
     while (!WindowShouldClose()) {
         BeginDrawing();
+
+
+        // Configurar el conjunto de descriptores para select
+        fd_set read_fds;
+        FD_ZERO(&read_fds);
+        FD_SET(sock, &read_fds);
+
+        // Establecer timeout para select
+        struct timeval timeout;
+        timeout.tv_sec = 0;  // 0 segundos
+        timeout.tv_usec = 10000;  // 10 milisegundos
+
+        // Esperar actividad en el socket
+        int activity = select(sock + 1, &read_fds, NULL, NULL, &timeout);
+
+        // Verifica si hay datos para leer en el socket
+        if (activity > 0 && FD_ISSET(sock, &read_fds)) {
+            receive_message(sock); // Recibir respuesta
+        }
 
         if (menuActive) {
             DrawMenu(); // Dibuja el menú si está activo
@@ -399,9 +441,6 @@ int selectedPartyIndex = 0; // Índice de la partida seleccionada
 
 /*
 int main(void) {
-    // Cargar la configuración
-    Config config;
-    load_config("../config.ini", &config);
 
     InitWindow(screen_w, screen_h, "Raylib Client Example");
     SetTargetFPS(60);

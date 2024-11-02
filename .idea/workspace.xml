@@ -23,12 +23,8 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="75554750-353e-47f0-ae30-1498d22c2337" name="Changes" comment="a">
+    <list default="true" id="75554750-353e-47f0-ae30-1498d22c2337" name="Changes" comment="Union de codigo">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Tarea4/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Tarea4/CMakeLists.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Tarea4/cmake-build-debug/.cmake/api/v1/reply/codemodel-v2-7a48d85fe1c265bb21cf.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Tarea4/cmake-build-debug/.cmake/api/v1/reply/index-2024-10-30T05-48-18-0995.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Tarea4/cmake-build-debug/.cmake/api/v1/reply/target-Tarea4-Debug-9701473678c9f2ac0e3c.json" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Tarea4/cmake-build-debug/.ninja_deps" beforeDir="false" afterPath="$PROJECT_DIR$/Tarea4/cmake-build-debug/.ninja_deps" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Tarea4/cmake-build-debug/.ninja_log" beforeDir="false" afterPath="$PROJECT_DIR$/Tarea4/cmake-build-debug/.ninja_log" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Tarea4/cmake-build-debug/CMakeFiles/Tarea4.dir/main.c.o" beforeDir="false" afterPath="$PROJECT_DIR$/Tarea4/cmake-build-debug/CMakeFiles/Tarea4.dir/main.c.o" afterDir="false" />
@@ -140,7 +136,7 @@
       <workItem from="1730267082496" duration="608000" />
       <workItem from="1730434794208" duration="3432000" />
       <workItem from="1730580000331" duration="1193000" />
-      <workItem from="1730581735486" duration="1760000" />
+      <workItem from="1730581735486" duration="2498000" />
     </task>
     <task id="LOCAL-00001" summary="commit">
       <option name="closed" value="true" />
@@ -214,7 +210,15 @@
       <option name="project" value="LOCAL" />
       <updated>1730267637049</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="Union de codigo">
+      <option name="closed" value="true" />
+      <created>1730583665438</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1730583665438</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -259,7 +263,8 @@
     <MESSAGE value="Se agrego el envio de la eleccion de partida al servidor" />
     <MESSAGE value="commit :v" />
     <MESSAGE value="a" />
-    <option name="LAST_COMMIT_MESSAGE" value="a" />
+    <MESSAGE value="Union de codigo" />
+    <option name="LAST_COMMIT_MESSAGE" value="Union de codigo" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
