@@ -19,8 +19,11 @@ typedef enum {
     NO_POWER,
     INCREASE_LENGTH,
     DECREASE_LENGTH,
-    INCREASE_LIVES // Nuevo poder para aumentar vidas
+    INCREASE_LIVES,  // Poder para aumentar vidas
+    INCREASE_SPEED,  // Nuevo poder para aumentar la velocidad de la bola
+    DECREASE_SPEED   // Nuevo poder para disminuir la velocidad de la bola
 } PowerType;
+
 typedef struct {
     Brick_factory base;
     Color color;
@@ -91,16 +94,21 @@ void Spawn_bricks(BrickArray *brick_array) {
             }
 
             // Asigna poderes aleatorios: 25% cada uno para aumentar longitud, disminuir longitud, aumentar vidas o ninguno
-            int randomPower = rand() % 12; // Ajusta la probabilidad total
+            int randomPower = rand() % 16; // Ajusta la probabilidad total
             if (randomPower < 3) {
                 new_brick.power = INCREASE_LENGTH;
             } else if (randomPower < 6) {
                 new_brick.power = DECREASE_LENGTH;
             } else if (randomPower < 9) {
-                new_brick.power = INCREASE_LIVES; // Nuevo poder para aumentar vidas
+                new_brick.power = INCREASE_LIVES;
+            } else if (randomPower < 12) {
+                new_brick.power = INCREASE_SPEED;  // Nuevo poder para aumentar la velocidad
+            } else if (randomPower < 15) {
+                new_brick.power = DECREASE_SPEED;  // Nuevo poder para disminuir la velocidad
             } else {
                 new_brick.power = NO_POWER;
             }
+
 
             brick_array->data[brick_array->size++] = new_brick;
         }
@@ -212,16 +220,40 @@ void Game_update() {
 
             // Verifica si el bloque tiene un poder y actúa según el poder
 // Verifica si el bloque tiene un poder y actúa según el poder
+// Define los límites de velocidad
+            const float MAX_SPEED = 450.0f;  // Velocidad máxima
+            const float MIN_SPEED = 150.0f;   // Velocidad mínima
+
+// Actualiza la velocidad de la bola según el poder del ladrillo
             if (brick.power == INCREASE_LENGTH) {
-                player.w += 10; // Aumenta la longitud de la paleta
-                player.rect.width = player.w; // Actualiza el ancho del rectángulo del jugador
+                player.w *= 2;
+                if (player.w > 150)
+                    player.w = 150;
+                player.rect.width = player.w;
             } else if (brick.power == DECREASE_LENGTH) {
-                player.w -= 10; // Disminuye la longitud de la paleta
-                if (player.w < 10) player.w = 10; // Asegura que la longitud no sea negativa
-                player.rect.width = player.w; // Actualiza el ancho del rectángulo del jugador
+                player.w *= 0.5 ;
+                if (player.w < 37.5)
+                    player.w = 37.5;
+                player.rect.width = player.w;
             } else if (brick.power == INCREASE_LIVES) {
-                player.lives++; // Aumenta las vidas
+                player.lives++;
+            } else if (brick.power == INCREASE_SPEED) {
+                ball.vel *= 1.2f;  // Aumenta la velocidad de la bola un 20%
+                // Limitar la velocidad máxima
+                if (ball.vel > MAX_SPEED) {
+                    ball.vel = MAX_SPEED;
+                }
+            } else if (brick.power == DECREASE_SPEED) {
+                ball.vel *= 0.8f;  // Disminuye la velocidad de la bola un 20%
+                // Limitar la velocidad mínima
+                if (ball.vel < MIN_SPEED) {
+                    ball.vel = MIN_SPEED;
+                }
             }
+
+// Imprimir la velocidad actual de la bola
+            printf("Velocidad de la bola: %.2f\n", player.w);  // C para C++
+
 
 
             // Eliminar el bloque
