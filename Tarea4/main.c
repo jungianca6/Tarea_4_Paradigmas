@@ -18,7 +18,9 @@ typedef struct {
 typedef struct {
     Brick_factory base;
     Color color;
+    bool hasPower; // Indica si el bloque tiene un poder
 } Brick;
+
 
 typedef struct {
     Brick *data;
@@ -72,6 +74,7 @@ void Spawn_bricks(BrickArray *brick_array) {
             new_brick.base.rect.width = new_brick.base.w;
             new_brick.base.rect.height = new_brick.base.h;
 
+            // Establece el color según la fila
             if (j < 2) {
                 new_brick.color = RED;
             } else if (j < 4) {
@@ -82,10 +85,30 @@ void Spawn_bricks(BrickArray *brick_array) {
                 new_brick.color = GREEN;
             }
 
+            // Establece aleatoriamente si el bloque tiene un poder (por ejemplo, un 30% de probabilidad)
+            new_brick.hasPower = (rand() % 10 < 3); // 30% de probabilidad
+
             brick_array->data[brick_array->size++] = new_brick;
         }
     }
 }
+
+#include <stdio.h>
+
+void PrintBricks(const BrickArray *brick_array) {
+    for (int i = 0; i < brick_array->size; i++) {
+        Brick brick = brick_array->data[i];
+        printf("Brick %d: Color: %d, Position: (%f, %f), Size: (%f, %f), Has Power: %s\n",
+               i,
+               brick.color, // Suponiendo que 'color' es un entero o enum
+               brick.base.rect.x,
+               brick.base.rect.y,
+               brick.base.rect.width,
+               brick.base.rect.height,
+               brick.hasPower ? "Yes" : "No");
+    }
+}
+
 void DrawMenu() {
     // Dibuja el fondo del menú
     ClearBackground(DARKBLUE);
@@ -132,7 +155,10 @@ void Game_startup(BrickArray *brick_array) {
     brick_array->data = (Brick *)malloc(brick_array->capacity * sizeof(Brick));
 
     Spawn_bricks(brick_array);
+    Spawn_bricks(brick_array);
 
+    // Imprimir bloques al iniciar el juego
+    PrintBricks(brick_array);
 }
 
 void Game_update() {
@@ -162,18 +188,23 @@ void Game_update() {
         if (CheckCollisionCircleRec(ball.pos, ball.r, brick.base.rect)) {
             // Verifica de qué lado ocurrió la colisión
             if (ball.pos.x < brick.base.rect.x || ball.pos.x > brick.base.rect.x + brick.base.rect.width) {
-                // Si la colisión es en el lado izquierdo o derecho del bloque
                 ball.accel.x = ball.accel.x * -1;
             } else {
-                // Si la colisión es en la parte superior o inferior del bloque
                 ball.accel.y = ball.accel.y * -1;
             }
 
             player.score += 10; // Aumenta el puntaje
 
             // Aumentar la vida del jugador solo si se destruye un bloque de la fila central (fila 3)
-            if (brick.base.rect.y == 50 + (3 * 26)) { // 50 es la posición Y inicial, 26 es la altura del bloque
+            if (brick.base.rect.y == 50 + (3 * 26)) {
                 player.lives++;
+            }
+
+            // Verifica si el bloque tiene un poder
+            if (brick.hasPower) {
+                // Implementa la lógica para otorgar un poder al jugador
+                // Por ejemplo: aumentar la velocidad de la bola, añadir más vidas, etc.
+                player.lives++; // Ejemplo: aumentar la vida del jugador
             }
 
             // Eliminar el bloque
