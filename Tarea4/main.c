@@ -57,6 +57,7 @@ struct Player player;
 struct Ball ball;
 BrickArray bricks;
 bool gg = false;
+bool menuActive = true; // Controla si el menú está activo
 
 void Spawn_bricks(BrickArray *brick_array) {
     Brick new_brick;
@@ -85,6 +86,23 @@ void Spawn_bricks(BrickArray *brick_array) {
         }
     }
 }
+void DrawMenu() {
+    // Dibuja el fondo del menú
+    ClearBackground(DARKBLUE);
+
+    // Dibuja el título del juego
+    DrawText("BREAKOUT", screen_w / 2 - MeasureText("BREAKOUT", 40) / 2, screen_h / 2 - 100, 40, RAYWHITE);
+
+    // Dibuja el botón de "Play"
+    Rectangle playButton = { screen_w / 2 - 50, screen_h / 2, 100, 50 };
+    DrawRectangleRec(playButton, GRAY);
+    DrawText("Play", playButton.x + 20, playButton.y + 10, 30, BLACK);
+
+    // Detecta si el botón de "Play" fue presionado
+    if (CheckCollisionPointRec(GetMousePosition(), playButton) && IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
+        menuActive = false; // Cambia a modo de juego
+    }
+}
 
 void Game_startup(BrickArray *brick_array) {
 
@@ -94,7 +112,7 @@ void Game_startup(BrickArray *brick_array) {
     UnloadImage(background_img);
 
     //Codigo que carga a memoria datos del jugador
-    player.rect = (Rectangle) {250.0f, 540.0f, 75.0f, 10.0f};
+    player.rect = (Rectangle) {250.0f, 540.0f, 75.0f, 4.0f};
     player.velocity = 450.0f;
     player.score = 0;
     player.w = 75.0f;
@@ -138,15 +156,20 @@ void Game_update() {
     //------------------Seccion de colisiones y otras interacciones del juego----------------------
 
     //Colision entre la bola y los bloques.
+// Colisión entre la bola y los bloques.
     for (int i = 0; i < bricks.size; i++) {
         Brick brick = bricks.data[i];
-        if (CheckCollisionCircleRec(
-                ball.pos,
-                ball.r,
-                brick.base.rect
-        )) {
-            ball.accel.y = ball.accel.y * -1;
-            player.score = player.score + 10;
+        if (CheckCollisionCircleRec(ball.pos, ball.r, brick.base.rect)) {
+            // Verifica de qué lado ocurrió la colisión
+            if (ball.pos.x < brick.base.rect.x || ball.pos.x > brick.base.rect.x + brick.base.rect.width) {
+                // Si la colisión es en el lado izquierdo o derecho del bloque
+                ball.accel.x = ball.accel.x * -1;
+            } else {
+                // Si la colisión es en la parte superior o inferior del bloque
+                ball.accel.y = ball.accel.y * -1;
+            }
+
+            player.score += 10;
             for (int j = i; j < bricks.size - 1; j++) {
                 bricks.data[j] = bricks.data[j + 1];
             }
@@ -156,6 +179,7 @@ void Game_update() {
             break;
         }
     }
+
 
     //Chequeo de si todos los bloues estan destruidos, si ese es el caso, se aumenta el nivel, se reestablecen los bloques y se aumenta la velocidad de la bola.
     if (bricks.size == 0) {
@@ -276,23 +300,23 @@ void Game_shutdown() {
 }
 
 int main(void) {
-
     InitWindow(screen_w, screen_h, "breakOutTec");
 
     SetTargetFPS(60);
-
     srand((unsigned int)time(NULL));
 
     Game_startup(&bricks);
 
     while (!WindowShouldClose()) {
-
-        Game_update();
-
         BeginDrawing();
-        ClearBackground(BLUE);
 
-        Game_render();
+        if (menuActive) {
+            DrawMenu(); // Dibuja el menú si está activo
+        } else {
+            ClearBackground(BLUE);
+            Game_update();  // Actualiza el estado del juego
+            Game_render();  // Dibuja el juego
+        }
 
         EndDrawing();
     }

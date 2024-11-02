@@ -1,5 +1,5 @@
 CMakeFiles/Tarea4.dir/main.c.o: \
- /home/koki/Escritorio/pene/Tarea_4_Paradigmas/Tarea4/main.c \
+ /home/koki/Escritorio/Nueva\ carpeta/Tarea_4_Paradigmas/Tarea4/main.c \
  /usr/include/stdc-predef.h /usr/include/stdio.h \
  /usr/include/x86_64-linux-gnu/bits/libc-header-start.h \
  /usr/include/features.h /usr/include/features-time64.h \

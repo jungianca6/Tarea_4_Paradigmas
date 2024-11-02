@@ -1,4 +1,4 @@
-# Install script for directory: /home/koki/Escritorio/pene/Tarea_4_Paradigmas/Tarea4
+# Install script for directory: /home/koki/Escritorio/Nueva carpeta/Tarea_4_Paradigmas/Tarea4
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -50,5 +50,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/koki/Escritorio/pene/Tarea_4_Paradigmas/Tarea4/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/home/koki/Escritorio/Nueva carpeta/Tarea_4_Paradigmas/Tarea4/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

@@ -7,7 +7,7 @@ set(CMAKE_DEPENDS_GENERATOR "Unix Makefiles")
 # The top level Makefile was generated from the following files:
 set(CMAKE_MAKEFILE_DEPENDS
   "CMakeCache.txt"
-  "/home/koki/Escritorio/pene/Tarea_4_Paradigmas/Tarea4/CMakeLists.txt"
+  "/home/koki/Escritorio/Nueva carpeta/Tarea_4_Paradigmas/Tarea4/CMakeLists.txt"
   "CMakeFiles/3.29.6/CMakeCCompiler.cmake"
   "CMakeFiles/3.29.6/CMakeSystem.cmake"
   "/snap/clion/296/bin/cmake/linux/x64/share/cmake-3.29/Modules/CMakeCCompiler.cmake.in"
