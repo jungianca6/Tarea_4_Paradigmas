@@ -36,13 +36,13 @@ int selectedPartyIndex = 0; // Índice de la partida seleccionada
 
 void Spawn_bricks(BrickArray *brick_array) {
     Brick new_brick;
-    new_brick.base.w = 54.0f;
+    new_brick.base.w = 59.0f;
     new_brick.base.h = 17.0f;
     brick_array->size = 0; // Reset size for respawning
 
     for (int i = 0; i < 8; i++) {
         for (int j = 0; j < 8; j++) {
-            new_brick.base.rect.x = 15 + (i * 60);
+            new_brick.base.rect.x = 5 + (i * 61);
             new_brick.base.rect.y = 50 + (j * 26);
             new_brick.base.rect.width = new_brick.base.w;
             new_brick.base.rect.height = new_brick.base.h;
@@ -99,11 +99,16 @@ void PrintBricks(const BrickArray *brick_array) {
     }
 }
 
-
+void PrintBall(const struct Ball *ball) {
+    printf("Posición de la bola: (%.2f, %.2f)\n", ball->pos.x, ball->pos.y);
+    printf("Aceleración de la bola: (%.2f, %.2f)\n", ball->accel.x, ball->accel.y);
+    printf("Velocidad de la bola: %.2f\n", ball->vel);
+    printf("Radio de la bola: %.2f\n", ball->r);
+}
 
 void DrawMenu() {
     // Dibuja el fondo del menú
-    ClearBackground(DARKBLUE);
+    ClearBackground(BLACK);
 
     // Dibuja el título del juego
     DrawText("BREAKOUT", screen_w / 2 - MeasureText("BREAKOUT", 40) / 2, screen_h / 2 - 100, 40, RAYWHITE);
@@ -139,6 +144,10 @@ void DrawMenu() {
     }
 }
 
+void PrintBallState(const struct Ball *ball) {
+    printf("Bola - Posición: (%.2f, %.2f), Aceleración: (%.2f, %.2f), Velocidad: %.2f\n",
+           ball->pos.x, ball->pos.y, ball->accel.x, ball->accel.y, ball->vel);
+}
 
 void Game_startup(BrickArray *brick_array) {
 
@@ -148,7 +157,7 @@ void Game_startup(BrickArray *brick_array) {
     UnloadImage(background_img);
 
     //Codigo que carga a memoria datos del jugador
-    player.rect = (Rectangle) {250.0f, 540.0f, 75.0f, 4.0f};
+    player.rect = (Rectangle) {212.0f, 540.0f, 75.0f, 4.0f};
     player.velocity = 450.0f;
     player.score = 0;
     player.w = 75.0f;
@@ -157,11 +166,11 @@ void Game_startup(BrickArray *brick_array) {
     player.level = 1;
 
     //Codigo que carga a memoria datos de la bola
-    ball.accel = (Vector2) {1.0f, -1.0f};
+    ball.accel = (Vector2) {0.0f, 1.0f};
     ball.r = 9.0f;
-    ball.pos = (Vector2) {350, 500};
-    ball.vel = 300.0f;
-
+    ball.pos = (Vector2) {250, 300};
+    ball.vel = 270.0f;
+    PrintBall(&ball);
     //Codigo que carga la lista de bloques
     brick_array->size = 0;
     brick_array->capacity = 64; // Initial capacity (adjust as needed)
@@ -176,7 +185,7 @@ void Game_startup(BrickArray *brick_array) {
 
 void Game_update() {
     float framet = GetFrameTime();
-
+    static int printCounter = 0;  // Contador para controlar la impresión
     if (gg) return;
 
     // Control del jugador sobre la barra de juego.
@@ -191,7 +200,13 @@ void Game_update() {
     ball.pos.x = ball.pos.x + ((ball.vel * ball.accel.x) * framet);
     ball.pos.y = ball.pos.y + ((ball.vel * ball.accel.y) * framet);
 
-    // Colisión entre la bola y los bloques
+    printCounter++;
+
+    // Solo imprime cada 30 fotogramas
+    if (printCounter >= 30) {
+        PrintBallState(&ball);
+        printCounter = 0;  // Reinicia el contador
+    }    // Colisión entre la bola y los bloques
 // Colisión entre la bola y los bloques
     for (int i = 0; i < bricks.size; i++) {
         Brick brick = bricks.data[i];
@@ -207,7 +222,7 @@ void Game_update() {
 
             // Verifica si el bloque tiene un poder y actúa según el poder
             const float MAX_SPEED = 450.0f;  // Velocidad máxima
-            const float MIN_SPEED = 150.0f;   // Velocidad mínima
+            const float MIN_SPEED = 220.0f;   // Velocidad mínima
 
             if (brick.power == INCREASE_LENGTH) {
                 player.w *= 2;
@@ -232,10 +247,12 @@ void Game_update() {
                     ball.vel = MIN_SPEED;
                 }
             }
-            printf("Velocidad de la bola: %.2f\n", ball.vel);  // C para C++
+
 
             // Imprime mensaje de destrucción del bloque
-            printf("El bloque se destruyó en la posición: (x: %.2f, y: %.2f)\n", brick.base.rect.x, brick.base.rect.y);
+            int column = (brick.base.rect.x - 15) / 60;  // Calcula la columna
+            int row = (brick.base.rect.y - 50) / 26;     // Calcula la fila
+            printf("El bloque se destruyó en la fila %d, columna %d\n", row, column); // Imprime fila y columna
             // Eliminar el bloque
             for (int j = i; j < bricks.size - 1; j++) {
                 bricks.data[j] = bricks.data[j + 1];
@@ -250,9 +267,9 @@ void Game_update() {
     //Chequeo de si todos los bloues estan destruidos, si ese es el caso, se aumenta el nivel, se reestablecen los bloques y se aumenta la velocidad de la bola.
     if (bricks.size == 0) {
         player.level++;
-        ball.vel *= 1.2f;
+        ball.vel *= 1.0f;
         ball.accel = (Vector2) {1.0f, -1.0f};
-        ball.pos = (Vector2) {350, 500};
+        ball.pos = (Vector2) {250, 300};
         Spawn_bricks(&bricks);
     }
 
@@ -267,8 +284,8 @@ void Game_update() {
     //Chequeo de si la bola se va de la pantalla abajo para posteriormente volver a jugar pero con una vida menos.
     if (ball.pos.y > screen_h) {
         player.lives--;
-        ball.pos = (Vector2){350, 500};
-        ball.accel = (Vector2){1.0f, -1.0f};
+        ball.pos = (Vector2){250, 300};
+        ball.accel = (Vector2){0.0f, 1.0f};
         if (player.lives <= 0) {
             gg = true;
         }
@@ -417,12 +434,12 @@ int main(void) {
         if (menuActive == 0) {
             DrawMenu(); // Dibuja el menú si está activo
         } else if (menuActive == 1){
-            ClearBackground(BLUE);
+            ClearBackground(BLACK);
             Game_update();  // Actualiza el estado del juego
             Game_render();  // Dibuja el juego
         } else if (menuActive == 2) {
             send_register_message(sock, "Spectator");
-            ClearBackground(BLUE);
+            ClearBackground(BLACK);
             // Dibujar la lista de partidas disponibles
             if (partyList.count > 0) {
                 DrawText("Partidas disponibles:", 10, 80, 20, DARKGRAY);
