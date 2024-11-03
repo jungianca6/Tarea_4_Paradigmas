@@ -63,6 +63,12 @@ public class MessageHandler {
                 case "choice": // Si el tipo es "choice"
                     handleChoiceMessage(jsonNode); // Maneja el mensaje de elección
                     break;
+                case "player_data": // Si el tipo es "player_data"
+                    handlePlayerMessage(jsonNode); // Maneja el mensaje de elección
+                    break;
+                case "bricks_data": // Si el tipo es "bricks_data"
+                    handleBrickMessage(jsonNode); // Maneja el mensaje de un bloque destruido
+                    break;
                 default: // Si el tipo de mensaje es desconocido
                     System.out.println("Tipo de mensaje desconocido: " + messageType);
             }
@@ -141,6 +147,24 @@ public class MessageHandler {
      * @param jsonNode El nodo JSON que representa el mensaje.
      */
     private void handleChoiceMessage(JsonNode jsonNode) {
+        try {
+            // Convierte el nodo JSON en un objeto Party_Choice_Data
+            Party_Choice_Data choiceData = objectMapper.treeToValue(jsonNode, Party_Choice_Data.class);
+            // Crea una nueva partida con la información de elección
+            Partida partida = new Partida(UUID.fromString(choiceData.getId_partida()), choiceData.getIp(), choiceData.getPuerto());
+            updateClientChoice(partida); // Actualiza la elección del cliente
+        } catch (Exception e) {
+            // Maneja excepciones al procesar la elección de la partida
+            System.err.println("Error procesando la elección de la partida: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Maneja el mensaje de elección del cliente para seleccionar un juego.
+     *
+     * @param jsonNode El nodo JSON que representa el mensaje.
+     */
+    private void handlePlayerMessage(JsonNode jsonNode) {
         try {
             // Convierte el nodo JSON en un objeto Party_Choice_Data
             Party_Choice_Data choiceData = objectMapper.treeToValue(jsonNode, Party_Choice_Data.class);
