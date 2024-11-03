@@ -37,13 +37,13 @@ int selectedPartyIndex = 0; // Índice de la partida seleccionada
 
 void Spawn_bricks(BrickArray *brick_array) {
     Brick new_brick;
-    new_brick.base.w = 54.0f;
+    new_brick.base.w = 59.0f;
     new_brick.base.h = 17.0f;
     brick_array->size = 0; // Reset size for respawning
 
     for (int i = 0; i < 8; i++) {
         for (int j = 0; j < 8; j++) {
-            new_brick.base.rect.x = 15 + (i * 60);
+            new_brick.base.rect.x = 5 + (i * 61);
             new_brick.base.rect.y = 50 + (j * 26);
             new_brick.base.rect.width = new_brick.base.w;
             new_brick.base.rect.height = new_brick.base.h;
@@ -149,7 +149,7 @@ void Game_startup(BrickArray *brick_array) {
     UnloadImage(background_img);
 
     //Codigo que carga a memoria datos del jugador
-    player.rect = (Rectangle) {250.0f, 540.0f, 75.0f, 4.0f};
+    player.rect = (Rectangle) {212.0f, 540.0f, 75.0f, 4.0f};
     player.velocity = 450.0f;
     player.score = 0;
     player.w = 75.0f;
@@ -158,10 +158,10 @@ void Game_startup(BrickArray *brick_array) {
     player.level = 1;
 
     //Codigo que carga a memoria datos de la bola
-    ball.accel = (Vector2) {1.0f, -1.0f};
+    ball.accel = (Vector2) {0.0f, 1.0f};
     ball.r = 9.0f;
-    ball.pos = (Vector2) {350, 500};
-    ball.vel = 300.0f;
+    ball.pos = (Vector2) {250, 300};
+    ball.vel = 270.0f;
 
     //Codigo que carga la lista de bloques
     brick_array->size = 0;
@@ -208,7 +208,7 @@ void Game_update() {
 
             // Verifica si el bloque tiene un poder y actúa según el poder
             const float MAX_SPEED = 450.0f;  // Velocidad máxima
-            const float MIN_SPEED = 200.0f;   // Velocidad mínima
+            const float MIN_SPEED = 220.0f;   // Velocidad mínima
 
             if (brick.power == INCREASE_LENGTH) {
                 player.w *= 2;
@@ -255,9 +255,9 @@ void Game_update() {
     //Chequeo de si todos los bloues estan destruidos, si ese es el caso, se aumenta el nivel, se reestablecen los bloques y se aumenta la velocidad de la bola.
     if (bricks.size == 0) {
         player.level++;
-        ball.vel *= 1.2f;
+        ball.vel *= 1.0f;
         ball.accel = (Vector2) {1.0f, -1.0f};
-        ball.pos = (Vector2) {350, 500};
+        ball.pos = (Vector2) {250, 300};
         Spawn_bricks(&bricks);
     }
 
@@ -272,8 +272,8 @@ void Game_update() {
     //Chequeo de si la bola se va de la pantalla abajo para posteriormente volver a jugar pero con una vida menos.
     if (ball.pos.y > screen_h) {
         player.lives--;
-        ball.pos = (Vector2){350, 500};
-        ball.accel = (Vector2){1.0f, -1.0f};
+        ball.pos = (Vector2){250, 300};
+        ball.accel = (Vector2){0.0f, 1.0f};
         if (player.lives <= 0) {
             gg = true;
         }
