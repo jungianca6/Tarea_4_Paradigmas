@@ -8,7 +8,7 @@
 #include <cjson/cJSON.h>
 
 extern PartyList partyList; // Lista global de partidas
-
+char* tipo_jugador = "Player";
 
 void receive_message(int socket_fd) {
     char buffer[1024]; // Buffer para almacenar la respuesta
@@ -84,7 +84,13 @@ void receive_message(int socket_fd) {
 
         // Libera la memoria
         free(data_parties.parties);
+    } else if (tipo_jugador == "Spectator") {
+        if (strcmp(json_type_message->valuestring, "data_bricks") == 0) {
+
+        }
+
     }
+
     else {
         printf("Error: tipo de mensaje desconocido.\n");
     }
@@ -92,7 +98,6 @@ void receive_message(int socket_fd) {
     // Limpiar
     cJSON_Delete(json);
 }
-
 
 void update_party_list(DataParties *data_parties) {
     // Actualiza la lista global de partidas
@@ -109,6 +114,68 @@ void update_party_list(DataParties *data_parties) {
     for (int i = 0; i < partyList.count; i++) {
         printf("ID: %s, IP: %s, Puerto: %d\n", partyList.parties[i].id_partida, partyList.parties[i].ip, partyList.parties[i].puerto);
     }
+}
+
+void send_player_info(int socket_fd, int posx, int posy, float ancho, float alto) {
+    DataPlayer data_player;
+    data_player.posx = posx;
+    data_player.posy = posy;
+    data_player.ancho = ancho;
+    data_player.alto = alto;
+
+    // Serializar la estructura a JSON
+    cJSON *json = cJSON_CreateObject();
+    cJSON_AddStringToObject(json, "type_message", "player_data"); // Añadir tipo de mensaje
+    cJSON_AddNumberToObject(json, "posx", data_player.posx); // Añadir tipo
+    cJSON_AddNumberToObject(json, "posy", data_player.posy); // Añadir tipo
+    cJSON_AddNumberToObject(json, "ancho", data_player.ancho); // Añadir tipo
+    cJSON_AddNumberToObject(json, "largo", data_player.alto); // Añadir tipo
+
+    char *jsonString = cJSON_PrintUnformatted(json);
+    printf("Enviando JSON de player: %s\n", jsonString);
+
+    size_t jsonLength = strlen(jsonString);
+    char *jsonWithNewline = malloc(jsonLength + 2); // +2 para '\n' y '\0'
+    sprintf(jsonWithNewline, "%s\n", jsonString);
+
+    ssize_t bytes_sent = send(socket_fd, jsonWithNewline, strlen(jsonWithNewline), 0);
+    if (bytes_sent < 0) {
+        perror("Error sending register message");
+    }
+
+    cJSON_Delete(json);
+    free(jsonString);
+    free(jsonWithNewline);
+}
+
+void send_bricks_info(int socket_fd, int column, int row, const char* poder) {
+    DataBricks data_bricks;
+    data_bricks.column = column;
+    data_bricks.row = row;
+    strcpy(data_bricks.poder, poder);
+
+    // Serializar la estructura a JSON
+    cJSON *json = cJSON_CreateObject();
+    cJSON_AddStringToObject(json, "type_message", "bricks_data"); // Añadir tipo de mensaje
+    cJSON_AddNumberToObject(json, "column", data_bricks.column); // Añadir tipo
+    cJSON_AddNumberToObject(json, "row", data_bricks.row); // Añadir tipo
+    cJSON_AddStringToObject(json, "poder", data_bricks.poder); // Añadir tipo
+
+    char *jsonString = cJSON_PrintUnformatted(json);
+    printf("Enviando JSON de player: %s\n", jsonString);
+
+    size_t jsonLength = strlen(jsonString);
+    char *jsonWithNewline = malloc(jsonLength + 2); // +2 para '\n' y '\0'
+    sprintf(jsonWithNewline, "%s\n", jsonString);
+
+    ssize_t bytes_sent = send(socket_fd, jsonWithNewline, strlen(jsonWithNewline), 0);
+    if (bytes_sent < 0) {
+        perror("Error sending register message");
+    }
+
+    cJSON_Delete(json);
+    free(jsonString);
+    free(jsonWithNewline);
 }
 
 void send_register_message(int socket_fd, const char* type) {
@@ -203,7 +270,6 @@ void send_choice_message(int socket_fd, const char* party_id, const char* ip, in
     free(jsonString); // Liberar la cadena JSON
     cJSON_Delete(json); // Liberar el objeto JSON
 }
-
 
 // Function to initialize the socket
 int initialize_socket(int *sock, struct sockaddr_in *server_addr, int port, const char *ip_address) {
