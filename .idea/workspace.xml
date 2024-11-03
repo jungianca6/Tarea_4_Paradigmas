@@ -23,16 +23,13 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="75554750-353e-47f0-ae30-1498d22c2337" name="Changes" comment="before merge">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Tarea4/Client/client.c" beforeDir="false" afterPath="$PROJECT_DIR$/Tarea4/Client/client.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Tarea4/cmake-build-debug/.cmake/api/v1/reply/index-2024-11-02T21-40-02-0709.json" beforeDir="false" />
+    <list default="true" id="75554750-353e-47f0-ae30-1498d22c2337" name="Changes" comment="Se anadio la opcio de selecionar partida desde el cliente">
       <change beforePath="$PROJECT_DIR$/Tarea4/cmake-build-debug/.ninja_deps" beforeDir="false" afterPath="$PROJECT_DIR$/Tarea4/cmake-build-debug/.ninja_deps" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Tarea4/cmake-build-debug/.ninja_log" beforeDir="false" afterPath="$PROJECT_DIR$/Tarea4/cmake-build-debug/.ninja_log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tarea4/cmake-build-debug/CMakeFiles/Tarea4.dir/Client/client.c.o" beforeDir="false" afterPath="$PROJECT_DIR$/Tarea4/cmake-build-debug/CMakeFiles/Tarea4.dir/Client/client.c.o" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Tarea4/cmake-build-debug/CMakeFiles/Tarea4.dir/main.c.o" beforeDir="false" afterPath="$PROJECT_DIR$/Tarea4/cmake-build-debug/CMakeFiles/Tarea4.dir/main.c.o" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Tarea4/cmake-build-debug/Tarea4" beforeDir="false" afterPath="$PROJECT_DIR$/Tarea4/cmake-build-debug/Tarea4" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Tarea4/cmake-build-debug/Testing/Temporary/LastTest.log" beforeDir="false" afterPath="$PROJECT_DIR$/Tarea4/cmake-build-debug/Testing/Temporary/LastTest.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Tarea4/main.c" beforeDir="false" afterPath="$PROJECT_DIR$/Tarea4/main.c" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -139,7 +136,7 @@
       <workItem from="1730434794208" duration="3432000" />
       <workItem from="1730580000331" duration="1193000" />
       <workItem from="1730581735486" duration="4541000" />
-      <workItem from="1730593665016" duration="8250000" />
+      <workItem from="1730593665016" duration="8554000" />
     </task>
     <task id="LOCAL-00001" summary="commit">
       <option name="closed" value="true" />
@@ -245,7 +242,15 @@
       <option name="project" value="LOCAL" />
       <updated>1730616271731</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="Se anadio la opcio de selecionar partida desde el cliente">
+      <option name="closed" value="true" />
+      <created>1730624255398</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1730624255398</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -293,7 +298,8 @@
     <MESSAGE value="Union de codigo" />
     <MESSAGE value="Implementacion de la conexion del juego con el server" />
     <MESSAGE value="before merge" />
-    <option name="LAST_COMMIT_MESSAGE" value="before merge" />
+    <MESSAGE value="Se anadio la opcio de selecionar partida desde el cliente" />
+    <option name="LAST_COMMIT_MESSAGE" value="Se anadio la opcio de selecionar partida desde el cliente" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
