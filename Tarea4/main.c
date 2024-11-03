@@ -6,10 +6,8 @@
 #include "./Client/data.h"
 #include "./Client/client.h"
 #include "./Config/config.h"
-#define MAX_INPUT_SIZE 256
 #include <tgmath.h>
 #include <time.h>
-
 #include "Components/ball.h"
 #include "Components/brick.h"
 #include "Components/brick_array.h"
@@ -18,6 +16,7 @@
 #include "Components/brick_factory.h"
 #include "Components/player.h"
 
+#define MAX_INPUT_SIZE 256
 //Variables que contienen las dimensiones de la pantalla del juego.
 const int screen_w = 500;
 const int screen_h = 600;

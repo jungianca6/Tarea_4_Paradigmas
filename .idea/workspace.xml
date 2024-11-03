@@ -23,7 +23,7 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="75554750-353e-47f0-ae30-1498d22c2337" name="Changes" comment="Union de codigo">
+    <list default="true" id="75554750-353e-47f0-ae30-1498d22c2337" name="Changes" comment="Implementacion de la conexion del juego con el server">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Tarea4/cmake-build-debug/.ninja_deps" beforeDir="false" afterPath="$PROJECT_DIR$/Tarea4/cmake-build-debug/.ninja_deps" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Tarea4/cmake-build-debug/.ninja_log" beforeDir="false" afterPath="$PROJECT_DIR$/Tarea4/cmake-build-debug/.ninja_log" afterDir="false" />
@@ -55,12 +55,12 @@
     &quot;assignee&quot;: &quot;SpaceBa13&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings">{
-  &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;https://github.com/jungianca6/Tarea_4_Paradigmas.git&quot;,
-    &quot;accountId&quot;: &quot;6306ae4f-452d-4fbc-ab85-c8fa0c32eafb&quot;
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/jungianca6/Tarea_4_Paradigmas.git",
+    "accountId": "be9b1a41-7c6a-42e6-97c3-a2fc1087ef23"
   }
-}</component>
+}]]></component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/Tarea4/Config/Config.c" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Tarea4/Config/Config.h" root0="FORCE_HIGHLIGHTING" />
@@ -109,12 +109,12 @@
     </key>
   </component>
   <component name="RunManager">
-    <configuration default="true" type="CLionExternalRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true">
+    <configuration name="Tarea4" type="CMakeRunConfiguration" factoryName="Application" singleton="false" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Tarea4" TARGET_NAME="Tarea4" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="Tarea4" RUN_TARGET_NAME="Tarea4">
       <method v="2">
-        <option name="CLION.EXTERNAL.BUILD" enabled="true" />
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="Tarea4" type="CMakeRunConfiguration" factoryName="Application" singleton="false" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Tarea4" TARGET_NAME="Tarea4" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="Tarea4" RUN_TARGET_NAME="Tarea4">
+    <configuration default="true" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
@@ -136,7 +136,8 @@
       <workItem from="1730267082496" duration="608000" />
       <workItem from="1730434794208" duration="3432000" />
       <workItem from="1730580000331" duration="1193000" />
-      <workItem from="1730581735486" duration="2498000" />
+      <workItem from="1730581735486" duration="4541000" />
+      <workItem from="1730593665016" duration="691000" />
     </task>
     <task id="LOCAL-00001" summary="commit">
       <option name="closed" value="true" />
@@ -218,7 +219,23 @@
       <option name="project" value="LOCAL" />
       <updated>1730583665438</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="Implementacion de la conexion del juego con el server">
+      <option name="closed" value="true" />
+      <created>1730584382847</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1730584382847</updated>
+    </task>
+    <task id="LOCAL-00012" summary="Implementacion de la conexion del juego con el server">
+      <option name="closed" value="true" />
+      <created>1730585500928</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1730585500928</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -264,7 +281,8 @@
     <MESSAGE value="commit :v" />
     <MESSAGE value="a" />
     <MESSAGE value="Union de codigo" />
-    <option name="LAST_COMMIT_MESSAGE" value="Union de codigo" />
+    <MESSAGE value="Implementacion de la conexion del juego con el server" />
+    <option name="LAST_COMMIT_MESSAGE" value="Implementacion de la conexion del juego con el server" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
