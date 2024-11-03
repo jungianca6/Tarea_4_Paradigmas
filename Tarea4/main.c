@@ -100,11 +100,16 @@ void PrintBricks(const BrickArray *brick_array) {
     }
 }
 
-
+void PrintBall(const struct Ball *ball) {
+    printf("Posición de la bola: (%.2f, %.2f)\n", ball->pos.x, ball->pos.y);
+    printf("Aceleración de la bola: (%.2f, %.2f)\n", ball->accel.x, ball->accel.y);
+    printf("Velocidad de la bola: %.2f\n", ball->vel);
+    printf("Radio de la bola: %.2f\n", ball->r);
+}
 
 void DrawMenu() {
     // Dibuja el fondo del menú
-    ClearBackground(DARKBLUE);
+    ClearBackground(BLACK);
 
     // Dibuja el título del juego
     DrawText("BREAKOUT", screen_w / 2 - MeasureText("BREAKOUT", 40) / 2, screen_h / 2 - 100, 40, RAYWHITE);
@@ -140,6 +145,10 @@ void DrawMenu() {
     }
 }
 
+void PrintBallState(const struct Ball *ball) {
+    printf("Bola - Posición: (%.2f, %.2f), Aceleración: (%.2f, %.2f), Velocidad: %.2f\n",
+           ball->pos.x, ball->pos.y, ball->accel.x, ball->accel.y, ball->vel);
+}
 
 void Game_startup(BrickArray *brick_array) {
 
@@ -162,7 +171,7 @@ void Game_startup(BrickArray *brick_array) {
     ball.r = 9.0f;
     ball.pos = (Vector2) {250, 300};
     ball.vel = 270.0f;
-
+    PrintBall(&ball);
     //Codigo que carga la lista de bloques
     brick_array->size = 0;
     brick_array->capacity = 64; // Initial capacity (adjust as needed)
@@ -177,7 +186,7 @@ void Game_startup(BrickArray *brick_array) {
 
 void Game_update() {
     float framet = GetFrameTime();
-
+    static int printCounter = 0;  // Contador para controlar la impresión
     if (gg) return;
 
     // Control del jugador sobre la barra de juego.
@@ -192,7 +201,13 @@ void Game_update() {
     ball.pos.x = ball.pos.x + ((ball.vel * ball.accel.x) * framet);
     ball.pos.y = ball.pos.y + ((ball.vel * ball.accel.y) * framet);
 
-    // Colisión entre la bola y los bloques
+    printCounter++;
+
+    // Solo imprime cada 30 fotogramas
+    if (printCounter >= 30) {
+        PrintBallState(&ball);
+        printCounter = 0;  // Reinicia el contador
+    }    // Colisión entre la bola y los bloques
 // Colisión entre la bola y los bloques
     for (int i = 0; i < bricks.size; i++) {
         Brick brick = bricks.data[i];
@@ -233,8 +248,6 @@ void Game_update() {
                     ball.vel = MIN_SPEED;
                 }
             }
-            printf("Velocidad de la bola: %.2f\n", ball.vel);  // C para C++
-            printf("tamaño de la paleta: %.2f\n", player.w);  // C para C++
 
 
             // Imprime mensaje de destrucción del bloque
@@ -422,12 +435,12 @@ int main(void) {
         if (menuActive == 0) {
             DrawMenu(); // Dibuja el menú si está activo
         } else if (menuActive == 1){
-            ClearBackground(BLUE);
+            ClearBackground(BLACK);
             Game_update();  // Actualiza el estado del juego
             Game_render();  // Dibuja el juego
         } else if (menuActive == 2) {
             send_register_message(sock, "Spectator");
-            ClearBackground(BLUE);
+            ClearBackground(BLACK);
             // Dibujar la lista de partidas disponibles
             if (partyList.count > 0) {
                 DrawText("Partidas disponibles:", 10, 80, 20, DARKGRAY);
