@@ -145,9 +145,10 @@ void DrawMenu() {
 }
 
 void PrintBallState(const struct Ball *ball) {
-    printf("Bola - Posición: (%.2f, %.2f), Aceleración: (%.2f, %.2f), Velocidad: %.2f\n",
-           ball->pos.x, ball->pos.y, ball->accel.x, ball->accel.y, ball->vel);
+    printf("Bola %d - Posición: (%.2f, %.2f), Aceleración: (%.2f, %.2f), Velocidad: %.2f\n",
+           ball->id, ball->pos.x, ball->pos.y, ball->accel.x, ball->accel.y, ball->vel);
 }
+
 
 void Game_startup(BrickArray *brick_array) {
 
