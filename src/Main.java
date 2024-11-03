@@ -11,117 +11,153 @@ import Observer.Observer;
 import Fabrica_Bloques.*;
 import Bloques.*;
 
-
 public class Main implements Observer {
     private ConcreteBloqueFactory bloqueFactory;
     private JList<String> clientList;
     private DefaultListModel<String> clientListModel;
     private Server server;
     private JComboBox<String> blockTypeDropdown;
-    private JComboBox<String> colorDropdown;
-    private JComboBox<Integer> levelDropdown;
-    private JTextField scoreField;
-    private JLabel selectedClientLabel; // JLabel para mostrar el cliente seleccionado
+    private JComboBox<String> levelDropdown;
+    private JTextField filaField;
+    private JTextField columnaField;
+    private JTextField puntajeField;
+    private JTextArea selectedClientTextArea;
+    private JButton startServerButton; // Botón de iniciar servidor
 
     public Main() {
-        // Inicializar la fábrica de bloques
         this.bloqueFactory = new ConcreteBloqueFactory();
         JFrame frame = new JFrame("BreakOutTEC Server");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(800, 600);
-        frame.setLayout(new GridBagLayout());
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(10, 10, 10, 10); // Espaciado entre componentes
-        gbc.fill = GridBagConstraints.HORIZONTAL;
+        frame.setSize(700, 500); // Tamaño de ventana ajustado
+        frame.setLayout(new BorderLayout());
 
-        // Botón para iniciar servidor
-        JButton startServerButton = new JButton("Iniciar Servidor");
-        startServerButton.addActionListener(e -> startServer());
+        // Panel para la lista de clientes
+        JPanel clientPanel = new JPanel(new BorderLayout());
+        clientPanel.setBorder(BorderFactory.createTitledBorder("Clientes Conectados"));
 
-        // Lista de clientes conectados
         clientListModel = new DefaultListModel<>();
         clientList = new JList<>(clientListModel);
         JScrollPane clientScrollPane = new JScrollPane(clientList);
-        clientScrollPane.setPreferredSize(new Dimension(300, 200)); // Ajustar tamaño del JScrollPane
+        clientScrollPane.setPreferredSize(new Dimension(300, 450));
+        clientPanel.add(clientScrollPane, BorderLayout.CENTER);
 
+        startServerButton = new JButton("Iniciar Servidor");
+        startServerButton.addActionListener(e -> startServer());
+        clientPanel.add(startServerButton, BorderLayout.SOUTH);
+
+        frame.add(clientPanel, BorderLayout.WEST);
+
+        // Panel para el cliente seleccionado
+        JPanel selectedClientPanel = new JPanel(new BorderLayout());
+        selectedClientPanel.setBorder(BorderFactory.createTitledBorder("Cliente Seleccionado"));
+        selectedClientTextArea = new JTextArea("Ninguno");
+        selectedClientTextArea.setEditable(false);
+        selectedClientTextArea.setLineWrap(true);
+        selectedClientTextArea.setWrapStyleWord(true);
+        JScrollPane selectedClientScrollPane = new JScrollPane(selectedClientTextArea);
+        selectedClientScrollPane.setPreferredSize(new Dimension(300, 100));
+        selectedClientPanel.add(selectedClientScrollPane, BorderLayout.CENTER);
+        frame.add(selectedClientPanel, BorderLayout.CENTER);
+
+        // Panel para agrupar nivel y puntaje
+        JPanel scorePanel = new JPanel(new GridBagLayout());
+        scorePanel.setBorder(BorderFactory.createTitledBorder("Nivel y Puntaje"));
+
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(10, 10, 5, 10); // Espaciado ajustado
+
+        // Nivel
         gbc.gridx = 0;
         gbc.gridy = 0;
-        frame.add(new JLabel("Clientes conectados:"), gbc);
+        scorePanel.add(new JLabel("Nivel:"), gbc);
 
         gbc.gridx = 1;
-        gbc.gridy = 0;
-        frame.add(clientScrollPane, gbc); // Añadir JList dentro de JScrollPane
+        levelDropdown = new JComboBox<>(new String[]{"Rojo", "Naranja", "Amarillo", "Verde"});
+        scorePanel.add(levelDropdown, gbc);
 
-        gbc.gridx = 1;
+        // Puntaje
+        gbc.gridx = 0;
         gbc.gridy = 1;
-        frame.add(startServerButton, gbc);
+        scorePanel.add(new JLabel("Puntaje:"), gbc);
 
-        // Menú desplegable para seleccionar el tipo de bloque
-        JLabel blockTypeLabel = new JLabel("Tipo de bloque:");
+        gbc.gridx = 1;
+        puntajeField = new JTextField(10);
+        scorePanel.add(puntajeField, gbc);
+
+        // Botón para modificar puntaje
+        gbc.gridx = 0;
+        gbc.gridy = 2;
+        gbc.gridwidth = 2; // Abarcar ambas columnas
+        JButton modifyScoreButton = new JButton("Modificar Puntaje");
+        modifyScoreButton.addActionListener(e -> modificarPuntaje());
+        scorePanel.add(modifyScoreButton, gbc);
+
+        // Panel para la creación de bloques
+        JPanel blockPanel = new JPanel(new GridBagLayout());
+        blockPanel.setBorder(BorderFactory.createTitledBorder("Crear Bloque"));
+
+        // Tipo de bloque
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.gridwidth = 1;
+        blockPanel.add(new JLabel("Tipo de bloque:"), gbc);
+
+        gbc.gridx = 1;
         blockTypeDropdown = new JComboBox<>(new String[]{"Normal", "MasVelocidad", "MenosVelocidad"});
+        blockPanel.add(blockTypeDropdown, gbc);
 
+        // Fila
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        blockPanel.add(new JLabel("Fila:"), gbc);
+
+        gbc.gridx = 1;
+        filaField = new JTextField(10);
+        blockPanel.add(filaField, gbc);
+
+        // Columna
         gbc.gridx = 0;
         gbc.gridy = 2;
-        frame.add(blockTypeLabel, gbc);
+        blockPanel.add(new JLabel("Columna:"), gbc);
 
         gbc.gridx = 1;
-        gbc.gridy = 2;
-        frame.add(blockTypeDropdown, gbc);
-
-        // Menú desplegable para seleccionar el color
-        JLabel colorLabel = new JLabel("Color:");
-        colorDropdown = new JComboBox<>(new String[]{"Rojo", "Azul", "Amarillo", "Naranja", "Morado"});
-
-        gbc.gridx = 0;
-        gbc.gridy = 3;
-        frame.add(colorLabel, gbc);
-
-        gbc.gridx = 1;
-        gbc.gridy = 3;
-        frame.add(colorDropdown, gbc);
-
-        // Menú desplegable para seleccionar el nivel
-        JLabel levelLabel = new JLabel("Nivel:");
-        levelDropdown = new JComboBox<>(new Integer[]{1, 2, 3, 4});
-
-        gbc.gridx = 0;
-        gbc.gridy = 4;
-        frame.add(levelLabel, gbc);
-
-        gbc.gridx = 1;
-        gbc.gridy = 4;
-        frame.add(levelDropdown, gbc);
-
-        // Campo para ingresar el puntaje del bloque
-        JLabel scoreLabel = new JLabel("Puntaje:");
-        scoreField = new JTextField();
-
-        gbc.gridx = 0;
-        gbc.gridy = 5;
-        frame.add(scoreLabel, gbc);
-
-        gbc.gridx = 1;
-        gbc.gridy = 5;
-        frame.add(scoreField, gbc);
+        columnaField = new JTextField(10);
+        blockPanel.add(columnaField, gbc);
 
         // Botón para crear el bloque
+        gbc.gridx = 0;
+        gbc.gridy = 3;
+        gbc.gridwidth = 2; // Abarcar ambas columnas
         JButton createBlockButton = new JButton("Crear Bloque");
         createBlockButton.addActionListener(e -> crearBloque());
+        blockPanel.add(createBlockButton, gbc);
 
-        gbc.gridx = 1;
-        gbc.gridy = 6;
-        frame.add(createBlockButton, gbc);
+        // Agregar los paneles al marco
+        JPanel mainPanel = new JPanel(new GridLayout(1, 2, 10, 10)); // Panel principal para organizar
+        mainPanel.add(scorePanel);
+        mainPanel.add(blockPanel);
+        frame.add(mainPanel, BorderLayout.SOUTH);
 
-        // JLabel para mostrar el cliente seleccionado
-        selectedClientLabel = new JLabel("Cliente seleccionado: Ninguno");
-        gbc.gridx = 0;
-        gbc.gridy = 7;
-        frame.add(selectedClientLabel, gbc);
-
-        // Agregar listener para actualizar la etiqueta cuando se selecciona un cliente
+        // Listener para mostrar el cliente seleccionado
         clientList.addListSelectionListener(e -> mostrarClienteSeleccionado());
 
         frame.setVisible(true);
+        frame.setLocationRelativeTo(null); // Centrar la ventana
+    }
+
+    private void modificarPuntaje() {
+        String nivel = (String) levelDropdown.getSelectedItem();
+        String nuevoPuntajeStr = JOptionPane.showInputDialog(null, "Ingrese el nuevo puntaje para el nivel " + nivel + ":");
+
+        if (nuevoPuntajeStr != null) {
+            try {
+                int nuevoPuntaje = Integer.parseInt(nuevoPuntajeStr);
+                puntajeField.setText(String.valueOf(nuevoPuntaje)); // Actualiza el campo de puntaje
+                JOptionPane.showMessageDialog(null, "Puntaje del nivel " + nivel + " modificado a: " + nuevoPuntaje);
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(null, "El puntaje debe ser un número entero.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
     }
 
     private void startServer() {
@@ -141,36 +177,45 @@ public class Main implements Observer {
             return;
         }
 
+        // Deshabilitar el botón de iniciar servidor
+        startServerButton.setEnabled(false);
+
         server = new Server(ipAddress, port);
         server.addObserver(this); // Registra Main como observador
         new Thread(() -> server.start()).start();
     }
 
     private void crearBloque() {
-        // Obtener los valores ingresados
         String tipoBloque = (String) blockTypeDropdown.getSelectedItem();
-        String color = (String) colorDropdown.getSelectedItem();
-        int nivel = (Integer) levelDropdown.getSelectedItem();
-        int puntaje;
+        String nivel = (String) levelDropdown.getSelectedItem();
+        int fila, columna, puntaje;
 
         try {
-            puntaje = Integer.parseInt(scoreField.getText());
+            fila = Integer.parseInt(filaField.getText());
+            columna = Integer.parseInt(columnaField.getText());
+            puntaje = Integer.parseInt(puntajeField.getText());
         } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(null, "El puntaje debe ser un número entero.", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Fila, columna y puntaje deben ser números enteros.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // Verificar que la fila y la columna estén en el rango permitido (0 a 10)
+        if (fila < 0 || fila > 10 || columna < 0 || columna > 10) {
+            JOptionPane.showMessageDialog(null, "Fila y columna deben estar entre 0 y 10.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
         // Crear el bloque utilizando la fábrica
-        AbstractBloque bloque = bloqueFactory.crearBloque(tipoBloque, color, puntaje, nivel);
-        JOptionPane.showMessageDialog(null, "Bloque creado: " + bloque, "Bloque Creado", JOptionPane.INFORMATION_MESSAGE);
+        AbstractBloque bloque = bloqueFactory.crearBloque(tipoBloque, fila, columna);
+        JOptionPane.showMessageDialog(null, "Bloque creado: " + bloque + ", Nivel: " + nivel + ", Puntaje: " + puntaje, "Bloque Creado", JOptionPane.INFORMATION_MESSAGE);
     }
 
     private void mostrarClienteSeleccionado() {
         String selectedClient = clientList.getSelectedValue();
         if (selectedClient != null) {
-            selectedClientLabel.setText("Cliente seleccionado: " + selectedClient);
+            selectedClientTextArea.setText("Cliente seleccionado:\n" + selectedClient);
         } else {
-            selectedClientLabel.setText("Cliente seleccionado: Ninguno");
+            selectedClientTextArea.setText("Ninguno");
         }
     }
 
@@ -179,17 +224,16 @@ public class Main implements Observer {
         SwingUtilities.invokeLater(() -> {
             clientListModel.clear(); // Limpia el modelo
             for (ClientInfo client : clients) {
-                // Solo añadir clientes de tipo "Player" o "Spectator"
-                String clientInfo = "Tipo: " + client.getClientType() + ", IP: " + client.getIpAddress() + ", Puerto: " + client.getPort();
-                if (client.getPartida() != null) { // Verificar si el cliente tiene una partida asociada
-                    clientInfo += ", Partida ID: " + client.getPartida().getId_partida(); // Agregar ID de partida
+                String clientInfo = "Tipo: " + client.getClientType() + ", ID: " + client.getClientId();
+                if (client.getPartida() != null) {
+                    clientInfo += ", Partida: " + client.getPartida().getId_partida();
                 }
-                clientListModel.addElement(clientInfo); // Añadir información del cliente
+                clientListModel.addElement(clientInfo);
             }
         });
     }
 
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> new Main());
+        SwingUtilities.invokeLater(Main::new);
     }
 }

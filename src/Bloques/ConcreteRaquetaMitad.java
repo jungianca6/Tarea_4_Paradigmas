@@ -3,8 +3,8 @@ package Bloques;
 public class ConcreteRaquetaMitad extends AbstractBloque {
 
     /** Constructor de la clase */
-    public ConcreteRaquetaMitad(String color, int puntaje, int nivel) {
-        super(color, puntaje, nivel);
+    public ConcreteRaquetaMitad(int fila, int columna) {
+        super(fila, columna);
     }
 
     // Aplica el efecto de mitad de raqueta

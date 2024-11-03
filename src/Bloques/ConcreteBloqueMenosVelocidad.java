@@ -3,8 +3,8 @@ package Bloques;
 public class ConcreteBloqueMenosVelocidad extends AbstractBloque {
 
     /** Constructor de la clase */
-    public ConcreteBloqueMenosVelocidad(String color, int puntaje, int nivel) {
-        super(color, puntaje, nivel);
+    public ConcreteBloqueMenosVelocidad(int fila, int columna) {
+        super(fila, columna);
     }
 
     // Aplica el efecto de disminución de velocidad

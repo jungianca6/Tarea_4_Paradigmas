@@ -4,18 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class AbstractBloque{
-    // Color del bloque
-    protected String color;
-    // Puntuación del bloque
-    protected int puntaje;
-    // Nivel del bloque
-    protected int nivel;
+    // Fila del bloque
+    protected int fila;
+    // Columna del bloque
+    protected int columna;
+
 
     /** Constructor de la clase */
-    public AbstractBloque(String color, int puntaje, int nivel) {
-        this.color = color;
-        this.puntaje = puntaje;
-        this.nivel = nivel;
+    public AbstractBloque(int fila, int columna) {
+        this.fila = fila;
+        this.columna = columna;
     }
 
 }

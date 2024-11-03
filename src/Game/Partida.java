@@ -7,6 +7,7 @@ public class Partida {
     private String ip; // Dirección IP
     private int puerto; // Puerto
 
+
     public Partida(UUID id_partida, String ip, int puerto) {
         this.id_partida = id_partida;
         this.ip = ip;
