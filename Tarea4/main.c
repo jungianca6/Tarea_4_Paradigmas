@@ -208,7 +208,7 @@ void Game_update() {
 
             // Verifica si el bloque tiene un poder y actúa según el poder
             const float MAX_SPEED = 450.0f;  // Velocidad máxima
-            const float MIN_SPEED = 150.0f;   // Velocidad mínima
+            const float MIN_SPEED = 200.0f;   // Velocidad mínima
 
             if (brick.power == INCREASE_LENGTH) {
                 player.w *= 2;
@@ -234,9 +234,13 @@ void Game_update() {
                 }
             }
             printf("Velocidad de la bola: %.2f\n", ball.vel);  // C para C++
+            printf("tamaño de la paleta: %.2f\n", player.w);  // C para C++
+
 
             // Imprime mensaje de destrucción del bloque
-            printf("El bloque se destruyó en la posición: (x: %.2f, y: %.2f)\n", brick.base.rect.x, brick.base.rect.y);
+            int column = (brick.base.rect.x - 15) / 60;  // Calcula la columna
+            int row = (brick.base.rect.y - 50) / 26;     // Calcula la fila
+            printf("El bloque se destruyó en la fila %d, columna %d\n", row, column); // Imprime fila y columna
             // Eliminar el bloque
             for (int j = i; j < bricks.size - 1; j++) {
                 bricks.data[j] = bricks.data[j + 1];
