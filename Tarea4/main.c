@@ -305,6 +305,7 @@ void Game_update() {
         float magnitude = sqrt(ball.accel.x * ball.accel.x + ball.accel.y * ball.accel.y);
         ball.accel.x /= magnitude;
         ball.accel.y /= magnitude;
+
     }
 
 
@@ -389,6 +390,26 @@ void Game_shutdown() {
 
 }
 
+void DrawParties() {
+    if (partyList.count > 0) {
+        DrawText("Partidas disponibles:", 10, 160, 20, DARKGRAY);
+        for (int i = 0; i < partyList.count; i++) {
+            char text[128];
+            snprintf(text, sizeof(text), "ID: %s, IP: %s, Puerto: %d",
+                     partyList.parties[i].id_partida,
+                     partyList.parties[i].ip,
+                     partyList.parties[i].puerto);
+            if (i == selectedPartyIndex) {
+                DrawText(text, 10, 190 + i * 30, 20, WHITE); // Resaltar la partida seleccionada
+            } else {
+                DrawText(text, 10, 190 + i * 30, 20, DARKGRAY);
+            }
+        }
+    } else {
+        DrawText("No hay partidas disponibles.", 10, 160, 20, DARKGRAY);
+    }
+}
+
 
 int main(void) {
     // Cargar la configuración
@@ -400,7 +421,7 @@ int main(void) {
     partyList.count = 0; // Inicializar la lista de partidas
 
     // Inicializa el socket
-    // initialize_socket(&sock, &server_addr, config.port, config.ip_address);
+    //initialize_socket(&sock, &server_addr, config.port, config.ip_address);
 
     InitWindow(screen_w, screen_h, "breakOutTec");
 
@@ -438,28 +459,33 @@ int main(void) {
             Game_update();  // Actualiza el estado del juego
             Game_render();  // Dibuja el juego
         } else if (menuActive == 2) {
-            send_register_message(sock, "Spectator");
             ClearBackground(BLACK);
-            // Dibujar la lista de partidas disponibles
+            DrawText("Presione 'A' para actualizar las partidas disponibles", 10, 50, 20, DARKGRAY);
+            // Manejar entrada del teclado para registrar espectador
+            if (IsKeyPressed(KEY_A)) {
+                send_register_message(sock, "Spectator");
+            }
+            // Dibuja la lista de partidas disponibles
             if (partyList.count > 0) {
-                DrawText("Partidas disponibles:", 10, 80, 20, DARKGRAY);
-                for (int i = 0; i < partyList.count; i++) {
-                    char text[128];
-                    snprintf(text, sizeof(text), "ID: %s, IP: %s, Puerto: %d",
-                             partyList.parties[i].id_partida,
-                             partyList.parties[i].ip,
-                             partyList.parties[i].puerto);
-                    if (i == selectedPartyIndex) {
-                        DrawText(text, 10, 110 + i * 30, 20, WHITE); // Resaltar la partida seleccionada
-                    } else {
-                        DrawText(text, 10, 110 + i * 30, 20, DARKGRAY);
-                    }
+                if (IsKeyPressed(KEY_DOWN)) {
+                    selectedPartyIndex = (selectedPartyIndex + 1) % partyList.count; // Mover hacia abajo en la lista
                 }
+                if (IsKeyPressed(KEY_UP)) {
+                    selectedPartyIndex = (selectedPartyIndex - 1 + partyList.count) % partyList.count; // Mover hacia arriba en la lista
+                }
+                if (IsKeyPressed(KEY_ENTER)) {
+                    // Enviar mensaje de elección de partida al servidor
+                    send_choice_message(sock, partyList.parties[selectedPartyIndex].id_partida,
+                                         partyList.parties[selectedPartyIndex].ip,
+                                         partyList.parties[selectedPartyIndex].puerto);
+                    printf("Seleccionada la partida: %s\n", partyList.parties[selectedPartyIndex].id_partida);
+                }
+            }
+
+            DrawParties();
             } else {
                 DrawText("No hay partidas disponibles.", 10, 80, 20, DARKGRAY);
             }
-        }
-
         EndDrawing();
     }
 

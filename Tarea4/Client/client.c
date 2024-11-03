@@ -14,8 +14,6 @@ void receive_message(int socket_fd) {
     char buffer[1024]; // Buffer para almacenar la respuesta
     ssize_t bytes_received = recv(socket_fd, buffer, sizeof(buffer) - 1, 0); // Deja espacio para el terminador nulo
 
-    printf("Esperando recibir mensaje...\n");
-
     if (bytes_received < 0) {
         perror("Error receiving message");
         exit(EXIT_FAILURE);
@@ -27,7 +25,6 @@ void receive_message(int socket_fd) {
     }
 
     buffer[bytes_received] = '\0'; // Termina la cadena
-    printf("Mensaje recibido (%ld bytes): %s\n", bytes_received, buffer); // Imprimir el mensaje recibido
 
     // Parsear el JSON
     cJSON *json = cJSON_Parse(buffer);
