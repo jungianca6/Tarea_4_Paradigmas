@@ -300,10 +300,10 @@ void Game_update() {
 
         // Ajusta el ángulo de rebote en el eje X basándose en la posición relativa.
         ball.accel.x = relativePosition;  // Cuanto más lejos del centro, mayor el ángulo en X.
-        ball.accel.y = -fabs(ball.accel.y);  // Invierte la dirección en Y y asegura que siempre vaya hacia arriba.
+        ball.accel.y = -fabsf(ball.accel.y);  // Invierte la dirección en Y y asegura que siempre vaya hacia arriba.
 
         // Normaliza el vector de aceleración para mantener la velocidad constante.
-        float magnitude = sqrt(ball.accel.x * ball.accel.x + ball.accel.y * ball.accel.y);
+        float magnitude = sqrtf(ball.accel.x * ball.accel.x + ball.accel.y * ball.accel.y);
         ball.accel.x /= magnitude;
         ball.accel.y /= magnitude;
 
