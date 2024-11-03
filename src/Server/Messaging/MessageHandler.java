@@ -66,9 +66,9 @@ public class MessageHandler {
                 case "player_data": // Si el tipo es "player_data"
                     handlePlayerMessage(jsonNode); // Maneja el mensaje de elección
                     break;
-                case "bricks_data": // Si el tipo es "bricks_data"
+                /*case "bricks_data": // Si el tipo es "bricks_data"
                     handleBrickMessage(jsonNode); // Maneja el mensaje de un bloque destruido
-                    break;
+                    break;*/
                 default: // Si el tipo de mensaje es desconocido
                     System.out.println("Tipo de mensaje desconocido: " + messageType);
             }
