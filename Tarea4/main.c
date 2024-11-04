@@ -33,7 +33,7 @@ char* tipo_jugador = "Spectator";
 PartyList partyList; // Lista global de partidas
 int selectedPartyIndex = 0; // Índice de la partida seleccionada
 #define MAX_BALLS 10 // Define el número máximo de bolas
-int activeBallsCount = 1; // Define el número máximo de bolas
+int activeBallsCount = 0; // Define el número máximo de bolas
 
 struct Ball balls[MAX_BALLS];
 
@@ -210,12 +210,12 @@ void Game_startup(BrickArray *brick_array) {
     for (int i = 0; i < MAX_BALLS; i++) {
         balls[i].id = i;
         balls[i].accel = (Vector2) {0.0f, 1.0f};
-        balls[i].r = 9.0f;
         balls[i].pos = (Vector2) {250, 300};
+
+        balls[i].r = 9.0f;
         balls[i].vel = 270.0f;
         balls[i].active = false; // Inicializa como inactiva
          }
-    balls[0].active = true;
     PrintBall(&ball);
     //Codigo que carga la lista de bloques
     brick_array->size = 0;
@@ -259,6 +259,15 @@ void Game_update() {
     if(IsKeyDown(KEY_RIGHT)) {
         player.rect.x += player.velocity * framet;
     }
+    if(IsKeyDown(KEY_SPACE)) {
+        if (activeBallsCount < 1) {
+            balls[0].active = true;
+            activeBallsCount ++;
+
+        }
+
+    }
+
 
     // Actualización de la posición de la bola
     for (int i = 0; i < MAX_BALLS; i++) {
@@ -343,10 +352,9 @@ void Game_update() {
             balls[i].accel = (Vector2) {0.0f, 1.0f};
             balls[i].pos = (Vector2) {250, 300};
             balls[i].active = false; // Inicializa como inactiva
-            activeBallsCount = 1;
+            activeBallsCount = 0;
 
         }
-        balls[0].active = true; // Inicializa como inactiva
         Spawn_bricks(&bricks);
     }
 
@@ -371,6 +379,10 @@ void Game_update() {
                 if (activeBallsCount > 1) { // Permitir hasta 2 bolas activas
                     balls[j].active = false;
                     activeBallsCount--; // Incrementa el contador de bolas activas
+                    balls[j].accel = (Vector2) {0.0f, 1.0f};
+                    balls[j].pos = (Vector2) {250, 300};
+                    balls[j].vel = 270.0f;
+
                 }// Activa la nueva bola
                 player.lives--;
                 balls[j].pos = (Vector2) {250, 300};
