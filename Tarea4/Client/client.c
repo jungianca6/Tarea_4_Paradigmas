@@ -9,6 +9,7 @@
 
 extern PartyList partyList; // Lista global de partidas
 char* tipo_jugador = "Player";
+extern BrickArray bricks;
 
 void receive_message(int socket_fd) {
     char buffer[1024]; // Buffer para almacenar la respuesta

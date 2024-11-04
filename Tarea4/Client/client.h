@@ -2,14 +2,18 @@
 #define CLIENT_H
 
 #include "data.h"
+#include "raylib.h"
 #include "player_data.h"
 #include "bricks_data.h"
 #include "parties_data.h"
 #include "register_data.h"
 #include <arpa/inet.h> // For sockaddr_in
+#include "../Components/brick.h"
+#include "../Components/brick_array.h"
 
 // Declaración externa de partyList
 extern PartyList partyList;
+extern BrickArray bricks;
 
 void send_message(int socket_fd, Data data);
 // Función para inicializar el socket
