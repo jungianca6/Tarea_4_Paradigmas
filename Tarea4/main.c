@@ -3,15 +3,12 @@
 #include <string.h>
 #include <unistd.h>
 #include "raylib.h"
-#include "./Client/data.h"
 #include "./Client/client.h"
 #include "./Config/config.h"
 #include <tgmath.h>
 #include <time.h>
 #include "Components/ball.h"
-#include "Components/brick.h"
 #include "Components/brick_array.h"
-#include "Components/timer.h"
 #include "Components/power_type.h"
 #include "Components/brick_factory.h"
 #include "Components/player.h"
@@ -29,6 +26,7 @@ int menuActive = 0; // Controla si el menú está activo
 // Variables del socket
 int sock;
 struct sockaddr_in server_addr;
+char* tipo_jugador = "Spectator";
 
 PartyList partyList; // Lista global de partidas
 int selectedPartyIndex = 0; // Índice de la partida seleccionada
@@ -128,6 +126,7 @@ void DrawMenu() {
     // Detecta si el botón de "Play" fue presionado
     if (playHover && IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
         menuActive = 1; // Cambia a modo de juego
+        tipo_jugador = "Player";
         // Enviar mensaje de registro como "Player"
         send_register_message(sock, "Player");
         printf("Registrado como Player\n");
@@ -136,6 +135,7 @@ void DrawMenu() {
     // Detecta si el botón de "Observar" fue presionado
     if (observeHover && IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
         menuActive = 2;
+        tipo_jugador = "Spectator";
         // Acción para el modo de observación
         // Enviar mensaje de registro como "Spectator"
         send_register_message(sock, "Spectator");
@@ -163,7 +163,7 @@ void Game_startup(BrickArray *brick_array) {
     player.score = 0;
     player.w = 75.0f;
     player.h = 10.0f;
-    player.lives = 3;
+    player.lives = 1000;
     player.level = 1;
 
     //Codigo que carga a memoria datos de la bola
@@ -254,6 +254,7 @@ void Game_update() {
             int column = (brick.base.rect.x - 15) / 60;  // Calcula la columna
             int row = (brick.base.rect.y - 50) / 26;     // Calcula la fila
             printf("El bloque se destruyó en la fila %d, columna %d\n", row, column); // Imprime fila y columna
+            send_bricks_info(sock, row, column, "normal");
             // Eliminar el bloque
             for (int j = i; j < bricks.size - 1; j++) {
                 bricks.data[j] = bricks.data[j + 1];
@@ -426,7 +427,7 @@ int main(void) {
 
     InitWindow(screen_w, screen_h, "breakOutTec");
 
-    SetTargetFPS(165);
+    SetTargetFPS(1000);
     srand((unsigned int)time(NULL));
 
     Game_startup(&bricks);

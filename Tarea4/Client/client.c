@@ -8,7 +8,7 @@
 #include <cjson/cJSON.h>
 
 extern PartyList partyList; // Lista global de partidas
-char* tipo_jugador = "Player";
+extern char* tipo_jugador;
 extern BrickArray bricks;
 
 
@@ -16,7 +16,6 @@ void receive_message(int socket_fd) {
 
     char buffer[1024]; // Buffer para almacenar la respuesta
     ssize_t bytes_received = recv(socket_fd, buffer, sizeof(buffer) - 1, 0); // Deja espacio para el terminador nulo
-
 
     if (bytes_received < 0) {
         perror("Error receiving message");
@@ -36,6 +35,9 @@ void receive_message(int socket_fd) {
         printf("Error parsing JSON: %s\n", cJSON_GetErrorPtr());
         exit(EXIT_FAILURE);
     }
+    // Imprimir el mensaje JSON recibido
+    printf("Mensaje JSON recibido: %s\n", buffer);
+
 
     // Obtener el tipo de mensaje
     cJSON *json_type_message = cJSON_GetObjectItem(json, "type_message");
@@ -82,13 +84,13 @@ void receive_message(int socket_fd) {
 
         // Llama a la función para actualizar la lista de partidas en la interfaz gráfica
         update_party_list(&data_parties);
-
         // Libera la memoria
         free(data_parties.parties);
-    }else if (tipo_jugador == "Spectator") {
-        cJSON *json_brick_row = cJSON_GetObjectItem(json, "row");
-        cJSON *json_brick_column = cJSON_GetObjectItem(json, "column");
-        if (strcmp(json_type_message->valuestring, "data_bricks") == 0) {
+
+    }else if (strcmp(json_type_message->valuestring, "break_block") == 0){
+        if (strcmp(tipo_jugador, "Spectator") == 0){
+            cJSON *json_brick_row = cJSON_GetObjectItem(json, "row");
+            cJSON *json_brick_column = cJSON_GetObjectItem(json, "column");
             for (int i = 0; i < bricks.size; i++) {
                 Brick brick = bricks.data[i];
                 int brickRow = (brick.base.rect.y - 50) / 26;
@@ -98,6 +100,8 @@ void receive_message(int socket_fd) {
                     for (int j = i; j < bricks.size - 1; j++) {
                         bricks.data[j] = bricks.data[j + 1];
                     }
+                    printf("Destrui un bloque :D");
+                    printf("\n");
                     bricks.size--;
                     break;
                 }

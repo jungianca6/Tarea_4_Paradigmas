@@ -14,6 +14,7 @@
 // Declaración externa de partyList
 extern PartyList partyList;
 extern BrickArray bricks;
+extern char* tipo_jugador;;
 
 void send_message(int socket_fd, Data data);
 // Función para inicializar el socket
