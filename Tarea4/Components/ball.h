@@ -7,6 +7,7 @@
 
 //Struct con la bola y sus caracteristicas
 struct Ball {
+    int id; // Identificador de la bola
     Vector2 pos;
     Vector2 accel;
     float vel;

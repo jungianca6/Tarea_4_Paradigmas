@@ -6,10 +6,8 @@
 #include "./Client/data.h"
 #include "./Client/client.h"
 #include "./Config/config.h"
-#define MAX_INPUT_SIZE 256
 #include <tgmath.h>
 #include <time.h>
-
 #include "Components/ball.h"
 #include "Components/brick.h"
 #include "Components/brick_array.h"
@@ -18,6 +16,7 @@
 #include "Components/brick_factory.h"
 #include "Components/player.h"
 
+#define MAX_INPUT_SIZE 256
 //Variables que contienen las dimensiones de la pantalla del juego.
 const int screen_w = 500;
 const int screen_h = 600;
@@ -100,11 +99,16 @@ void PrintBricks(const BrickArray *brick_array) {
     }
 }
 
-
+void PrintBall(const struct Ball *ball) {
+    printf("Posición de la bola: (%.2f, %.2f)\n", ball->pos.x, ball->pos.y);
+    printf("Aceleración de la bola: (%.2f, %.2f)\n", ball->accel.x, ball->accel.y);
+    printf("Velocidad de la bola: %.2f\n", ball->vel);
+    printf("Radio de la bola: %.2f\n", ball->r);
+}
 
 void DrawMenu() {
     // Dibuja el fondo del menú
-    ClearBackground(DARKBLUE);
+    ClearBackground(BLACK);
 
     // Dibuja el título del juego
     DrawText("BREAKOUT", screen_w / 2 - MeasureText("BREAKOUT", 40) / 2, screen_h / 2 - 100, 40, RAYWHITE);
@@ -140,6 +144,11 @@ void DrawMenu() {
     }
 }
 
+void PrintBallState(const struct Ball *ball) {
+    printf("Bola %d - Posición: (%.2f, %.2f), Aceleración: (%.2f, %.2f), Velocidad: %.2f\n",
+           ball->id, ball->pos.x, ball->pos.y, ball->accel.x, ball->accel.y, ball->vel);
+}
+
 
 void Game_startup(BrickArray *brick_array) {
 
@@ -162,7 +171,7 @@ void Game_startup(BrickArray *brick_array) {
     ball.r = 9.0f;
     ball.pos = (Vector2) {250, 300};
     ball.vel = 270.0f;
-
+    PrintBall(&ball);
     //Codigo que carga la lista de bloques
     brick_array->size = 0;
     brick_array->capacity = 64; // Initial capacity (adjust as needed)
@@ -177,7 +186,7 @@ void Game_startup(BrickArray *brick_array) {
 
 void Game_update() {
     float framet = GetFrameTime();
-
+    static int printCounter = 0;  // Contador para controlar la impresión
     if (gg) return;
 
     // Control del jugador sobre la barra de juego.
@@ -192,7 +201,13 @@ void Game_update() {
     ball.pos.x = ball.pos.x + ((ball.vel * ball.accel.x) * framet);
     ball.pos.y = ball.pos.y + ((ball.vel * ball.accel.y) * framet);
 
-    // Colisión entre la bola y los bloques
+    printCounter++;
+
+    // Solo imprime cada 30 fotogramas
+    if (printCounter >= 30) {
+        PrintBallState(&ball);
+        printCounter = 0;  // Reinicia el contador
+    }    // Colisión entre la bola y los bloques
 // Colisión entre la bola y los bloques
     for (int i = 0; i < bricks.size; i++) {
         Brick brick = bricks.data[i];
@@ -233,8 +248,6 @@ void Game_update() {
                     ball.vel = MIN_SPEED;
                 }
             }
-            printf("Velocidad de la bola: %.2f\n", ball.vel);  // C para C++
-            printf("tamaño de la paleta: %.2f\n", player.w);  // C para C++
 
 
             // Imprime mensaje de destrucción del bloque
@@ -287,12 +300,13 @@ void Game_update() {
 
         // Ajusta el ángulo de rebote en el eje X basándose en la posición relativa.
         ball.accel.x = relativePosition;  // Cuanto más lejos del centro, mayor el ángulo en X.
-        ball.accel.y = -fabs(ball.accel.y);  // Invierte la dirección en Y y asegura que siempre vaya hacia arriba.
+        ball.accel.y = -fabsf(ball.accel.y);  // Invierte la dirección en Y y asegura que siempre vaya hacia arriba.
 
         // Normaliza el vector de aceleración para mantener la velocidad constante.
-        float magnitude = sqrt(ball.accel.x * ball.accel.x + ball.accel.y * ball.accel.y);
+        float magnitude = sqrtf(ball.accel.x * ball.accel.x + ball.accel.y * ball.accel.y);
         ball.accel.x /= magnitude;
         ball.accel.y /= magnitude;
+
     }
 
 
@@ -377,6 +391,26 @@ void Game_shutdown() {
 
 }
 
+void DrawParties() {
+    if (partyList.count > 0) {
+        DrawText("Partidas disponibles:", 10, 160, 20, DARKGRAY);
+        for (int i = 0; i < partyList.count; i++) {
+            char text[128];
+            snprintf(text, sizeof(text), "ID: %s, IP: %s, Puerto: %d",
+                     partyList.parties[i].id_partida,
+                     partyList.parties[i].ip,
+                     partyList.parties[i].puerto);
+            if (i == selectedPartyIndex) {
+                DrawText(text, 10, 190 + i * 30, 20, WHITE); // Resaltar la partida seleccionada
+            } else {
+                DrawText(text, 10, 190 + i * 30, 20, DARKGRAY);
+            }
+        }
+    } else {
+        DrawText("No hay partidas disponibles.", 10, 160, 20, DARKGRAY);
+    }
+}
+
 
 int main(void) {
     // Cargar la configuración
@@ -388,7 +422,7 @@ int main(void) {
     partyList.count = 0; // Inicializar la lista de partidas
 
     // Inicializa el socket
-    // initialize_socket(&sock, &server_addr, config.port, config.ip_address);
+    //initialize_socket(&sock, &server_addr, config.port, config.ip_address);
 
     InitWindow(screen_w, screen_h, "breakOutTec");
 
@@ -422,32 +456,37 @@ int main(void) {
         if (menuActive == 0) {
             DrawMenu(); // Dibuja el menú si está activo
         } else if (menuActive == 1){
-            ClearBackground(BLUE);
+            ClearBackground(BLACK);
             Game_update();  // Actualiza el estado del juego
             Game_render();  // Dibuja el juego
         } else if (menuActive == 2) {
-            send_register_message(sock, "Spectator");
-            ClearBackground(BLUE);
-            // Dibujar la lista de partidas disponibles
+            ClearBackground(BLACK);
+            DrawText("Presione 'A' para actualizar las partidas disponibles", 10, 50, 20, DARKGRAY);
+            // Manejar entrada del teclado para registrar espectador
+            if (IsKeyPressed(KEY_A)) {
+                send_register_message(sock, "Spectator");
+            }
+            // Dibuja la lista de partidas disponibles
             if (partyList.count > 0) {
-                DrawText("Partidas disponibles:", 10, 80, 20, DARKGRAY);
-                for (int i = 0; i < partyList.count; i++) {
-                    char text[128];
-                    snprintf(text, sizeof(text), "ID: %s, IP: %s, Puerto: %d",
-                             partyList.parties[i].id_partida,
-                             partyList.parties[i].ip,
-                             partyList.parties[i].puerto);
-                    if (i == selectedPartyIndex) {
-                        DrawText(text, 10, 110 + i * 30, 20, WHITE); // Resaltar la partida seleccionada
-                    } else {
-                        DrawText(text, 10, 110 + i * 30, 20, DARKGRAY);
-                    }
+                if (IsKeyPressed(KEY_DOWN)) {
+                    selectedPartyIndex = (selectedPartyIndex + 1) % partyList.count; // Mover hacia abajo en la lista
                 }
+                if (IsKeyPressed(KEY_UP)) {
+                    selectedPartyIndex = (selectedPartyIndex - 1 + partyList.count) % partyList.count; // Mover hacia arriba en la lista
+                }
+                if (IsKeyPressed(KEY_ENTER)) {
+                    // Enviar mensaje de elección de partida al servidor
+                    send_choice_message(sock, partyList.parties[selectedPartyIndex].id_partida,
+                                         partyList.parties[selectedPartyIndex].ip,
+                                         partyList.parties[selectedPartyIndex].puerto);
+                    printf("Seleccionada la partida: %s\n", partyList.parties[selectedPartyIndex].id_partida);
+                }
+            }
+
+            DrawParties();
             } else {
                 DrawText("No hay partidas disponibles.", 10, 80, 20, DARKGRAY);
             }
-        }
-
         EndDrawing();
     }
 
@@ -456,111 +495,3 @@ int main(void) {
     CloseWindow();
     return 0;
 }
-
-
-/*
-int main(void) {
-
-    InitWindow(screen_w, screen_h, "Raylib Client Example");
-    SetTargetFPS(60);
-
-    // Inicializa la lista de partidas
-    partyList.parties = malloc(10 * sizeof(Partida)); // Inicializar con espacio para 10 partidas
-    partyList.count = 0; // Inicializar la lista de partidas
-
-    // Variables del socket
-    int sock;
-    struct sockaddr_in server_addr;
-
-    // Inicializa el socket
-    initialize_socket(&sock, &server_addr, config.port, config.ip_address);
-
-    // Bandera para controlar el estado del registro
-    int registered = 0;
-
-    // Bucle principal
-    while (!WindowShouldClose()) {
-        // Configurar el conjunto de descriptores para select
-        fd_set read_fds;
-        FD_ZERO(&read_fds);
-        FD_SET(sock, &read_fds);
-
-        // Establecer timeout para select
-        struct timeval timeout;
-        timeout.tv_sec = 0;  // 0 segundos
-        timeout.tv_usec = 10000;  // 10 milisegundos
-
-        // Esperar actividad en el socket
-        int activity = select(sock + 1, &read_fds, NULL, NULL, &timeout);
-
-        // Verifica si hay datos para leer en el socket
-        if (activity > 0 && FD_ISSET(sock, &read_fds)) {
-            receive_message(sock); // Recibir respuesta
-        }
-
-        // Manejo de registro como "Player" o "Spectator"
-        if (IsKeyPressed(KEY_P) && !registered) {
-            // Enviar mensaje de registro como "Player"
-            send_register_message(sock, "Player");
-            printf("Registrado como Player\n");
-            registered = 1; // Cambiar el estado a registrado
-        } else if (IsKeyPressed(KEY_S) && !registered) {
-            // Enviar mensaje de registro como "Spectator"
-            send_register_message(sock, "Spectator");
-            printf("Registrado como Spectator\n");
-            registered = 1; // Cambiar el estado a registrado
-        }
-
-        // Manejo de selección de partidas
-        if (partyList.count > 0) {
-            if (IsKeyPressed(KEY_DOWN)) {
-                selectedPartyIndex = (selectedPartyIndex + 1) % partyList.count; // Mover hacia abajo en la lista
-            }
-            if (IsKeyPressed(KEY_UP)) {
-                selectedPartyIndex = (selectedPartyIndex - 1 + partyList.count) % partyList.count; // Mover hacia arriba en la lista
-            }
-            if (IsKeyPressed(KEY_ENTER)) {
-                // Enviar mensaje de elección de partida al servidor
-                send_choice_message(sock, partyList.parties[selectedPartyIndex].id_partida,
-                                         partyList.parties[selectedPartyIndex].ip,
-                                         partyList.parties[selectedPartyIndex].puerto);
-                printf("Seleccionada la partida: %s\n", partyList.parties[selectedPartyIndex].id_partida);
-            }
-        }
-
-        // Limpiar la pantalla
-        BeginDrawing();
-        ClearBackground(RAYWHITE);
-        DrawText("Presiona 'P' para registrarte como Player", 10, 10, 20, DARKGRAY);
-        DrawText("Presiona 'S' para registrarte como Spectator", 10, 40, 20, DARKGRAY);
-
-        // Dibujar la lista de partidas disponibles
-        if (partyList.count > 0) {
-            DrawText("Partidas disponibles:", 10, 80, 20, DARKGRAY);
-            for (int i = 0; i < partyList.count; i++) {
-                char text[128];
-                snprintf(text, sizeof(text), "ID: %s, IP: %s, Puerto: %d",
-                         partyList.parties[i].id_partida,
-                         partyList.parties[i].ip,
-                         partyList.parties[i].puerto);
-                if (i == selectedPartyIndex) {
-                    DrawText(text, 10, 110 + i * 30, 20, BLUE); // Resaltar la partida seleccionada
-                } else {
-                    DrawText(text, 10, 110 + i * 30, 20, DARKGRAY);
-                }
-            }
-        } else {
-            DrawText("No hay partidas disponibles.", 10, 80, 20, DARKGRAY);
-        }
-
-        EndDrawing();
-    }
-
-    // Cerrar el socket y liberar memoria
-    close_socket(sock);
-    free(partyList.parties);
-    CloseWindow();
-
-    return 0;
-}
-*/
