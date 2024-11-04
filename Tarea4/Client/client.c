@@ -127,7 +127,26 @@ void receive_message(int socket_fd) {
                 int brickRow = (brick.base.rect.y - 50) / 26;
                 int brickColumn = (brick.base.rect.x - 5) / 61;
                 if (brickRow == cJSON_GetNumberValue(json_brick_row) && brickColumn == cJSON_GetNumberValue(json_brick_column) ) {
-                    bricks.data[i].power = json_brick_power->valuestring;
+                    switch (json_brick_power->valuestring[0]) {
+                        case 'N':
+                            bricks.data[i].power = NO_POWER;
+                            break;
+                        case 'L':
+                            bricks.data[i].power = INCREASE_LENGTH;
+                            break;
+                        case 'S':
+                            bricks.data[i].power = DECREASE_LENGTH;
+                            break;
+                        case 'V':
+                            bricks.data[i].power = INCREASE_LIVES;
+                            break;
+                        case 'A':
+                            bricks.data[i].power = INCREASE_SPEED;
+                            break;
+                        case 'D':
+                            bricks.data[i].power = DECREASE_SPEED;
+                            break;
+                    }
                 }
             }
         }
