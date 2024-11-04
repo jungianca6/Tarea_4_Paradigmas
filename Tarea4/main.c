@@ -98,10 +98,10 @@ void PrintBricks(const BrickArray *brick_array) {
 }
 
 void PrintBall(const struct Ball *ball) {
-    printf("Posición de la bola: (%.2f, %.2f)\n", ball->pos.x, ball->pos.y);
-    printf("Aceleración de la bola: (%.2f, %.2f)\n", ball->accel.x, ball->accel.y);
-    printf("Velocidad de la bola: %.2f\n", ball->vel);
-    printf("Radio de la bola: %.2f\n", ball->r);
+    //printf("Posición de la bola: (%.2f, %.2f)\n", ball->pos.x, ball->pos.y);
+    //printf("Aceleración de la bola: (%.2f, %.2f)\n", ball->accel.x, ball->accel.y);
+    //printf("Velocidad de la bola: %.2f\n", ball->vel);
+    //printf("Radio de la bola: %.2f\n", ball->r);
 }
 
 void DrawMenu() {
@@ -145,8 +145,8 @@ void DrawMenu() {
 }
 
 void PrintBallState(const struct Ball *ball) {
-    printf("Bola %d - Posición: (%.2f, %.2f), Aceleración: (%.2f, %.2f), Velocidad: %.2f\n",
-           ball->id, ball->pos.x, ball->pos.y, ball->accel.x, ball->accel.y, ball->vel);
+    //printf("Bola %d - Posición: (%.2f, %.2f), Aceleración: (%.2f, %.2f), Velocidad: %.2f\n",
+      //     ball->id, ball->pos.x, ball->pos.y, ball->accel.x, ball->accel.y, ball->vel);
 }
 
 
@@ -248,7 +248,6 @@ void Game_update() {
                     ball.vel = MIN_SPEED;
                 }
             }
-
 
             // Imprime mensaje de destrucción del bloque
             int column = (brick.base.rect.x - 5) / 61;
