@@ -145,8 +145,9 @@ void DrawMenu() {
 }
 
 void PrintBallState(const struct Ball *ball) {
-    printf("Bola %d - Posición: (%.2f, %.2f), Aceleración: (%.2f, %.2f), Velocidad: %.2f\n",
-           ball->id, ball->pos.x, ball->pos.y, ball->accel.x, ball->accel.y, ball->vel);
+    //printf("Bola %d - Posición: (%.2f, %.2f), Aceleración: (%.2f, %.2f), Velocidad: %.2f\n",
+      //     ball->id, ball->pos.x, ball->pos.y, ball->accel.x, ball->accel.y, ball->vel);
+    printf("Posición del jugador: (%.2f, %.2f), Ancho: %.2f, Alto: %.2f\n", player.rect.x, player.rect.y, player.rect.width, player.rect.height);
 }
 
 
@@ -196,7 +197,6 @@ void Game_update() {
     if(IsKeyDown(KEY_RIGHT)) {
         player.rect.x += player.velocity * framet;
     }
-
     // Actualización de la posición de la bola
     ball.pos.x = ball.pos.x + ((ball.vel * ball.accel.x) * framet);
     ball.pos.y = ball.pos.y + ((ball.vel * ball.accel.y) * framet);
@@ -204,7 +204,7 @@ void Game_update() {
     printCounter++;
 
     // Solo imprime cada 30 fotogramas
-    if (printCounter >= 30) {
+    if (printCounter >= 200) {
         PrintBallState(&ball);
         printCounter = 0;  // Reinicia el contador
     }    // Colisión entre la bola y los bloques
