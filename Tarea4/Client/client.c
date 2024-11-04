@@ -36,7 +36,7 @@ void receive_message(int socket_fd) {
         exit(EXIT_FAILURE);
     }
     // Imprimir el mensaje JSON recibido
-    printf("Mensaje JSON recibido: %s\n", buffer);
+    //printf("Mensaje JSON recibido: %s\n", buffer);
 
 
     // Obtener el tipo de mensaje
@@ -87,43 +87,7 @@ void receive_message(int socket_fd) {
         // Libera la memoria
         free(data_parties.parties);
 
-    } /*else if (strcmp(json_type_message->valuestring, "matriz_data") == 0) {
-        if (strcmp(tipo_jugador, "Spectator") == 0) {
-            // Obtener el array de bloques
-            cJSON *json_bricks = cJSON_GetObjectItem(json, "bricks");
-
-            // Liberar la matriz actual si es necesario
-            if (bricks.data != NULL) {
-                free(bricks.data);
-            }
-
-            // Inicializar el tamaño de la nueva matriz
-            bricks.size = cJSON_GetArraySize(json_bricks);
-            bricks.capacity = bricks.size;
-            bricks.data = malloc(bricks.size * sizeof(Brick));
-
-            // Actualizar cada bloque en la matriz
-            for (int i = 0; i < bricks.size; i++) {
-                cJSON *json_brick = cJSON_GetArrayItem(json_bricks, i);
-                if (json_brick != NULL) {
-                    cJSON *json_row = cJSON_GetObjectItem(json_brick, "row");
-                    cJSON *json_column = cJSON_GetObjectItem(json_brick, "column");
-                    cJSON *json_power = cJSON_GetObjectItem(json_brick, "power");
-
-                    bricks.data[i].row = json_row ? cJSON_GetNumberValue(json_row) : -1;
-                    bricks.data[i].column = json_column ? cJSON_GetNumberValue(json_column) : -1;
-                    if (json_power && cJSON_IsString(json_power)) {
-                        strcpy(bricks.data[i].power, json_power->valuestring);
-                    } else {
-                        bricks.data[i].power[0] = '\0'; // Sin poder si no está presente
-                    }
-                }
-            }
-
-            printf("Matriz de bloques actualizada.\n");
-        }
-    }*/
-    else if (strcmp(json_type_message->valuestring, "break_block") == 0){
+    }else if (strcmp(json_type_message->valuestring, "break_block") == 0){
         if (strcmp(tipo_jugador, "Spectator") == 0){
             cJSON *json_brick_row = cJSON_GetObjectItem(json, "row");
             cJSON *json_brick_column = cJSON_GetObjectItem(json, "column");
@@ -146,17 +110,43 @@ void receive_message(int socket_fd) {
     }
 
     else if (strcmp(json_type_message->valuestring, "power_block") == 0) {
+        printf("Mensaje JSON recibido: %s\n", buffer);
         if (strcmp(tipo_jugador, "Player") == 0) {
             cJSON *json_brick_row = cJSON_GetObjectItem(json, "row");
             cJSON *json_brick_column = cJSON_GetObjectItem(json, "column");
             cJSON *json_brick_power = cJSON_GetObjectItem(json, "power");
+            // Imprimir el poder del bloque
+            if (json_brick_power != NULL && json_brick_power->valuestring != NULL) {
+                printf("Poder del bloque: %s\n", json_brick_power->valuestring);
+            } else {
+                printf("No se encontró el poder del bloque.\n");
+            }
+
             for (int i = 0; i < bricks.size; i++) {
                 Brick brick = bricks.data[i];
                 int brickRow = (brick.base.rect.y - 50) / 26;
                 int brickColumn = (brick.base.rect.x - 5) / 61;
                 if (brickRow == cJSON_GetNumberValue(json_brick_row) && brickColumn == cJSON_GetNumberValue(json_brick_column) ) {
-                    brick.power = json_brick_power->valuestring;
-                    printf(json_brick_power->valuestring);
+                    switch (json_brick_power->valuestring[0]) {
+                        case 'N':
+                            bricks.data[i].power = NO_POWER;
+                            break;
+                        case 'L':
+                            bricks.data[i].power = INCREASE_LENGTH;
+                            break;
+                        case 'S':
+                            bricks.data[i].power = DECREASE_LENGTH;
+                            break;
+                        case 'V':
+                            bricks.data[i].power = INCREASE_LIVES;
+                            break;
+                        case 'A':
+                            bricks.data[i].power = INCREASE_SPEED;
+                            break;
+                        case 'D':
+                            bricks.data[i].power = DECREASE_SPEED;
+                            break;
+                    }
                 }
             }
         }
@@ -215,7 +205,7 @@ void send_player_info(int socket_fd, int posx, int posy, float ancho, float alto
     cJSON_AddNumberToObject(json, "largo", data_player.alto); // Añadir tipo
 
     char *jsonString = cJSON_PrintUnformatted(json);
-    printf("Enviando JSON de player: %s\n", jsonString);
+    //printf("Enviando JSON de player: %s\n", jsonString);
 
     size_t jsonLength = strlen(jsonString);
     char *jsonWithNewline = malloc(jsonLength + 2); // +2 para '\n' y '\0'
@@ -245,7 +235,7 @@ void send_bricks_info(int socket_fd, int column, int row, const char* poder) {
     cJSON_AddStringToObject(json, "poder", data_bricks.poder); // Añadir tipo
 
     char *jsonString = cJSON_PrintUnformatted(json);
-    printf("Enviando JSON de player: %s\n", jsonString);
+    printf("Enviando JSON de bloque: %s\n", jsonString);
 
     size_t jsonLength = strlen(jsonString);
     char *jsonWithNewline = malloc(jsonLength + 2); // +2 para '\n' y '\0'
