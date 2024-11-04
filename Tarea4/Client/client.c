@@ -87,7 +87,43 @@ void receive_message(int socket_fd) {
         // Libera la memoria
         free(data_parties.parties);
 
-    }else if (strcmp(json_type_message->valuestring, "break_block") == 0){
+    } /*else if (strcmp(json_type_message->valuestring, "matriz_data") == 0) {
+        if (strcmp(tipo_jugador, "Spectator") == 0) {
+            // Obtener el array de bloques
+            cJSON *json_bricks = cJSON_GetObjectItem(json, "bricks");
+
+            // Liberar la matriz actual si es necesario
+            if (bricks.data != NULL) {
+                free(bricks.data);
+            }
+
+            // Inicializar el tamaño de la nueva matriz
+            bricks.size = cJSON_GetArraySize(json_bricks);
+            bricks.capacity = bricks.size;
+            bricks.data = malloc(bricks.size * sizeof(Brick));
+
+            // Actualizar cada bloque en la matriz
+            for (int i = 0; i < bricks.size; i++) {
+                cJSON *json_brick = cJSON_GetArrayItem(json_bricks, i);
+                if (json_brick != NULL) {
+                    cJSON *json_row = cJSON_GetObjectItem(json_brick, "row");
+                    cJSON *json_column = cJSON_GetObjectItem(json_brick, "column");
+                    cJSON *json_power = cJSON_GetObjectItem(json_brick, "power");
+
+                    bricks.data[i].row = json_row ? cJSON_GetNumberValue(json_row) : -1;
+                    bricks.data[i].column = json_column ? cJSON_GetNumberValue(json_column) : -1;
+                    if (json_power && cJSON_IsString(json_power)) {
+                        strcpy(bricks.data[i].power, json_power->valuestring);
+                    } else {
+                        bricks.data[i].power[0] = '\0'; // Sin poder si no está presente
+                    }
+                }
+            }
+
+            printf("Matriz de bloques actualizada.\n");
+        }
+    }*/
+    else if (strcmp(json_type_message->valuestring, "break_block") == 0){
         if (strcmp(tipo_jugador, "Spectator") == 0){
             cJSON *json_brick_row = cJSON_GetObjectItem(json, "row");
             cJSON *json_brick_column = cJSON_GetObjectItem(json, "column");
