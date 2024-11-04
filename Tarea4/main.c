@@ -56,6 +56,8 @@ void Spawn_bricks(BrickArray *brick_array) {
                 new_brick.color = GREEN;
             }
 
+
+            /*
             // Asigna poderes aleatorios: 25% cada uno para aumentar longitud, disminuir longitud, aumentar vidas o ninguno
             int randomPower = rand() % 16; // Ajusta la probabilidad total
             if (randomPower < 3) {
@@ -71,6 +73,7 @@ void Spawn_bricks(BrickArray *brick_array) {
             } else {
                 new_brick.power = NO_POWER;
             }
+            */
 
 
             brick_array->data[brick_array->size++] = new_brick;
@@ -147,7 +150,7 @@ void DrawMenu() {
 void PrintBallState(const struct Ball *ball) {
     //printf("Bola %d - Posición: (%.2f, %.2f), Aceleración: (%.2f, %.2f), Velocidad: %.2f\n",
       //     ball->id, ball->pos.x, ball->pos.y, ball->accel.x, ball->accel.y, ball->vel);
-    printf("Posición del jugador: (%.2f, %.2f), Ancho: %.2f, Alto: %.2f\n", player.rect.x, player.rect.y, player.rect.width, player.rect.height);
+    //printf("Posición del jugador: (%.2f, %.2f), Ancho: %.2f, Alto: %.2f\n", player.rect.x, player.rect.y, player.rect.width, player.rect.height);
 }
 
 

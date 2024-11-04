@@ -36,7 +36,7 @@ void receive_message(int socket_fd) {
         exit(EXIT_FAILURE);
     }
     // Imprimir el mensaje JSON recibido
-    printf("Mensaje JSON recibido: %s\n", buffer);
+    //printf("Mensaje JSON recibido: %s\n", buffer);
 
 
     // Obtener el tipo de mensaje
@@ -110,17 +110,24 @@ void receive_message(int socket_fd) {
     }
 
     else if (strcmp(json_type_message->valuestring, "power_block") == 0) {
+        printf("Mensaje JSON recibido: %s\n", buffer);
         if (strcmp(tipo_jugador, "Player") == 0) {
             cJSON *json_brick_row = cJSON_GetObjectItem(json, "row");
             cJSON *json_brick_column = cJSON_GetObjectItem(json, "column");
             cJSON *json_brick_power = cJSON_GetObjectItem(json, "power");
+            // Imprimir el poder del bloque
+            if (json_brick_power != NULL && json_brick_power->valuestring != NULL) {
+                printf("Poder del bloque: %s\n", json_brick_power->valuestring);
+            } else {
+                printf("No se encontró el poder del bloque.\n");
+            }
+
             for (int i = 0; i < bricks.size; i++) {
                 Brick brick = bricks.data[i];
                 int brickRow = (brick.base.rect.y - 50) / 26;
                 int brickColumn = (brick.base.rect.x - 5) / 61;
                 if (brickRow == cJSON_GetNumberValue(json_brick_row) && brickColumn == cJSON_GetNumberValue(json_brick_column) ) {
-                    brick.power = json_brick_power->valuestring;
-                    printf(json_brick_power->valuestring);
+                    bricks.data[i].power = json_brick_power->valuestring;
                 }
             }
         }
@@ -179,7 +186,7 @@ void send_player_info(int socket_fd, int posx, int posy, float ancho, float alto
     cJSON_AddNumberToObject(json, "largo", data_player.alto); // Añadir tipo
 
     char *jsonString = cJSON_PrintUnformatted(json);
-    printf("Enviando JSON de player: %s\n", jsonString);
+    //printf("Enviando JSON de player: %s\n", jsonString);
 
     size_t jsonLength = strlen(jsonString);
     char *jsonWithNewline = malloc(jsonLength + 2); // +2 para '\n' y '\0'
