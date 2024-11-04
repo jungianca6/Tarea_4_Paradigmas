@@ -250,7 +250,6 @@ void Game_update() {
                 }
             }
 
-
             // Imprime mensaje de destrucción del bloque
             int column = (brick.base.rect.x - 5) / 61;
             int row = (brick.base.rect.y - 50) / 26;     // Calcula la fila
