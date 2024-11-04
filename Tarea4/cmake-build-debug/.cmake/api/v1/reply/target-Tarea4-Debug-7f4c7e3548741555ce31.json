@@ -38,7 +38,7 @@
 			{
 				"command" : 2,
 				"file" : 0,
-				"line" : 35,
+				"line" : 36,
 				"parent" : 0
 			}
 		]
@@ -157,7 +157,8 @@
 				15,
 				16,
 				17,
-				18
+				18,
+				19
 			]
 		}
 	],
@@ -260,6 +261,11 @@
 		{
 			"backtrace" : 1,
 			"path" : "Components/brick.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "Client/power_block_data.h",
 			"sourceGroupIndex" : 1
 		}
 	],

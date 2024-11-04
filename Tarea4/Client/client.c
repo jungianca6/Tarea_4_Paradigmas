@@ -107,8 +107,26 @@ void receive_message(int socket_fd) {
                 }
             }
         }
+    }
 
-    }else if (strcmp(json_type_message->valuestring, "player_data") == 0) {
+    else if (strcmp(json_type_message->valuestring, "power_block") == 0) {
+        if (strcmp(tipo_jugador, "Player") == 0) {
+            cJSON *json_brick_row = cJSON_GetObjectItem(json, "row");
+            cJSON *json_brick_column = cJSON_GetObjectItem(json, "column");
+            cJSON *json_brick_power = cJSON_GetObjectItem(json, "power");
+            for (int i = 0; i < bricks.size; i++) {
+                Brick brick = bricks.data[i];
+                int brickRow = (brick.base.rect.y - 50) / 26;
+                int brickColumn = (brick.base.rect.x - 5) / 61;
+                if (brickRow == cJSON_GetNumberValue(json_brick_row) && brickColumn == cJSON_GetNumberValue(json_brick_column) ) {
+                    brick.power = json_brick_power->valuestring;
+                    printf(json_brick_power->valuestring);
+                }
+            }
+        }
+    }
+
+    else if (strcmp(json_type_message->valuestring, "player_data") == 0) {
         if (strcmp(tipo_jugador, "Spectator") == 0) {
             cJSON *json_player_posx = cJSON_GetObjectItem(json, "posx");
             cJSON *json_player_posy = cJSON_GetObjectItem(json, "posy");

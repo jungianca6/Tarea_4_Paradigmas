@@ -59,7 +59,6 @@ CMakeFiles/Tarea4.dir/main.c.o: \
  /usr/include/x86_64-linux-gnu/bits/unistd_ext.h \
  /usr/local/include/raylib.h \
  /usr/lib/gcc/x86_64-linux-gnu/11/include/stdbool.h \
- /home/darga19/Documents/TEC/Tarea_4_Paradigmas/Tarea4/./Client/data.h \
  /home/darga19/Documents/TEC/Tarea_4_Paradigmas/Tarea4/./Client/client.h \
  /home/darga19/Documents/TEC/Tarea_4_Paradigmas/Tarea4/./Client/data.h \
  /home/darga19/Documents/TEC/Tarea_4_Paradigmas/Tarea4/./Client/player_data.h \
@@ -90,6 +89,7 @@ CMakeFiles/Tarea4.dir/main.c.o: \
  /home/darga19/Documents/TEC/Tarea_4_Paradigmas/Tarea4/./Client/../Components/brick_factory.h \
  /home/darga19/Documents/TEC/Tarea_4_Paradigmas/Tarea4/./Client/../Components/power_type.h \
  /home/darga19/Documents/TEC/Tarea_4_Paradigmas/Tarea4/./Client/../Components/brick_array.h \
+ /home/darga19/Documents/TEC/Tarea_4_Paradigmas/Tarea4/./Client/../Components/player.h \
  /home/darga19/Documents/TEC/Tarea_4_Paradigmas/Tarea4/./Config/config.h \
  /home/darga19/Documents/TEC/Tarea_4_Paradigmas/Tarea4/./Config/../INI/ini.h \
  /usr/include/tgmath.h /usr/include/math.h \
@@ -106,11 +106,7 @@ CMakeFiles/Tarea4.dir/main.c.o: \
  /usr/include/x86_64-linux-gnu/bits/types/struct_tm.h \
  /usr/include/x86_64-linux-gnu/bits/types/struct_itimerspec.h \
  /home/darga19/Documents/TEC/Tarea_4_Paradigmas/Tarea4/Components/ball.h \
- /home/darga19/Documents/TEC/Tarea_4_Paradigmas/Tarea4/Components/brick.h \
- /home/darga19/Documents/TEC/Tarea_4_Paradigmas/Tarea4/Components/brick_factory.h \
- /home/darga19/Documents/TEC/Tarea_4_Paradigmas/Tarea4/Components/power_type.h \
  /home/darga19/Documents/TEC/Tarea_4_Paradigmas/Tarea4/Components/brick_array.h \
- /home/darga19/Documents/TEC/Tarea_4_Paradigmas/Tarea4/Components/timer.h \
  /home/darga19/Documents/TEC/Tarea_4_Paradigmas/Tarea4/Components/power_type.h \
  /home/darga19/Documents/TEC/Tarea_4_Paradigmas/Tarea4/Components/brick_factory.h \
  /home/darga19/Documents/TEC/Tarea_4_Paradigmas/Tarea4/Components/player.h

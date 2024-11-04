@@ -89,4 +89,5 @@ CMakeFiles/Tarea4.dir/Client/client.c.o: \
  /home/darga19/Documents/TEC/Tarea_4_Paradigmas/Tarea4/Client/../Components/brick_factory.h \
  /home/darga19/Documents/TEC/Tarea_4_Paradigmas/Tarea4/Client/../Components/power_type.h \
  /home/darga19/Documents/TEC/Tarea_4_Paradigmas/Tarea4/Client/../Components/brick_array.h \
+ /home/darga19/Documents/TEC/Tarea_4_Paradigmas/Tarea4/Client/../Components/player.h \
  /usr/include/cjson/cJSON.h
