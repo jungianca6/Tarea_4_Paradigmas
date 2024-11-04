@@ -12,7 +12,7 @@
 #include "Components/power_type.h"
 #include "Components/brick_factory.h"
 #include "Components/player.h"
-
+#include <string.h>  // Incluye la biblioteca para usar strcpy
 #define MAX_INPUT_SIZE 256
 //Variables que contienen las dimensiones de la pantalla del juego.
 const int screen_w = 500;
@@ -31,6 +31,7 @@ char* tipo_jugador = "Spectator";
 PartyList partyList; // Lista global de partidas
 int selectedPartyIndex = 0; // Índice de la partida seleccionada
 
+#include <string.h>
 
 void Spawn_bricks(BrickArray *brick_array) {
     Brick new_brick;
@@ -45,18 +46,22 @@ void Spawn_bricks(BrickArray *brick_array) {
             new_brick.base.rect.width = new_brick.base.w;
             new_brick.base.rect.height = new_brick.base.h;
 
-            // Establece el color según la fila
+            // Establece el color y el valor de cond según la fila
             if (j < 2) {
                 new_brick.color = RED;
+                strcpy(new_brick.cond, "r");
             } else if (j < 4) {
                 new_brick.color = ORANGE;
+                strcpy(new_brick.cond, "o");
             } else if (j < 6) {
                 new_brick.color = YELLOW;
+                strcpy(new_brick.cond, "y");
             } else {
                 new_brick.color = GREEN;
+                strcpy(new_brick.cond, "g");
             }
 
-            // Asigna poderes aleatorios: 25% cada uno para aumentar longitud, disminuir longitud, aumentar vidas o ninguno
+            // Asigna poderes aleatorios con probabilidades específicas
             int randomPower = rand() % 16; // Ajusta la probabilidad total
             if (randomPower < 3) {
                 new_brick.power = INCREASE_LENGTH;
@@ -65,18 +70,18 @@ void Spawn_bricks(BrickArray *brick_array) {
             } else if (randomPower < 9) {
                 new_brick.power = INCREASE_LIVES;
             } else if (randomPower < 12) {
-                new_brick.power = INCREASE_SPEED;  // Nuevo poder para aumentar la velocidad
+                new_brick.power = INCREASE_SPEED;
             } else if (randomPower < 15) {
-                new_brick.power = DECREASE_SPEED;  // Nuevo poder para disminuir la velocidad
+                new_brick.power = DECREASE_SPEED;
             } else {
                 new_brick.power = NO_POWER;
             }
-
 
             brick_array->data[brick_array->size++] = new_brick;
         }
     }
 }
+
 
 #include <stdio.h>
 
@@ -184,6 +189,19 @@ void Game_startup(BrickArray *brick_array) {
     // Imprimir bloques al iniciar el juego
     PrintBricks(brick_array);
 }
+int GetScoreForCondition(const char* condition) {
+    if (strcmp(condition, "r") == 0) {
+        return 50; // Puntaje para el bloque rojo
+    } else if (strcmp(condition, "o") == 0) {
+        return 30; // Puntaje para el bloque naranja
+    } else if (strcmp(condition, "y") == 0) {
+        return 20; // Puntaje para el bloque amarillo
+    } else if (strcmp(condition, "g") == 0) {
+        return 10; // Puntaje para el bloque verde
+    }
+    return 0; // Puntaje por defecto
+}
+
 
 void Game_update() {
     float framet = GetFrameTime();
@@ -219,7 +237,7 @@ void Game_update() {
                 ball.accel.y = ball.accel.y * -1;
             }
 
-            player.score += 10; // Aumenta el puntaje
+            player.score += GetScoreForCondition(brick.cond);
 
             // Verifica si el bloque tiene un poder y actúa según el poder
             const float MAX_SPEED = 450.0f;  // Velocidad máxima
