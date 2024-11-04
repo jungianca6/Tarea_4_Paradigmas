@@ -17,6 +17,8 @@
 //Variables que contienen las dimensiones de la pantalla del juego.
 const int screen_w = 500;
 const int screen_h = 600;
+const float MAX_SPEED = 450.0f;  // Velocidad máxima
+const float MIN_SPEED = 220.0f;
 Texture2D background_text;
 struct Player player;
 struct Ball ball;
@@ -30,6 +32,10 @@ char* tipo_jugador = "Spectator";
 
 PartyList partyList; // Lista global de partidas
 int selectedPartyIndex = 0; // Índice de la partida seleccionada
+#define MAX_BALLS 10 // Define el número máximo de bolas
+int activeBallsCount = 0; // Define el número máximo de bolas
+
+struct Ball balls[MAX_BALLS];
 
 
 void Spawn_bricks(BrickArray *brick_array) {
@@ -48,18 +54,22 @@ void Spawn_bricks(BrickArray *brick_array) {
             // Establece el color según la fila
             if (j < 2) {
                 new_brick.color = RED;
+                strcpy(new_brick.cond, "r");
             } else if (j < 4) {
                 new_brick.color = ORANGE;
+                strcpy(new_brick.cond, "o");
             } else if (j < 6) {
                 new_brick.color = YELLOW;
+                strcpy(new_brick.cond, "y");
             } else {
                 new_brick.color = GREEN;
+                strcpy(new_brick.cond, "g");
             }
 
 
-            /*
+
             // Asigna poderes aleatorios: 25% cada uno para aumentar longitud, disminuir longitud, aumentar vidas o ninguno
-            int randomPower = rand() % 16; // Ajusta la probabilidad total
+            int randomPower = rand() % 19; // Ajusta la probabilidad total
             if (randomPower < 3) {
                 new_brick.power = INCREASE_LENGTH;
             } else if (randomPower < 6) {
@@ -69,11 +79,17 @@ void Spawn_bricks(BrickArray *brick_array) {
             } else if (randomPower < 12) {
                 new_brick.power = INCREASE_SPEED;  // Nuevo poder para aumentar la velocidad
             } else if (randomPower < 15) {
-                new_brick.power = DECREASE_SPEED;  // Nuevo poder para disminuir la velocidad
-            } else {
+                new_brick.power = DECREASE_SPEED;
+                // Nuevo poder para disminuir la velocidad
+            }
+            else if (randomPower < 18) {
+            new_brick.power = CREATE_EXTRA_BALL;
+            // Nuevo poder para disminuir la velocidad
+            }
+
+            else {
                 new_brick.power = NO_POWER;
             }
-            */
 
 
             brick_array->data[brick_array->size++] = new_brick;
@@ -82,7 +98,18 @@ void Spawn_bricks(BrickArray *brick_array) {
 }
 
 #include <stdio.h>
-
+int GetScoreForCondition(const char* condition) {
+    if (strcmp(condition, "r") == 0) {
+        return 50; // Puntaje para el bloque rojo
+    } else if (strcmp(condition, "o") == 0) {
+        return 30; // Puntaje para el bloque naranja
+    } else if (strcmp(condition, "y") == 0) {
+        return 20; // Puntaje para el bloque amarillo
+    } else if (strcmp(condition, "g") == 0) {
+        return 10; // Puntaje para el bloque verde
+    }
+    return 0; // Puntaje por defecto
+}
 void PrintBricks(const BrickArray *brick_array) {
     for (int i = 0; i < brick_array->size; i++) {
         Brick brick = brick_array->data[i];
@@ -152,6 +179,15 @@ void PrintBallState(const struct Ball *ball) {
       //     ball->id, ball->pos.x, ball->pos.y, ball->accel.x, ball->accel.y, ball->vel);
     //printf("Posición del jugador: (%.2f, %.2f), Ancho: %.2f, Alto: %.2f\n", player.rect.x, player.rect.y, player.rect.width, player.rect.height);
 }
+void ActivateNewBall() {
+    for (int i = 0; i < MAX_BALLS; i++) {
+        if (!balls[i].active) { // Busca una bola inactiva
+            balls[i].active = true; // Activa la nueva bola
+            activeBallsCount ++; // Incrementa el contador de bolas activas            // Inicializa las propiedades de la nueva bola aquí
+            break; // Salimos del bucle al activar la nueva bola
+        }
+    }
+}
 
 
 void Game_startup(BrickArray *brick_array) {
@@ -170,11 +206,16 @@ void Game_startup(BrickArray *brick_array) {
     player.lives = 1000;
     player.level = 1;
 
-    //Codigo que carga a memoria datos de la bola
-    ball.accel = (Vector2) {0.0f, 1.0f};
-    ball.r = 9.0f;
-    ball.pos = (Vector2) {250, 300};
-    ball.vel = 270.0f;
+// Configuración inicial de las bolas
+    for (int i = 0; i < MAX_BALLS; i++) {
+        balls[i].id = i;
+        balls[i].accel = (Vector2) {0.0f, 1.0f};
+        balls[i].pos = (Vector2) {250, 300};
+
+        balls[i].r = 9.0f;
+        balls[i].vel = 270.0f;
+        balls[i].active = false; // Inicializa como inactiva
+         }
     PrintBall(&ball);
     //Codigo que carga la lista de bloques
     brick_array->size = 0;
@@ -186,6 +227,24 @@ void Game_startup(BrickArray *brick_array) {
 
     // Imprimir bloques al iniciar el juego
     PrintBricks(brick_array);
+}
+void Mas_velocidad() {
+    for (int j = 0; j < MAX_BALLS; j++) {
+
+        balls[j].vel *= 1.2f;
+        if (balls[j].vel > MAX_SPEED) {
+            balls[j].vel = MAX_SPEED;
+        }
+    }
+}
+void Menos_velocidad() {
+    for (int j = 0; j < MAX_BALLS; j++) {
+
+        balls[j].vel *= 0.8f;
+        if (balls[j].vel < MIN_SPEED) {
+            balls[j].vel = MIN_SPEED;
+        }
+    }
 }
 
 void Game_update() {
@@ -200,10 +259,23 @@ void Game_update() {
     if(IsKeyDown(KEY_RIGHT)) {
         player.rect.x += player.velocity * framet;
     }
+    if(IsKeyDown(KEY_SPACE)) {
+        if (activeBallsCount < 1) {
+            balls[0].active = true;
+            activeBallsCount ++;
+
+        }
+
+    }
+
 
     // Actualización de la posición de la bola
-    ball.pos.x = ball.pos.x + ((ball.vel * ball.accel.x) * framet);
-    ball.pos.y = ball.pos.y + ((ball.vel * ball.accel.y) * framet);
+    for (int i = 0; i < MAX_BALLS; i++) {
+        if (balls[i].active) {  // Solo actualiza la bola activa
+            balls[i].pos.x += ((balls[i].vel * balls[i].accel.x) * framet);
+            balls[i].pos.y += ((balls[i].vel * balls[i].accel.y) * framet);
+        }
+    }
 
     printCounter++;
 
@@ -213,106 +285,137 @@ void Game_update() {
         printCounter = 0;  // Reinicia el contador
     }    // Colisión entre la bola y los bloques
 // Colisión entre la bola y los bloques
-    for (int i = 0; i < bricks.size; i++) {
-        Brick brick = bricks.data[i];
-        if (CheckCollisionCircleRec(ball.pos, ball.r, brick.base.rect)) {
-            // Verifica de qué lado ocurrió la colisión
-            if (ball.pos.x < brick.base.rect.x || ball.pos.x > brick.base.rect.x + brick.base.rect.width) {
-                ball.accel.x = ball.accel.x * -1;
-            } else {
-                ball.accel.y = ball.accel.y * -1;
-            }
+    for (int j = 0; j < MAX_BALLS; j++) {
+        if (balls[j].active) {  // Solo actualiza la bola activa
+            for (int i = 0; i < bricks.size; i++) {
+                Brick brick = bricks.data[i];
+                if (CheckCollisionCircleRec(balls[j].pos, balls[j].r,
+                                            brick.base.rect)) {                // Verifica de qué lado ocurrió la colisión
+                    if (balls[j].pos.x < brick.base.rect.x ||
+                        balls[j].pos.x > brick.base.rect.x + brick.base.rect.width) {
+                        balls[j].accel.x *= -1;
+                    } else {
+                        balls[j].accel.y *= -1;
+                    }
 
-            player.score += 10; // Aumenta el puntaje
+                    player.score += GetScoreForCondition(brick.cond);
 
-            // Verifica si el bloque tiene un poder y actúa según el poder
-            const float MAX_SPEED = 450.0f;  // Velocidad máxima
-            const float MIN_SPEED = 220.0f;   // Velocidad mínima
+                    // Verifica si el bloque tiene un poder y actúa según el poder
+  // Velocidad mínima
 
-            if (brick.power == INCREASE_LENGTH) {
-                player.w *= 2;
-                if (player.w > 150)
-                    player.w = 150;
-                player.rect.width = player.w;
-            } else if (brick.power == DECREASE_LENGTH) {
-                player.w *= 0.5 ;
-                if (player.w < 37.5)
-                    player.w = 37.5;
-                player.rect.width = player.w;
-            } else if (brick.power == INCREASE_LIVES) {
-                player.lives++;
-            } else if (brick.power == INCREASE_SPEED) {
-                ball.vel *= 1.2f;
-                if (ball.vel > MAX_SPEED) {
-                    ball.vel = MAX_SPEED;
+                    if (brick.power == INCREASE_LENGTH) {
+                        player.w *= 2;
+                        if (player.w > 150)
+                            player.w = 150;
+                        player.rect.width = player.w;
+                    }
+                     else if (brick.power == CREATE_EXTRA_BALL) {
+                        ActivateNewBall();
+                    }else if (brick.power == DECREASE_LENGTH) {
+                        player.w *= 0.5;
+                        if (player.w < 37.5)
+                            player.w = 37.5;
+                        player.rect.width = player.w;
+                    } else if (brick.power == INCREASE_LIVES) {
+                        player.lives++;
+                    } else if (brick.power == INCREASE_SPEED) {
+                        Mas_velocidad();
+
+                    } else if (brick.power == DECREASE_SPEED) {
+                        Menos_velocidad();
+
+                    }
+
+                    // Imprime mensaje de destrucción del bloque
+                    int column = (brick.base.rect.x - 5) / 61;
+                    int row = (brick.base.rect.y - 50) / 26;     // Calcula la fila
+                    printf("El bloque se destruyó en la fila %d, columna %d\n", row, column); // Imprime fila y columna
+                    send_bricks_info(sock, row, column, "normal");
+                    // Eliminar el bloque
+                    for (int j = i; j < bricks.size - 1; j++) {
+                        bricks.data[j] = bricks.data[j + 1];
+                    }
+
+                    bricks.size--;
+                    i--; // Decrementa 'i' para verificar el siguiente bloque en la próxima iteración
+                    break;
                 }
-            } else if (brick.power == DECREASE_SPEED) {
-                ball.vel *= 0.8f;
-                if (ball.vel < MIN_SPEED) {
-                    ball.vel = MIN_SPEED;
-                }
             }
-
-            // Imprime mensaje de destrucción del bloque
-            int column = (brick.base.rect.x - 5) / 61;
-            int row = (brick.base.rect.y - 50) / 26;     // Calcula la fila
-            printf("El bloque se destruyó en la fila %d, columna %d\n", row, column); // Imprime fila y columna
-            send_bricks_info(sock, row, column, "normal");
-            // Eliminar el bloque
-            for (int j = i; j < bricks.size - 1; j++) {
-                bricks.data[j] = bricks.data[j + 1];
-            }
-
-            bricks.size--;
-            i--; // Decrementa 'i' para verificar el siguiente bloque en la próxima iteración
-            break;
         }
     }
-
     //Chequeo de si todos los bloues estan destruidos, si ese es el caso, se aumenta el nivel, se reestablecen los bloques y se aumenta la velocidad de la bola.
     if (bricks.size == 0) {
         player.level++;
-        ball.vel *= 1.0f;
-        ball.accel = (Vector2) {1.0f, -1.0f};
-        ball.pos = (Vector2) {250, 300};
+        for (int i = 0; i < MAX_BALLS; i++) {
+
+            balls[i].vel *= 1.0f;
+            balls[i].accel = (Vector2) {0.0f, 1.0f};
+            balls[i].pos = (Vector2) {250, 300};
+            balls[i].active = false; // Inicializa como inactiva
+            activeBallsCount = 0;
+
+        }
         Spawn_bricks(&bricks);
     }
 
     //Colision entre la bola y las paredes, se invierte la aceleracion pues el choque causa cambio a direccion contraria.
-    if (ball.pos.x > screen_w || ball.pos.x < 10) {
-        ball.accel.x = ball.accel.x * -1;
-    }
-    if (ball.pos.y < 10) {
-        ball.accel.y = ball.accel.y * -1;
-    }
+    for (int j = 0; j < MAX_BALLS; j++) {
+        if (balls[j].active) {  // Solo actualiza la bola activa
 
-    //Chequeo de si la bola se va de la pantalla abajo para posteriormente volver a jugar pero con una vida menos.
-    if (ball.pos.y > screen_h) {
-        player.lives--;
-        ball.pos = (Vector2){250, 300};
-        ball.accel = (Vector2){0.0f, 1.0f};
-        if (player.lives <= 0) {
-            gg = true;
+            // Colisión con paredes
+            if (balls[j].pos.x > screen_w || balls[j].pos.x < 10) {
+                balls[j].accel.x *= -1;
+            }
+            if (balls[j].pos.y < 10) {
+                balls[j].accel.y *= -1;
+            }
         }
-        return;
     }
+    for (int j = 0; j < MAX_BALLS; j++) {
 
-    // Colisión entre la bola y el jugador.
-    if (CheckCollisionCircleRec(ball.pos, ball.r, player.rect)) {
-        // Calcula la posición relativa de la bola con respecto al centro de la raqueta.
-        float relativePosition = (ball.pos.x - (player.rect.x + player.rect.width / 2)) / (player.rect.width / 2);
+        //Chequeo de si la bola se va de la pantalla abajo para posteriormente volver a jugar pero con una vida menos.
+        if (balls[j].pos.y > screen_h) {
+            if (balls[j].active) {  // Solo actualiza la bola activa
+                if (activeBallsCount > 1) { // Permitir hasta 2 bolas activas
+                    balls[j].active = false;
+                    activeBallsCount--; // Incrementa el contador de bolas activas
+                    balls[j].accel = (Vector2) {0.0f, 1.0f};
+                    balls[j].pos = (Vector2) {250, 300};
+                    balls[j].vel = 270.0f;
 
-        // Ajusta el ángulo de rebote en el eje X basándose en la posición relativa.
-        ball.accel.x = relativePosition;  // Cuanto más lejos del centro, mayor el ángulo en X.
-        ball.accel.y = -fabsf(ball.accel.y);  // Invierte la dirección en Y y asegura que siempre vaya hacia arriba.
-
-        // Normaliza el vector de aceleración para mantener la velocidad constante.
-        float magnitude = sqrtf(ball.accel.x * ball.accel.x + ball.accel.y * ball.accel.y);
-        ball.accel.x /= magnitude;
-        ball.accel.y /= magnitude;
-
+                }// Activa la nueva bola
+                player.lives--;
+                balls[j].pos = (Vector2) {250, 300};
+                balls[j].accel = (Vector2) {0.0f, 1.0f};
+                if (player.lives <= 0) {
+                    gg = true;
+                }
+                return;
+            }
+        }
     }
+    for (int j = 0; j < MAX_BALLS; j++) {
+        if (balls[j].active) {  // Solo actualiza la bola activa
 
+            // Colisión entre la bola y el jugador.
+            if (CheckCollisionCircleRec(balls[j].pos, balls[j].r, player.rect)) {
+                // Calcula la posición relativa de la bola con respecto al centro de la raqueta.
+                float relativePosition =
+                        (balls[j].pos.x - (player.rect.x + player.rect.width / 2)) / (player.rect.width / 2);
+
+                // Ajusta el ángulo de rebote en el eje X basándose en la posición relativa.
+                balls[j].accel.x = relativePosition;  // Cuanto más lejos del centro, mayor el ángulo en X.
+                balls[j].accel.y = -fabsf(
+                        balls[j].accel.y);  // Invierte la dirección en Y y asegura que siempre vaya hacia arriba.
+
+                // Normaliza el vector de aceleración para mantener la velocidad constante.
+                float magnitude = sqrtf(balls[j].accel.x * balls[j].accel.x + balls[j].accel.y * balls[j].accel.y);
+                balls[j].accel.x /= magnitude;
+                balls[j].accel.y /= magnitude;
+
+            }
+        }
+    }
 
     //Colision entre el jugador y las paredes
     if (player.rect.x < 0) {
@@ -349,8 +452,12 @@ void Game_render() {
     }
 
     //Codigo que renderiza a la bola
-    DrawCircle(ball.pos.x, ball.pos.y, ball.r, RAYWHITE);
+    for (int i = 0; i < MAX_BALLS; i++) {
+        if (balls[i].active) {  // Solo actualiza la bola activa
 
+            DrawCircle(balls[i].pos.x, balls[i].pos.y, balls[i].r, RAYWHITE);
+        }
+    }
     //Codigo que renderiza al jugador
     DrawRectangle(player.rect.x, player.rect.y, player.rect.width, player.rect.height, WHITE);
 

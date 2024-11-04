@@ -13,5 +13,6 @@ typedef char PowerType;
 #define INCREASE_LIVES 'V'   // Poder para aumentar vidas
 #define INCREASE_SPEED 'A'   // Nuevo poder para aumentar la velocidad de la bola
 #define DECREASE_SPEED 'D'   // Nuevo poder para disminuir la velocidad de la bola
+#define CREATE_EXTRA_BALL 'E' // Nuevo poder para crear una bola extra
 
 #endif //POWER_TYPE_H
