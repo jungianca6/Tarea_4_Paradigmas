@@ -251,7 +251,7 @@ void Game_update() {
 
 
             // Imprime mensaje de destrucción del bloque
-            int column = (brick.base.rect.x - 15) / 60;  // Calcula la columna
+            int column = (brick.base.rect.x - 5) / 61;
             int row = (brick.base.rect.y - 50) / 26;     // Calcula la fila
             printf("El bloque se destruyó en la fila %d, columna %d\n", row, column); // Imprime fila y columna
             // Eliminar el bloque
