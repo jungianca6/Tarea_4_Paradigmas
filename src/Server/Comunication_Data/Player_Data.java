@@ -6,15 +6,15 @@ public class Player_Data {
     @JsonProperty("type_message")
     public String typeMessage; // Tipo de mensaje (ej. "bricks_data")
     @JsonProperty("pos_x")
-    int pos_x;
+    float pos_x;
     @JsonProperty("pos_y")
-    int pos_y;
+    float pos_y;
     @JsonProperty("ancho")
-    int ancho;
+    float ancho;
     @JsonProperty("alto")
-    int alto;
+    float alto;
 
-    public Player_Data(String typeMessage, int pos_x, int pos_y, int ancho, int alto) {
+    public Player_Data(String typeMessage, float pos_x, float pos_y, float ancho, float alto) {
         this.typeMessage = typeMessage;
         this.pos_x = pos_x;
         this.pos_y = pos_y;

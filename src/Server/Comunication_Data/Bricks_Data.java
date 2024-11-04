@@ -5,17 +5,17 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class Bricks_Data {
     @JsonProperty("type_message")
     public String typeMessage; // Tipo de mensaje (ej. "bricks_data")
-    @JsonProperty("columna")
-    int columna;
-    @JsonProperty("fila")
-    int fila;
+    @JsonProperty("column")
+    int column;
+    @JsonProperty("row")
+    int row;
     @JsonProperty("poder")
     String poder;
 
-    public Bricks_Data(String typeMessage, int columna, int fila, String poder) {
+    public Bricks_Data(String typeMessage, int column, int row, String poder) {
         this.typeMessage = typeMessage;
-        this.columna = columna;
-        this.fila = fila;
+        this.column = column;
+        this.row = row;
         this.poder = poder;
     }
 }

@@ -10,6 +10,7 @@ import Observer.*;
 import Game.Partida;
 import Server.Client.ClientHandler;
 import Server.Client.ClientInfo;
+import java.util.UUID;
 
 public class Server implements Observable{
     private String ipAddress; // Atributo para la dirección IP
@@ -43,6 +44,18 @@ public class Server implements Observable{
             this.parties.add(partida);
         }
     }
+
+    public ClientInfo getClientById(UUID clientId) {
+        synchronized (clients) {
+            for (ClientInfo client : clients) {
+                if (client.getClientId().equals(clientId)) {
+                    return client;
+                }
+            }
+        }
+        return null; // Retorna null si no se encuentra el cliente
+    }
+
 
     public List<Partida> getParties() {
         return this.parties;

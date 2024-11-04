@@ -4,6 +4,7 @@ import Game.Partida;
 import Server.Client.ClientInfo;
 import Server.Comunication_Data.*;
 import Server.Server;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -66,9 +67,10 @@ public class MessageHandler {
                 case "player_data": // Si el tipo es "player_data"
                     handlePlayerMessage(jsonNode); // Maneja el mensaje de elección
                     break;
-                /*case "bricks_data": // Si el tipo es "bricks_data"
+                case "bricks_data": // Si el tipo es "bricks_data"
+                    System.out.println("ola: " + messageType);
                     handleBrickMessage(jsonNode); // Maneja el mensaje de un bloque destruido
-                    break;*/
+                    break;
                 default: // Si el tipo de mensaje es desconocido
                     System.out.println("Tipo de mensaje desconocido: " + messageType);
             }
@@ -166,14 +168,109 @@ public class MessageHandler {
      */
     private void handlePlayerMessage(JsonNode jsonNode) {
         try {
-            // Convierte el nodo JSON en un objeto Party_Choice_Data
-            Party_Choice_Data choiceData = objectMapper.treeToValue(jsonNode, Party_Choice_Data.class);
-            // Crea una nueva partida con la información de elección
-            Partida partida = new Partida(UUID.fromString(choiceData.getId_partida()), choiceData.getIp(), choiceData.getPuerto());
-            updateClientChoice(partida); // Actualiza la elección del cliente
+            // Obtener las coordenadas del bloque del mensaje JSON
+            float posx = (float) jsonNode.get("posx").asDouble();
+            float posy = (float) jsonNode.get("posy").asDouble();
+            float ancho = (float) jsonNode.get("ancho").asDouble();
+            float alto = (float) jsonNode.get("alto").asDouble();
+            // Buscar el cliente asociado al ID
+            ClientInfo client = server.getClientById(clientId); // Método para obtener el cliente por ID
+
+            if (client != null && client.getPartida() != null) {
+                // Obtener la partida asociada al cliente
+                Partida partida = client.getPartida();
+                // Enviar el mensaje de desactivación de bloque a los clientes en la misma partida
+
+                sendPlayerDataMessage(partida.getId_partida(), posx, posy, ancho, alto); // Asegúrate de que "poder" sea adecuado
+            }
+        } catch(Exception e){
+                e.printStackTrace();}
+    }
+
+    /**
+     * Maneja el mensaje de elección del cliente para seleccionar un juego.
+     *
+     * @param jsonNode El nodo JSON que representa el mensaje.
+     */
+    private void handleBrickMessage(JsonNode jsonNode) {
+        try {
+            // Obtener las coordenadas del bloque del mensaje JSON
+            int fila = jsonNode.get("row").asInt();
+            int columna = jsonNode.get("column").asInt();
+
+            // Buscar el cliente asociado al ID
+            ClientInfo client = server.getClientById(clientId); // Método para obtener el cliente por ID
+
+            if (client != null && client.getPartida() != null) {
+                // Obtener la partida asociada al cliente
+                Partida partida = client.getPartida();
+
+                // Desactivar el bloque específico en la partida
+                partida.desactivarBloque(fila, columna);
+
+                // Enviar el mensaje de desactivación de bloque a los clientes en la misma partida
+                sendBlockDeactivateMessage(partida.getId_partida(), fila, columna, "poder"); // Asegúrate de que "poder" sea adecuado
+            } else {
+                System.out.println("Cliente o partida no encontrados.");
+            }
         } catch (Exception e) {
-            // Maneja excepciones al procesar la elección de la partida
-            System.err.println("Error procesando la elección de la partida: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+    /**
+     * Envía un mensaje de desactivación de bloque a los clientes en la partida específica.
+     *
+     * @param partidaId El ID de la partida a la que pertenece el bloque desactivado.
+     * @param fila      La fila del bloque desactivado.
+     * @param columna   La columna del bloque desactivado.
+     * @param poder     El poder asociado al bloque (o cualquier otro dato relevante).
+     */
+    private void sendBlockDeactivateMessage(UUID partidaId, int fila, int columna, String poder) {
+        Bricks_Data bricksData = new Bricks_Data("break_block", columna, fila, poder); // Crea la instancia del objeto
+        String jsonMessage = createBricksDataJson(bricksData); // Convierte a JSON
+        synchronized (server.clients) {
+            for (ClientInfo client : server.clients) {
+                System.out.println(client.getClientId());
+                System.out.println(client.getPartida().getId_partida());
+                // Verifica si el cliente tiene la partida asociada con el ID especificado
+                if (client.getPartida() != null && client.getPartida().getId_partida().equals(partidaId)) {
+                    sendMessageToClient(client, jsonMessage); // Envía el mensaje solo a clientes con la partida correcta
+                }
+            }
+        }
+    }
+
+
+    private void sendPlayerDataMessage(UUID partidaId, float posx, float posy, float ancho, float alto) {
+        Player_Data player_data = new Player_Data("player_data", posx, posy, ancho, alto); // Crea la instancia del objeto
+        String jsonMessage = createPlayerDataJson(player_data); // Convierte a JSON
+        synchronized (server.clients) {
+            for (ClientInfo client : server.clients) {
+                System.out.println(client.getClientId());
+                System.out.println(client.getPartida().getId_partida());
+                // Verifica si el cliente tiene la partida asociada con el ID especificado
+                if (client.getPartida() != null && client.getPartida().getId_partida().equals(partidaId)) {
+                    sendMessageToClient(client, jsonMessage); // Envía el mensaje solo a clientes con la partida correcta
+                }
+            }
+        }
+    }
+
+    private String createPlayerDataJson(Player_Data player_data) {
+        try {
+            return objectMapper.writeValueAsString(player_data); // Convierte el objeto a JSON
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+            return null; // O maneja el error como prefieras
+        }
+    }
+
+    private String createBricksDataJson(Bricks_Data bricksData) {
+        try {
+            return objectMapper.writeValueAsString(bricksData); // Convierte el objeto a JSON
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+            return null; // O maneja el error como prefieras
         }
     }
 
