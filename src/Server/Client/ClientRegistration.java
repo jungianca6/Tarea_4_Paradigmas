@@ -39,4 +39,5 @@ class ClientRegistration {
             server.notifyClientListUpdated(); // Notifica que la lista de clientes ha sido actualizada
         }
     }
+
 }
