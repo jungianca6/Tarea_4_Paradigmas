@@ -113,19 +113,19 @@ public class Main implements Observer {
         "RaquetaMitad", "MasBolas", "MasVidas"});
         blockPanel.add(blockTypeDropdown, gbc);
 
-        // Columna
+        // Fila
         gbc.gridx = 0;
         gbc.gridy = 1;
-        blockPanel.add(new JLabel("Columna:"), gbc);
+        blockPanel.add(new JLabel("Fila:"), gbc);
 
         gbc.gridx = 1;
         filaField = new JTextField(10);
         blockPanel.add(filaField, gbc);
 
-        // Fila
+        // Columna
         gbc.gridx = 0;
         gbc.gridy = 2;
-        blockPanel.add(new JLabel("Fila:"), gbc);
+        blockPanel.add(new JLabel("Columna:"), gbc);
 
         gbc.gridx = 1;
         columnaField = new JTextField(10);
@@ -226,7 +226,7 @@ public class Main implements Observer {
         }
 
         // Verificar si el bloque está activo o no
-        if (!partida.isBloqueActivo(fila, columna)) {
+        if (!partida.isBloqueActivo(columna, fila)) {
             JOptionPane.showMessageDialog(null, "El bloque en la posición (" + fila + ", " + columna + ") no existe o no está activo.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
