@@ -1,0 +1,1 @@
+/usr/bin/cc -g CMakeFiles/Tarea4.dir/main.c.o CMakeFiles/Tarea4.dir/Client/client.c.o CMakeFiles/Tarea4.dir/INI/ini.c.o CMakeFiles/Tarea4.dir/Config/config.c.o -o Tarea4   -L/usr/local/lib  -Wl,-rpath,/usr/local/lib -lraylib -lm -lpthread -ldl -lcjson

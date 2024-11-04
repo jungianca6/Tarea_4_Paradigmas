@@ -10,7 +10,7 @@
 extern PartyList partyList; // Lista global de partidas
 extern char* tipo_jugador;
 extern BrickArray bricks;
-
+extern struct Player player;
 
 void receive_message(int socket_fd) {
 
@@ -106,6 +106,18 @@ void receive_message(int socket_fd) {
                     break;
                 }
             }
+        }
+
+    }else if (strcmp(json_type_message->valuestring, "player_data") == 0) {
+        if (strcmp(tipo_jugador, "Spectator") == 0) {
+            cJSON *json_player_posx = cJSON_GetObjectItem(json, "posx");
+            cJSON *json_player_posy = cJSON_GetObjectItem(json, "posy");
+            cJSON *json_player_ancho = cJSON_GetObjectItem(json, "ancho");
+            cJSON *json_player_largo = cJSON_GetObjectItem(json, "largo");
+            player.rect.x = cJSON_GetNumberValue(json_player_posx);
+            player.rect.y = cJSON_GetNumberValue(json_player_posy);
+            player.rect.width = cJSON_GetNumberValue(json_player_ancho);
+            player.rect.height = cJSON_GetNumberValue(json_player_largo);
         }
     }
     else {
