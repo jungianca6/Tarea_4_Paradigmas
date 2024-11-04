@@ -320,6 +320,8 @@ void Game_update() {
         player.rect.x = (screen_w - player.rect.width);
     }
 
+    send_player_info(sock, player.rect.x,  player.rect.y,  player.rect.width, player.rect.height);
+
 
 }
 

@@ -107,8 +107,8 @@ void receive_message(int socket_fd) {
                 }
             }
         }
-
-    }else if (strcmp(json_type_message->valuestring, "player_data") == 0) {
+    }
+    else if (strcmp(json_type_message->valuestring, "player_data") == 0) {
         if (strcmp(tipo_jugador, "Spectator") == 0) {
             cJSON *json_player_posx = cJSON_GetObjectItem(json, "posx");
             cJSON *json_player_posy = cJSON_GetObjectItem(json, "posy");
@@ -191,7 +191,7 @@ void send_bricks_info(int socket_fd, int column, int row, const char* poder) {
     cJSON_AddStringToObject(json, "poder", data_bricks.poder); // Añadir tipo
 
     char *jsonString = cJSON_PrintUnformatted(json);
-    printf("Enviando JSON de player: %s\n", jsonString);
+    printf("Enviando JSON de bloque: %s\n", jsonString);
 
     size_t jsonLength = strlen(jsonString);
     char *jsonWithNewline = malloc(jsonLength + 2); // +2 para '\n' y '\0'
