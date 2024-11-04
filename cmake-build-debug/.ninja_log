@@ -1,0 +1,15 @@
+# ninja log v6
+16	521	1730690679433754559	CMakeFiles/Tarea_4_Paradigmas.dir/Tarea4/INI/examples/ini_dump.c.o	af7d14a0ed53da2
+4	556	1730690679398753729	CMakeFiles/Tarea_4_Paradigmas.dir/Tarea4/Config/config.c.o	e8a4c8efb5237e1b
+556	644	1730690679950766824	CMakeFiles/Tarea_4_Paradigmas.dir/Tarea4/INI/examples/ini_xmacros.c.o	dcb503f6e70c3eb1
+1	675	1730690679394753634	CMakeFiles/Tarea_4_Paradigmas.dir/Tarea4/Client/client.c.o	28fc3373641ef08f
+525	712	1730690679916766018	CMakeFiles/Tarea_4_Paradigmas.dir/Tarea4/INI/examples/ini_example.c.o	f7adc12e9433f159
+678	847	1730690680073769742	CMakeFiles/Tarea_4_Paradigmas.dir/Tarea4/INI/fuzzing/inihfuzz.c.o	44d00dd9c3e7101b
+712	992	1730690680106770524	CMakeFiles/Tarea_4_Paradigmas.dir/Tarea4/INI/tests/unittest.c.o	738f74a7fdf55530
+853	1083	1730690680247773869	CMakeFiles/Tarea_4_Paradigmas.dir/Tarea4/INI/tests/unittest_alloc.c.o	fcbe2bf957a34c58
+993	1153	1730690680387777190	CMakeFiles/Tarea_4_Paradigmas.dir/Tarea4/INI/tests/unittest_string.c.o	92161103d9675d73
+1106	1243	1730690680497779799	CMakeFiles/Tarea_4_Paradigmas.dir/Tarea4/INI/ini.c.o	c4322bb0ce1b3390
+1153	1511	1730690680546780961	CMakeFiles/Tarea_4_Paradigmas.dir/Tarea4/main.c.o	cbbedf59f5975f9d
+8	1847	1730690679401753800	CMakeFiles/Tarea_4_Paradigmas.dir/Tarea4/INI/cpp/INIReader.cpp.o	505d9754a4269144
+645	2042	1730690680039768935	CMakeFiles/Tarea_4_Paradigmas.dir/Tarea4/INI/examples/INIReaderExample.cpp.o	c589aa20a054338e
+17	286	1730690951004117877	CMakeFiles/Tarea_4_Paradigmas.dir/Tarea4/main.c.o	cbbedf59f5975f9d

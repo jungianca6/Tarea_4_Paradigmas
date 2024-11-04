@@ -10,11 +10,13 @@
 #include <arpa/inet.h> // For sockaddr_in
 #include "../Components/brick.h"
 #include "../Components/brick_array.h"
+#include "../Components/player.h"
 
 // Declaración externa de partyList
 extern PartyList partyList;
 extern BrickArray bricks;
 extern char* tipo_jugador;;
+extern struct Player player;
 
 void send_message(int socket_fd, Data data);
 // Función para inicializar el socket
