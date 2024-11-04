@@ -56,6 +56,17 @@ public class Server implements Observable{
         return null; // Retorna null si no se encuentra el cliente
     }
 
+    public Partida getPartieById(UUID partidaId) {
+        synchronized (parties) {
+            for (Partida partida : parties) {
+                if (partida.getId_partida().equals(partidaId)) {
+                    return partida;
+                }
+            }
+        }
+        return null; // Retorna null si no se encuentra la partida
+    }
+
 
     public List<Partida> getParties() {
         return this.parties;
@@ -83,5 +94,4 @@ public class Server implements Observable{
     public void notifyClientListUpdated() {
         notifyObservers(); // Llama a notifyObservers para actualizar la lista
     }
-
 }

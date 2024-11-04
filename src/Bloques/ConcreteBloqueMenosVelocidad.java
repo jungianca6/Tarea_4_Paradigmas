@@ -7,8 +7,4 @@ public class ConcreteBloqueMenosVelocidad extends AbstractBloque {
         super(fila, columna);
     }
 
-    // Aplica el efecto de disminución de velocidad
-    public void aplicarEfecto() {
-        System.out.println("Aplicando efecto de disminución de velocidad.");
-    }
 }

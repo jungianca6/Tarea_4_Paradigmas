@@ -9,13 +9,13 @@ public class Bricks_Data {
     int column;
     @JsonProperty("row")
     int row;
-    @JsonProperty("poder")
-    String poder;
+    @JsonProperty("power")
+    String power;
 
-    public Bricks_Data(String typeMessage, int column, int row, String poder) {
+    public Bricks_Data(String typeMessage, int column, int row, String power) {
         this.typeMessage = typeMessage;
         this.column = column;
         this.row = row;
-        this.poder = poder;
+        this.power = power;
     }
 }

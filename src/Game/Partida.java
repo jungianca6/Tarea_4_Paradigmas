@@ -39,6 +39,17 @@ public class Partida {
         }
     }
 
+
+    // Método para verificar si un bloque específico está activo
+    public boolean isBloqueActivo(int fila, int columna) {
+        if (fila >= 0 && fila < bloques.length && columna >= 0 && columna < bloques[0].length) {
+            return bloques[fila][columna].isActivo(); // Retorna el estado del bloque
+        } else {
+            System.out.println("Posición fuera de los límites.");
+            return false; // Retorna false si la posición está fuera de los límites
+        }
+    }
+
     public UUID getId_partida() {
         return id_partida;
     }
