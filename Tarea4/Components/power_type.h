@@ -4,13 +4,14 @@
 
 #ifndef POWER_TYPE_H
 #define POWER_TYPE_H
-typedef enum {
-    NO_POWER,
-    INCREASE_LENGTH,
-    DECREASE_LENGTH,
-    INCREASE_LIVES,  // Poder para aumentar vidas
-    INCREASE_SPEED,  // Nuevo poder para aumentar la velocidad de la bola
-    DECREASE_SPEED   // Nuevo poder para disminuir la velocidad de la bola
-} PowerType;
+
+typedef char PowerType;
+
+#define NO_POWER 'N'
+#define INCREASE_LENGTH 'L'
+#define DECREASE_LENGTH 'S'
+#define INCREASE_LIVES 'V'   // Poder para aumentar vidas
+#define INCREASE_SPEED 'A'   // Nuevo poder para aumentar la velocidad de la bola
+#define DECREASE_SPEED 'D'   // Nuevo poder para disminuir la velocidad de la bola
 
 #endif //POWER_TYPE_H
