@@ -48,12 +48,16 @@ void Spawn_bricks(BrickArray *brick_array) {
             // Establece el color según la fila
             if (j < 2) {
                 new_brick.color = RED;
+                strcpy(new_brick.cond, "r");
             } else if (j < 4) {
                 new_brick.color = ORANGE;
+                strcpy(new_brick.cond, "o");
             } else if (j < 6) {
                 new_brick.color = YELLOW;
+                strcpy(new_brick.cond, "y");
             } else {
                 new_brick.color = GREEN;
+                strcpy(new_brick.cond, "g");
             }
 
 
@@ -82,7 +86,18 @@ void Spawn_bricks(BrickArray *brick_array) {
 }
 
 #include <stdio.h>
-
+int GetScoreForCondition(const char* condition) {
+    if (strcmp(condition, "r") == 0) {
+        return 50; // Puntaje para el bloque rojo
+    } else if (strcmp(condition, "o") == 0) {
+        return 30; // Puntaje para el bloque naranja
+    } else if (strcmp(condition, "y") == 0) {
+        return 20; // Puntaje para el bloque amarillo
+    } else if (strcmp(condition, "g") == 0) {
+        return 10; // Puntaje para el bloque verde
+    }
+    return 0; // Puntaje por defecto
+}
 void PrintBricks(const BrickArray *brick_array) {
     for (int i = 0; i < brick_array->size; i++) {
         Brick brick = brick_array->data[i];
@@ -223,8 +238,8 @@ void Game_update() {
                 ball.accel.y = ball.accel.y * -1;
             }
 
-            player.score += 10; // Aumenta el puntaje
-
+            player.score += GetScoreForCondition(brick.cond);
+            
             // Verifica si el bloque tiene un poder y actúa según el poder
             const float MAX_SPEED = 450.0f;  // Velocidad máxima
             const float MIN_SPEED = 220.0f;   // Velocidad mínima
