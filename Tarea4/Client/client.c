@@ -11,9 +11,12 @@ extern PartyList partyList; // Lista global de partidas
 char* tipo_jugador = "Player";
 extern BrickArray bricks;
 
+
 void receive_message(int socket_fd) {
+
     char buffer[1024]; // Buffer para almacenar la respuesta
     ssize_t bytes_received = recv(socket_fd, buffer, sizeof(buffer) - 1, 0); // Deja espacio para el terminador nulo
+
 
     if (bytes_received < 0) {
         perror("Error receiving message");
@@ -82,13 +85,25 @@ void receive_message(int socket_fd) {
 
         // Libera la memoria
         free(data_parties.parties);
-    } else if (tipo_jugador == "Spectator") {
+    }else if (tipo_jugador == "Spectator") {
+        cJSON *json_brick_row = cJSON_GetObjectItem(json, "row");
+        cJSON *json_brick_column = cJSON_GetObjectItem(json, "column");
         if (strcmp(json_type_message->valuestring, "data_bricks") == 0) {
-
+            for (int i = 0; i < bricks.size; i++) {
+                Brick brick = bricks.data[i];
+                int brickRow = (brick.base.rect.y - 50) / 26;
+                int brickColumn = (brick.base.rect.x - 5) / 61;
+                if (brickRow == cJSON_GetNumberValue(json_brick_row) && brickColumn == cJSON_GetNumberValue(json_brick_column) ) {
+                    // Elimina el bloque desplazando el resto de elementos
+                    for (int j = i; j < bricks.size - 1; j++) {
+                        bricks.data[j] = bricks.data[j + 1];
+                    }
+                    bricks.size--;
+                    break;
+                }
+            }
         }
-
     }
-
     else {
         printf("Error: tipo de mensaje desconocido.\n");
     }
