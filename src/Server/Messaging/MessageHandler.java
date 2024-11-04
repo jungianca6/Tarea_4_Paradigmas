@@ -58,9 +58,6 @@ public class MessageHandler {
                 case "register": // Si el tipo es "register"
                     handleRegistration(jsonNode); // Maneja el registro
                     break;
-                case "data": // Si el tipo es "data"
-                    handleDataMessage(jsonNode); // Maneja el mensaje de datos
-                    break;
                 case "choice": // Si el tipo es "choice"
                     handleChoiceMessage(jsonNode); // Maneja el mensaje de elección
                     break;
@@ -127,21 +124,6 @@ public class MessageHandler {
         server.notifyClientListUpdated(); // Notifica que la lista de clientes ha sido actualizada
     }
 
-    /**
-     * Maneja el mensaje de datos del cliente.
-     *
-     * @param jsonNode El nodo JSON que representa el mensaje.
-     */
-    private void handleDataMessage(JsonNode jsonNode) {
-        try {
-            // Convierte el nodo JSON en un objeto Data
-            Data data = objectMapper.treeToValue(jsonNode, Data.class);
-            processClientData(data); // Procesa los datos del cliente
-        } catch (IOException e) {
-            // Maneja excepciones al procesar el mensaje de datos
-            System.err.println("Error procesando el mensaje de datos: " + e.getMessage());
-        }
-    }
 
     /**
      * Maneja el mensaje de elección del cliente para seleccionar un juego.
@@ -205,7 +187,7 @@ public class MessageHandler {
                 partida.desactivarBloque(fila, columna);
 
                 // Enviar el mensaje de desactivación de bloque a los clientes en la misma partida
-                sendBlockDeactivateMessage(partida.getId_partida(), fila, columna, "poder"); // Asegúrate de que "poder" sea adecuado
+                sendBreakBlockMessage(partida.getId_partida(), fila, columna, "poder"); // Asegúrate de que "poder" sea adecuado
             } else {
                 System.out.println("Cliente o partida no encontrados.");
             }
@@ -221,14 +203,11 @@ public class MessageHandler {
      * @param columna   La columna del bloque desactivado.
      * @param poder     El poder asociado al bloque (o cualquier otro dato relevante).
      */
-    private void sendBlockDeactivateMessage(UUID partidaId, int fila, int columna, String poder) {
+    private void sendBreakBlockMessage(UUID partidaId, int fila, int columna, String poder) {
         Bricks_Data bricksData = new Bricks_Data("break_block", columna, fila, poder); // Crea la instancia del objeto
         String jsonMessage = createBricksDataJson(bricksData); // Convierte a JSON
         synchronized (server.clients) {
             for (ClientInfo client : server.clients) {
-                System.out.println(client.getClientId());
-                System.out.println(client.getPartida().getId_partida());
-                // Verifica si el cliente tiene la partida asociada con el ID especificado
                 if (client.getPartida() != null && client.getPartida().getId_partida().equals(partidaId)) {
                     sendMessageToClient(client, jsonMessage); // Envía el mensaje solo a clientes con la partida correcta
                 }
@@ -236,18 +215,13 @@ public class MessageHandler {
         }
     }
 
-
     private void sendPlayerDataMessage(UUID partidaId, float posx, float posy, float ancho, float alto) {
         Player_Data player_data = new Player_Data("player_data", posx, posy, ancho, alto); // Crea la instancia del objeto
         String jsonMessage = createPlayerDataJson(player_data); // Convierte a JSON
         synchronized (server.clients) {
             for (ClientInfo client : server.clients) {
-                //System.out.println(client.getClientId());
-                //System.out.println(client.getPartida().getId_partida());
-                // Verifica si el cliente tiene la partida asociada con el ID especificado
                 if (client.getPartida() != null && client.getPartida().getId_partida().equals(partidaId)) {
                     sendMessageToClient(client, jsonMessage); // Envía el mensaje solo a clientes con la partida correcta
-
                 }
             }
         }
@@ -267,6 +241,7 @@ public class MessageHandler {
             }
         }
     }
+
 
     private String createPlayerDataJson(Player_Data player_data) {
         try {
@@ -295,7 +270,6 @@ public class MessageHandler {
     private boolean isValidClientType(String type) {
         return "Player".equals(type) || "Spectator".equals(type);
     }
-
 
     /**
      * Obtiene la información del cliente correspondiente al ID del cliente.
@@ -336,20 +310,6 @@ public class MessageHandler {
     }
 
     /**
-     * Procesa los datos recibidos del cliente.
-     *
-     * @param data Los datos enviados por el cliente.
-     */
-    private void processClientData(Data data) {
-        System.out.println("Cliente " + clientId);
-        System.out.println("Mensaje recibido: " + data.message);
-        System.out.println("Número recibido: " + data.number);
-        System.out.println("Estado recibido: " + data.status);
-
-        sendResponseToAllClients(data); // Envía la respuesta a todos los clientes
-    }
-
-    /**
      * Actualiza la elección del cliente en una partida.
      *
      * @param partida La partida seleccionada por el cliente.
@@ -359,40 +319,8 @@ public class MessageHandler {
             ClientInfo clientInfo = getClientInfo(); // Obtiene la información del cliente
             clientInfo.setPartida(partida); // Actualiza la partida del cliente
             server.notifyClientListUpdated(); // Notifica que la lista de clientes ha sido actualizada
-
             System.out.println("Cliente " + clientId + " ha seleccionado el juego: ID: "
                     + partida.getId_partida() + ", IP: " + partida.getIp() + ", Puerto: " + partida.getPuerto());
-        }
-    }
-
-    /**
-     * Envía una respuesta a todos los clientes, excepto al que envió el mensaje.
-     *
-     * @param data Los datos a enviar como respuesta.
-     */
-    private void sendResponseToAllClients(Data data) {
-        String jsonResponse = createResponseJson(data); // Crea la respuesta en formato JSON
-
-        synchronized (server.clients) {
-            for (ClientInfo client : server.clients) {
-                if (!client.getSocket().equals(socket)) { // No envía respuesta al cliente que envió el mensaje
-                    sendMessageToClient(client, jsonResponse);
-                }
-            }
-        }
-    }
-
-    /**
-     * Envía un mensaje de finalización de juego a todos los clientes.
-     */
-    private void sendGameEndMessage() {
-        Game_end_Data gameEndData = new Game_end_Data(); // Crea una instancia con el tipo de mensaje "end"
-        String jsonMessage = createGameEndResponseJson(gameEndData); // Convierte a JSON
-
-        synchronized (server.clients) {
-            for (ClientInfo client : server.clients) {
-                sendMessageToClient(client, jsonMessage); // Envía el mensaje a todos los clientes
-            }
         }
     }
 
@@ -407,23 +335,6 @@ public class MessageHandler {
             return objectMapper.writeValueAsString(gameEndData); // Convierte a JSON
         } catch (IOException e) {
             System.err.println("Error al crear la respuesta JSON de finalización de juego: " + e.getMessage());
-            return "{}"; // Retorna un JSON vacío en caso de error
-        }
-    }
-
-
-    /**
-     * Crea un JSON de respuesta basado en los datos recibidos.
-     *
-     * @param data Los datos del cliente que se utilizarán en la respuesta.
-     * @return La respuesta en formato JSON.
-     */
-    private String createResponseJson(Data data) {
-        try {
-            Data responseData = new Data("data", "Mensaje recibido: " + data.message, data.number * 2, 1); // Prepara los datos de respuesta
-            return objectMapper.writeValueAsString(responseData); // Convierte a JSON
-        } catch (IOException e) {
-            System.err.println("Error al crear la respuesta JSON: " + e.getMessage());
             return "{}"; // Retorna un JSON vacío en caso de error
         }
     }
@@ -443,4 +354,19 @@ public class MessageHandler {
             System.err.println("Error al enviar mensaje al cliente " + client.getClientId() + ": " + e.getMessage()); // Registra el error durante el envío
         }
     }
+
+    /**
+     * Envía un mensaje de finalización de juego a todos los clientes.
+     */
+    private void sendGameEndMessage() {
+        Game_end_Data gameEndData = new Game_end_Data(); // Crea una instancia con el tipo de mensaje "end"
+        String jsonMessage = createGameEndResponseJson(gameEndData); // Convierte a JSON
+        synchronized (server.clients) {
+            for (ClientInfo client : server.clients) {
+                sendMessageToClient(client, jsonMessage); // Envía el mensaje a todos los clientes
+            }
+        }
+    }
+
 }
+
