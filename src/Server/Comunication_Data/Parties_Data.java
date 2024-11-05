@@ -3,6 +3,7 @@ package Server.Comunication_Data;
 import java.util.ArrayList;
 import java.util.List;
 import Game.Partida;
+import Game.Partie_Without_Elements;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -10,7 +11,7 @@ public class Parties_Data {
     @JsonProperty("type_message")
     private String typeMessage; // Tipo de mensaje (ej. "data_parties")
 
-    private List<Partida> parties; // Lista de partidas
+    private List<Partie_Without_Elements> parties; // Lista de partidas
 
     public Parties_Data() {
         this.parties = new ArrayList<>(); // Inicializa la lista de partidas
@@ -22,12 +23,12 @@ public class Parties_Data {
     }
 
     // Método para agregar una partida
-    public void addPartida(Partida partida) {
+    public void addPartida(Partie_Without_Elements partida) {
         this.parties.add(partida);
     }
 
     // Método para obtener la lista de partidas
-    public List<Partida> getParties() {
+    public List<Partie_Without_Elements> getParties() {
         return parties;
     }
 
@@ -44,7 +45,7 @@ public class Parties_Data {
 
     // Método para imprimir las partidas (para pruebas)
     public void printParties() {
-        for (Partida partida : parties) {
+        for (Partie_Without_Elements partida : parties) {
             System.out.println("ID: " + partida.getId_partida() + ", IP: " + partida.getIp() + ", Puerto: " + partida.getPuerto());
         }
     }

@@ -15,6 +15,8 @@ import Observer.Observer;
 import Fabrica_Bloques.*;
 import Bloques.*;
 
+
+
 public class Main implements Observer {
     private ConcreteBloqueFactory bloqueFactory;
     private JList<String> clientList;
@@ -30,26 +32,31 @@ public class Main implements Observer {
     private ClientInfo selectedClientInfo; // Almacena la información del cliente seleccionado
 
     public Main() {
-
-
         this.bloqueFactory = new ConcreteBloqueFactory();
         JFrame frame = new JFrame("BreakOutTEC Server");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(700, 500); // Tamaño de ventana ajustado
+        frame.setSize(700, 500); // Tamaño de ventSSana ajustado
         frame.setLayout(new BorderLayout());
 
         // Panel para la lista de clientes
         JPanel clientPanel = new JPanel(new BorderLayout());
         clientPanel.setBorder(BorderFactory.createTitledBorder("Clientes Conectados"));
+        clientPanel.setBackground(new Color(230, 230, 250)); // Color de fondo suave
 
         clientListModel = new DefaultListModel<>();
         clientList = new JList<>(clientListModel);
+        clientList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        clientList.setFont(new Font("Arial", Font.PLAIN, 14)); // Cambia la fuente
         JScrollPane clientScrollPane = new JScrollPane(clientList);
         clientScrollPane.setPreferredSize(new Dimension(300, 450));
         clientPanel.add(clientScrollPane, BorderLayout.CENTER);
 
         startServerButton = new JButton("Iniciar Servidor");
         startServerButton.addActionListener(e -> startServer());
+        startServerButton.setBackground(new Color(100, 149, 237)); // Color del botón
+        startServerButton.setForeground(Color.WHITE);
+        startServerButton.setFocusPainted(false);
+        startServerButton.setBorderPainted(false);
         clientPanel.add(startServerButton, BorderLayout.SOUTH);
 
         frame.add(clientPanel, BorderLayout.WEST);
@@ -61,6 +68,7 @@ public class Main implements Observer {
         selectedClientTextArea.setEditable(false);
         selectedClientTextArea.setLineWrap(true);
         selectedClientTextArea.setWrapStyleWord(true);
+        selectedClientTextArea.setFont(new Font("Arial", Font.PLAIN, 14)); // Cambia la fuente
         JScrollPane selectedClientScrollPane = new JScrollPane(selectedClientTextArea);
         selectedClientScrollPane.setPreferredSize(new Dimension(300, 100));
         selectedClientPanel.add(selectedClientScrollPane, BorderLayout.CENTER);
@@ -69,6 +77,7 @@ public class Main implements Observer {
         // Panel para agrupar nivel y puntaje
         JPanel scorePanel = new JPanel(new GridBagLayout());
         scorePanel.setBorder(BorderFactory.createTitledBorder("Nivel y Puntaje"));
+        scorePanel.setBackground(new Color(240, 255, 255)); // Color de fondo suave
 
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(10, 10, 5, 10); // Espaciado ajustado
@@ -97,11 +106,16 @@ public class Main implements Observer {
         gbc.gridwidth = 2; // Abarcar ambas columnas
         JButton modifyScoreButton = new JButton("Modificar Puntaje");
         modifyScoreButton.addActionListener(e -> modificarPuntaje());
+        modifyScoreButton.setBackground(new Color(100, 149, 237)); // Color del botón
+        modifyScoreButton.setForeground(Color.WHITE);
+        modifyScoreButton.setFocusPainted(false);
+        modifyScoreButton.setBorderPainted(false);
         scorePanel.add(modifyScoreButton, gbc);
 
         // Panel para la creación de bloques
         JPanel blockPanel = new JPanel(new GridBagLayout());
         blockPanel.setBorder(BorderFactory.createTitledBorder("Crear Bloque"));
+        blockPanel.setBackground(new Color(240, 255, 255)); // Color de fondo suave
 
         // Tipo de bloque
         gbc.gridx = 0;
@@ -110,8 +124,8 @@ public class Main implements Observer {
         blockPanel.add(new JLabel("Tipo de bloque:"), gbc);
 
         gbc.gridx = 1;
-        blockTypeDropdown = new JComboBox<>(new String[]{"Normal", "MasVelocidad", "MenosVelocidad","RaquetaDoble",
-        "RaquetaMitad", "MasBolas", "MasVidas"});
+        blockTypeDropdown = new JComboBox<>(new String[]{"Normal", "MasVelocidad", "MenosVelocidad", "RaquetaDoble",
+                "RaquetaMitad", "MasBolas", "MasVidas"});
         blockPanel.add(blockTypeDropdown, gbc);
 
         // Fila
@@ -138,6 +152,10 @@ public class Main implements Observer {
         gbc.gridwidth = 2; // Abarcar ambas columnas
         JButton createBlockButton = new JButton("Crear Bloque");
         createBlockButton.addActionListener(e -> crearBloque());
+        createBlockButton.setBackground(new Color(100, 149, 237)); // Color del botón
+        createBlockButton.setForeground(Color.WHITE);
+        createBlockButton.setFocusPainted(false);
+        createBlockButton.setBorderPainted(false);
         blockPanel.add(createBlockButton, gbc);
 
         // Agregar los paneles al marco
@@ -149,6 +167,9 @@ public class Main implements Observer {
         // Listener para mostrar el cliente seleccionado
         clientList.addListSelectionListener(e -> mostrarClienteSeleccionado());
 
+        // Estilo de la ventana
+        frame.setResizable(false); // No permitir que se redimensione
+        frame.getContentPane().setBackground(new Color(255, 255, 255)); // Color de fondo de la ventana
         frame.setVisible(true);
         frame.setLocationRelativeTo(null); // Centrar la ventana
     }

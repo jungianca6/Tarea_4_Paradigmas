@@ -115,6 +115,7 @@ public class MessageHandler {
             // Crea una nueva partida con la información de elección
             Partida partida = new Partida(UUID.fromString(choiceData.getId_partida()), choiceData.getIp(), choiceData.getPuerto());
             updateClientChoice(partida); // Actualiza la elección del cliente
+            messageSender.sendMatrixBlockMessage(partida);
         } catch (Exception e) {
             // Maneja excepciones al procesar la elección de la partida
             System.err.println("Error procesando la elección de la partida: " + e.getMessage());

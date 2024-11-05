@@ -1,6 +1,8 @@
 package Server.Messaging;
 
 import Game.Ball;
+import Game.Partida;
+import Game.Partie_Without_Elements;
 import Server.Client.ClientInfo;
 import Server.Comunication_Data.*;
 import Server.Server;
@@ -110,6 +112,17 @@ public class MessageSender {
         }
     }
 
+    public void sendMatrixBlockMessage(Partida partida) {
+        ClientInfo client = server.getClientInfobyID(clientId); // Obtiene la información del cliente
+        // Crea la instancia del objeto Bricks_Data con la información del bloque de poder
+        Matrix_Brick_Data matrix_brick_data = new Matrix_Brick_Data("brick_matrix", partida.getBloques());
+        // Convierte el objeto Bricks_Data a formato JSON
+        String jsonMessage = createJson(matrix_brick_data);
+        // Convierte el objeto Parties_Data a JSON y lo envía al cliente especificado
+        sendMessageToClient(client, jsonMessage);
+        System.out.println("Mensaje enviado al cliente " + client.getClientId() + ": " + jsonMessage);
+    }
+
     /**
      * Envía los datos de las bolas a los clientes que son espectadores en la partida especificada.
      *
@@ -148,7 +161,7 @@ public class MessageSender {
         try {
             PrintWriter out = new PrintWriter(client.getSocket().getOutputStream(), true); // Prepara el flujo de salida
             out.println(message); // Envía el mensaje
-            //System.out.println("Mensaje enviado al cliente " + client.getClientId() + ": " + message); // Registra el mensaje enviado
+            System.out.println("Mensaje enviado al cliente " + client.getClientId() + ": " + message); // Registra el mensaje enviado
         } catch (IOException e) {
             System.err.println("Error al enviar mensaje al cliente " + client.getClientId() + ": " + e.getMessage()); // Registra el error durante el envío
         }
@@ -160,12 +173,19 @@ public class MessageSender {
      * @param client El objeto ClientInfo que representa al cliente al que se enviará la lista de partidas.
      */
     public void sendGameListToClientMessage(ClientInfo client) {
-        // Crea un objeto Parties_Data para almacenar el mensaje de tipo "data_parties"
+    // Crea un objeto Parties_Data para almacenar el mensaje de tipo "data_parties"
         Parties_Data partiesData = new Parties_Data("data_parties");
+
         // Recorre la lista de partidas en el servidor y las añade al objeto Parties_Data
-        server.getParties().forEach(partiesData::addPartida);
+        server.getParties().forEach(partida -> {
+            // Crea una versión simplificada de la partida sin el atributo bloque
+            Partie_Without_Elements simplifiedPartida = new Partie_Without_Elements(partida.getId_partida(), partida.getIp(), partida.getPuerto());
+            partiesData.addPartida(simplifiedPartida);
+        });
+
         // Convierte el objeto Parties_Data a JSON y lo envía al cliente especificado
         sendMessageToClient(client, partiesData.toJson());
+        //System.out.println("Mensaje enviado al cliente " + client.getClientId() + ": " + partiesData.toJson());
     }
 
     /**

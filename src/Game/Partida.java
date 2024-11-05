@@ -56,6 +56,14 @@ public class Partida {
         }
     }
 
+    public Bloque[][] getBloques() {
+        return bloques;
+    }
+
+    public void setBloques(Bloque[][] bloques) {
+        this.bloques = bloques;
+    }
+
     public UUID getId_partida() {
         return id_partida;
     }

@@ -4,6 +4,15 @@ import Game.Ball;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Balls_Data {
+    @JsonProperty("type_message")
+    public String typeMessage; // Tipo de mensaje (ej. "balls_data")
+    @JsonProperty("balls")
+    Ball[] balls;
+
+    public Balls_Data(String typeMessage, Ball[] balls) {
+        this.typeMessage = typeMessage;
+        this.balls = balls;
+    }
     public String getTypeMessage() {
         return typeMessage;
     }
@@ -20,13 +29,5 @@ public class Balls_Data {
         this.balls = balls;
     }
 
-    @JsonProperty("type_message")
-    public String typeMessage; // Tipo de mensaje (ej. "balls_data")
-    @JsonProperty("balls")
-    Ball[] balls;
 
-    public Balls_Data(String typeMessage, Ball[] balls) {
-        this.typeMessage = typeMessage;
-        this.balls = balls;
-    }
 }
