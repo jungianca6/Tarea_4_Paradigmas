@@ -254,6 +254,54 @@ void send_bricks_info(int socket_fd, int column, int row, const char* poder) {
     free(jsonString);
     free(jsonWithNewline);
 }
+//brick_matriz
+void send_balls_info(int socket_fd, bool active, int id, int posx, int posy) {
+    DataBalls data_balls;
+    data_balls.balls = balls;
+
+    for (int i = 0; i < 10; i++) {
+        data_balls.balls[id].id = id;
+        data_balls.balls[id].active = active;
+        data_balls.balls[id].posx = posx;
+        data_balls.balls[id].posy = posy;
+    }
+
+    // Crear el objeto JSON principal
+    cJSON *json = cJSON_CreateObject();
+    cJSON_AddStringToObject(json, "type_message", "balls_data");
+
+    // Crear el array JSON para almacenar las bolas
+    cJSON *balls_array = cJSON_AddArrayToObject(json, "balls");
+
+    // Agregar cada bola al array
+    for (int i = 0; i < 10; i++) { // Suponiendo que NUM_BALLS es el número de bolas
+        cJSON *ball = cJSON_CreateObject();
+        cJSON_AddNumberToObject(ball, "id", data_balls.balls[id].id);
+        cJSON_AddBoolToObject(ball, "active", data_balls.balls[id].active);
+        cJSON_AddNumberToObject(ball, "posx", data_balls.balls[id].posx);
+        cJSON_AddNumberToObject(ball, "posy", data_balls.balls[id].posy);
+        cJSON_AddItemToArray(balls_array, ball); // Añadir la bola al array
+    }
+
+    // Serializar el objeto JSON a una cadena
+    char *jsonString = cJSON_PrintUnformatted(json);
+    printf("Enviando JSON de bolas: %s\n", jsonString);
+
+    // Agregar el carácter de nueva línea y enviar
+    size_t jsonLength = strlen(jsonString);
+    char *jsonWithNewline = malloc(jsonLength + 2); // +2 para '\n' y '\0'
+    sprintf(jsonWithNewline, "%s\n", jsonString);
+
+    ssize_t bytes_sent = send(socket_fd, jsonWithNewline, strlen(jsonWithNewline), 0);
+    if (bytes_sent < 0) {
+        perror("Error sending balls array");
+    }
+
+    // Liberar memoria
+    cJSON_Delete(json);
+    free(jsonString);
+    free(jsonWithNewline);
+}
 
 void send_register_message(int socket_fd, const char* type) {
     // Crear la estructura de registro

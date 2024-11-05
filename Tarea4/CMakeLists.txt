@@ -30,6 +30,7 @@ add_executable(Tarea4 main.c
         Components/player.h
         Components/ball.h
         Components/brick.h
+        Client/balls_data.h
 )
 
 target_link_libraries(Tarea4 raylib m pthread dl cjson)
