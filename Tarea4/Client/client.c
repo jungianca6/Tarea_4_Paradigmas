@@ -167,17 +167,14 @@ void receive_message(int socket_fd) {
     //Si el mensaje es de tipo player_data y lo actualiza
     else if (strcmp(json_type_message->valuestring, "player_data") == 0) {
         if (strcmp(tipo_jugador, "Spectator") == 0) {
-            cJSON *json_player_posx = cJSON_GetObjectItem(json, "posx");
-            cJSON *json_player_posy = cJSON_GetObjectItem(json, "posy");
+            cJSON *json_player_posx = cJSON_GetObjectItem(json, "pos_x");
+            cJSON *json_player_posy = cJSON_GetObjectItem(json, "pos_y");
             cJSON *json_player_ancho = cJSON_GetObjectItem(json, "ancho");
-            cJSON *json_player_largo = cJSON_GetObjectItem(json, "largo");
+            cJSON *json_player_largo = cJSON_GetObjectItem(json, "alto");
             player.rect.x = cJSON_GetNumberValue(json_player_posx);
             player.rect.y = cJSON_GetNumberValue(json_player_posy);
             player.rect.width = cJSON_GetNumberValue(json_player_ancho);
             player.rect.height = cJSON_GetNumberValue(json_player_largo);
-            // Verificación de la asignación correcta
-            printf("Player actualizado - PosX: %.2f, PosY: %.2f, Ancho: %.2f, Largo: %.2f\n",
-                   player.rect.x, player.rect.y, player.rect.width, player.rect.height);
         }
 
     }
@@ -352,21 +349,12 @@ void send_balls_info(int socket_fd) {
         return;
     }
 
-    printf("Memoria asignada correctamente\n");
-
     // Copiar los valores de balls a data_balls.balls
     for (int i = 0; i < MAX_BALLS - 1; i++) {
-        printf("Copiando datos de la bola %d\n", i);
         data_balls.balls[i].id = balls[i].id;
         data_balls.balls[i].active = balls[i].active;
         data_balls.balls[i].posx = balls[i].pos.x;
         data_balls.balls[i].posy = balls[i].pos.y;
-    }
-
-    // Verifica que los valores han sido copiados correctamente
-    for (int i = 0; i < MAX_BALLS - 1; i++) {
-        printf("Bola %d - ID: %d, Active: %d, PosX: %.2f, PosY: %.2f\n",
-            i, data_balls.balls[i].id, data_balls.balls[i].active, data_balls.balls[i].posx, data_balls.balls[i].posy);
     }
 
     // Crear el objeto JSON principal
@@ -388,7 +376,7 @@ void send_balls_info(int socket_fd) {
 
     // Serializar el objeto JSON a una cadena
     char *jsonString = cJSON_PrintUnformatted(json);
-    printf("Enviando JSON de bolas: %s\n", jsonString);
+    //printf("Enviando JSON de bolas: %s\n", jsonString);
 
     // Agregar el carácter de nueva línea y enviar
     size_t jsonLength = strlen(jsonString);
