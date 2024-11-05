@@ -5,6 +5,7 @@ import Game.Partida;
 import Server.Client.ClientInfo;
 import Server.Comunication_Data.*;
 import Server.Server;
+import Server.Client.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -23,6 +24,7 @@ public class MessageHandler {
     private final UUID clientId;
     private final ObjectMapper objectMapper = new ObjectMapper();
     private final MessageSender messageSender;
+    private final ClientRegistration clientRegistration;
 
     /**
      * Constructor de MessageHandler.
@@ -36,6 +38,7 @@ public class MessageHandler {
         this.socket = socket; // Inicializa el socket del cliente
         this.clientId = clientId; // Inicializa el identificador único del cliente
         this.messageSender = new MessageSender(server, clientId);
+        this.clientRegistration = new ClientRegistration(server, socket, clientId);
     }
 
     /**
@@ -93,42 +96,13 @@ public class MessageHandler {
             Register_Data registerData = objectMapper.treeToValue(jsonNode, Register_Data.class);
             System.out.println("ID del cliente: " + clientId); // Muestra el ID del cliente
             // Registra el tipo de cliente (Player o Spectator)
-            registerClientType(registerData);
+            clientRegistration.registerClientType(registerData);
         } catch (IOException e) {
             // Maneja excepciones al procesar el registro
             System.err.println("Error procesando el registro: " + e.getMessage());
         }
     }
 
-    /**
-     * Registra el tipo de cliente (Player o Spectator) y maneja la creación de juegos o la unión de espectadores.
-     *
-     * @param registerData Los datos del mensaje de registro.
-     */
-    private void registerClientType(Register_Data registerData) {
-        String type = registerData.getType(); // Obtiene el tipo de cliente
-
-        // Verifica si el tipo de cliente es válido
-        if (!isValidClientType(type)) {
-            System.out.println("Tipo de cliente inválido: " + type);
-            return; // Sale del método si el tipo es inválido
-        }
-
-        synchronized (Server.clients) { // Sincroniza el acceso a la lista de clientes
-            ClientInfo clientInfo = getClientInfo(); // Obtiene la información del cliente
-            clientInfo.setClientType(type); // Establece el tipo de cliente
-            System.out.println("Cliente " + clientId + " registrado como " + type.toLowerCase() + ".");
-
-            // Si es un jugador, crea un nuevo juego
-            if ("Player".equals(type)) {
-                createNewGameForClient(clientInfo);
-            } else { // Si es un espectador, envía la lista de juegos disponibles
-                messageSender.sendGameListToClientMessage(clientInfo);
-                //sendGameListToClient(clientInfo);
-            }
-        }
-        server.notifyClientListUpdated(); // Notifica que la lista de clientes ha sido actualizada
-    }
     /**
      * Maneja el mensaje de elección del cliente para seleccionar un juego.
      *
@@ -232,53 +206,15 @@ public class MessageHandler {
     }
 
     /**
-     * Verifica si el tipo de cliente es válido (Player o Spectator).
-     *
-     * @param type El tipo de cliente.
-     * @return true si el tipo es válido, false de lo contrario.
-     */
-    private boolean isValidClientType(String type) {
-        return "Player".equals(type) || "Spectator".equals(type);
-    }
-
-    /**
-     * Obtiene la información del cliente correspondiente al ID del cliente.
-     *
-     * @return El objeto ClientInfo asociado al cliente.
-     * @throws IllegalStateException Si no se encuentra el cliente.
-     */
-    private ClientInfo getClientInfo() {
-        return Server.clients.stream()
-                .filter(client -> client.getClientId().equals(clientId))
-                .findFirst()
-                .orElseThrow(() -> new IllegalStateException("Cliente no encontrado"));
-    }
-
-    /**
-     * Crea un nuevo juego para el cliente.
-     *
-     * @param clientInfo La información del cliente que está creando el juego.
-     */
-    private void createNewGameForClient(ClientInfo clientInfo) {
-        UUID gameId = clientInfo.getClientId(); // Genera un ID único para la nueva partida
-        Partida newGame = new Partida(gameId, clientInfo.getIpAddress(), clientInfo.getPort()); // Crea la nueva partida
-        server.addPartie(newGame); // Agrega la partida al servidor
-        clientInfo.setPartida(newGame); // Asocia la partida al cliente
-        System.out.println("Juego creado con ID: " + newGame.getId_partida());
-    }
-
-    /**
      * Actualiza la elección del cliente en una partida.
      *
      * @param partida La partida seleccionada por el cliente.
      */
     private void updateClientChoice(Partida partida) {
         synchronized (Server.clients) {
-            ClientInfo clientInfo = getClientInfo(); // Obtiene la información del cliente
+            ClientInfo clientInfo = server.getClientById(clientId); // Obtiene la información del cliente
             clientInfo.setPartida(partida); // Actualiza la partida del cliente
             server.notifyClientListUpdated(); // Notifica que la lista de clientes ha sido actualizada
-            //System.out.println("Cliente " + clientId + " ha seleccionado el juego: ID: "
-            //        + partida.getId_partida() + ", IP: " + partida.getIp() + ", Puerto: " + partida.getPuerto());
         }
     }
 

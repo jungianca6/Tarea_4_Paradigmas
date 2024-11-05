@@ -11,14 +11,24 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.UUID;
 
+/**
+ * La clase MessageSender es responsable de enviar mensajes desde el servidor a los clientes conectados.
+ * Utiliza un objeto ObjectMapper para convertir objetos a formato JSON.
+ */
 public class MessageSender {
-    private final Server server;
-    private final UUID clientId;
-    private final ObjectMapper objectMapper = new ObjectMapper();
+    private final Server server; // El servidor que gestiona las conexiones de los clientes
+    private final UUID clientId; // El ID único del cliente al que se envían los mensajes
+    private final ObjectMapper objectMapper = new ObjectMapper(); // El ObjectMapper para convertir objetos a JSON
 
+    /**
+     * Constructor de la clase MessageSender.
+     *
+     * @param server El servidor que se utilizará para enviar mensajes.
+     * @param clientId El ID del cliente al que se enviarán los mensajes.
+     */
     public MessageSender(Server server, UUID clientId) {
-        this.clientId = clientId;
-        this.server = server;
+        this.server = server; // Inicializa el servidor
+        this.clientId = clientId; // Inicializa el ID del cliente
     }
 
     /**
@@ -41,44 +51,88 @@ public class MessageSender {
         }
     }
 
+    /**
+     * Envía los datos del jugador a los clientes que son espectadores en la partida especificada.
+     *
+     * @param partidaId El ID de la partida a la que pertenece el jugador.
+     * @param posx La posición X del jugador.
+     * @param posy La posición Y del jugador.
+     * @param ancho El ancho del jugador.
+     * @param alto La altura del jugador.
+     */
     public void sendPlayerDataMessage(UUID partidaId, float posx, float posy, float ancho, float alto) {
-        Player_Data player_data = new Player_Data("player_data", posx, posy, ancho, alto); // Crea la instancia del objeto
-        String jsonMessage = createJson(player_data); // Convierte a JSON
+        // Crea la instancia del objeto Player_Data con la información del jugador
+        Player_Data player_data = new Player_Data("player_data", posx, posy, ancho, alto);
+
+        // Convierte el objeto Player_Data a formato JSON
+        String jsonMessage = createJson(player_data);
+
+        // Sincroniza el acceso a la lista de clientes
         synchronized (server.clients) {
             for (ClientInfo client : server.clients) {
+                // Verifica si el cliente está en la partida correcta y es un espectador
                 if (client.getPartida() != null && client.getPartida().getId_partida().equals(partidaId) &&
                         client.getClientType().equals("Spectator")) {
-                    sendMessageToClient(client, jsonMessage); // Envía el mensaje solo a clientes con la partida correcta
+                    // Envía el mensaje al cliente correspondiente
+                    sendMessageToClient(client, jsonMessage);
                 }
             }
         }
     }
 
+    /**
+     * Envía la información de un bloque de poder a los clientes que son jugadores en la partida especificada.
+     *
+     * @param partidaId El ID de la partida donde se encuentra el bloque de poder.
+     * @param fila La fila donde se encuentra el bloque de poder.
+     * @param columna La columna donde se encuentra el bloque de poder.
+     * @param poder El tipo de poder del bloque.
+     */
     public void sendPowerBlockMessage(UUID partidaId, int fila, int columna, String poder) {
-        Bricks_Data bricksData = new Bricks_Data("power_block", columna, fila, poder); // Crea la instancia del objeto
-        String jsonMessage = createJson(bricksData); // Convierte a JSON
+        // Crea la instancia del objeto Bricks_Data con la información del bloque de poder
+        Bricks_Data bricksData = new Bricks_Data("power_block", columna, fila, poder);
+
+        // Convierte el objeto Bricks_Data a formato JSON
+        String jsonMessage = createJson(bricksData);
+
+        // Sincroniza el acceso a la lista de clientes
         synchronized (server.clients) {
             for (ClientInfo client : server.clients) {
-                // Verifica si el cliente tiene la partida asociada con el ID especificado
+                // Verifica si el cliente está en la partida correcta y es un jugador
                 if (client.getPartida() != null && client.getPartida().getId_partida().equals(partidaId) &&
                         client.getClientType().equals("Player")) {
-                    sendMessageToClient(client, jsonMessage); // Envía el mensaje solo a clientes con la partida correcta
-                    System.out.println("Mensaje enviado al cliente " + client.getClientId() + ": " + jsonMessage); // Registra el mensaje enviado
+                    // Envía el mensaje al cliente correspondiente
+                    sendMessageToClient(client, jsonMessage);
+                    // Registra el mensaje enviado
+                    System.out.println("Mensaje enviado al cliente " + client.getClientId() + ": " + jsonMessage);
                 }
             }
         }
     }
 
+    /**
+     * Envía los datos de las bolas a los clientes que son espectadores en la partida especificada.
+     *
+     * @param partidaId El ID de la partida a la que pertenecen las bolas.
+     * @param balls Un arreglo de objetos Ball que representan las bolas en la partida.
+     */
     public void sendBallsDataMessage(UUID partidaId, Ball[] balls) {
-        Balls_Data balls_data = new Balls_Data("balls_data", balls); // Crea la instancia del objeto
-        String jsonMessage = createJson(balls_data); // Convierte a JSON
+        // Crea la instancia del objeto Balls_Data con la información de las bolas
+        Balls_Data balls_data = new Balls_Data("balls_data", balls);
+
+        // Convierte el objeto Balls_Data a formato JSON
+        String jsonMessage = createJson(balls_data);
+
+        // Sincroniza el acceso a la lista de clientes
         synchronized (server.clients) {
             for (ClientInfo client : server.clients) {
-                // Verifica si el cliente tiene la partida asociada con el ID especificado
+                // Verifica si el cliente está en la partida correcta y es un espectador
                 if (client.getPartida() != null && client.getPartida().getId_partida().equals(partidaId) &&
                         client.getClientType().equals("Spectator")) {
-                    sendMessageToClient(client, jsonMessage); // Envía el mensaje solo a clientes con la partida correcta
-                    System.out.println("Mensaje enviado al cliente " + client.getClientId() + ": " + jsonMessage); // Registra el mensaje enviado
+                    // Envía el mensaje al cliente correspondiente
+                    sendMessageToClient(client, jsonMessage);
+                    // Registra el mensaje enviado
+                    System.out.println("Mensaje enviado al cliente " + client.getClientId() + ": " + jsonMessage);
                 }
             }
         }
@@ -100,20 +154,34 @@ public class MessageSender {
         }
     }
 
+    /**
+     * Envía la lista de partidas disponibles al cliente especificado.
+     *
+     * @param client El objeto ClientInfo que representa al cliente al que se enviará la lista de partidas.
+     */
     public void sendGameListToClientMessage(ClientInfo client) {
-        Parties_Data partiesData = new Parties_Data("data_parties"); // Crea un objeto para almacenar la lista de partidas
-        server.getParties().forEach(partiesData::addPartida); // Agrega las partidas al objeto de datos
-
-        sendMessageToClient(client, partiesData.toJson()); // Envía la lista de partidas al cliente
+        // Crea un objeto Parties_Data para almacenar el mensaje de tipo "data_parties"
+        Parties_Data partiesData = new Parties_Data("data_parties");
+        // Recorre la lista de partidas en el servidor y las añade al objeto Parties_Data
+        server.getParties().forEach(partiesData::addPartida);
+        // Convierte el objeto Parties_Data a JSON y lo envía al cliente especificado
+        sendMessageToClient(client, partiesData.toJson());
     }
 
-
+    /**
+     * Convierte un objeto en una cadena JSON.
+     *
+     * @param data El objeto que se desea convertir a formato JSON.
+     * @return Una cadena JSON que representa el objeto, o null si ocurre un error durante la conversión.
+     */
     private String createJson(Object data) {
         try {
-            return objectMapper.writeValueAsString(data); // Convierte el objeto a JSON
+            // Convierte el objeto a JSON usando el ObjectMapper
+            return objectMapper.writeValueAsString(data);
         } catch (JsonProcessingException e) {
+            // Imprime el stack trace del error y retorna null en caso de fallo
             e.printStackTrace();
-            return null; // O maneja el error como prefieras
+            return null;
         }
     }
 }

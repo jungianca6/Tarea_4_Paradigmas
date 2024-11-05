@@ -67,6 +67,20 @@ public class Server implements Observable{
         return null; // Retorna null si no se encuentra la partida
     }
 
+    /**
+     * Obtiene la información del cliente correspondiente al ID del cliente.
+     *
+     * @param clientId El UUID del cliente que se desea buscar.
+     * @return El objeto ClientInfo asociado al cliente.
+     * @throws IllegalStateException Si no se encuentra el cliente.
+     */
+    public ClientInfo getClientInfobyID(UUID clientId) {
+        return Server.clients.stream()
+                .filter(client -> client.getClientId().equals(clientId))
+                .findFirst()
+                .orElseThrow(() -> new IllegalStateException("Cliente no encontrado"));
+    }
+
 
     public List<Partida> getParties() {
         return this.parties;

@@ -199,6 +199,11 @@ public class Main implements Observer {
             return;
         }
 
+        if (selectedClientInfo.getClientType().equals("Spectator")) {
+            JOptionPane.showMessageDialog(null, "Este cliente solo es espectador.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
         UUID partidaId = selectedClientInfo.getClientId();
         Partida partida = server.getPartieById(partidaId);
 
