@@ -308,6 +308,7 @@ void Game_update() {
                     }
                      else if (brick.power == CREATE_EXTRA_BALL) {
                         ActivateNewBall();
+                         printf("Se creo una nueva bola :D");
                     }else if (brick.power == DECREASE_LENGTH) {
                         player.w *= 0.5;
                         if (player.w < 37.5)
@@ -426,7 +427,7 @@ void Game_update() {
 
     printCounter++;
     // Imprime cada 30 fotogramas
-    if (printCounter >= 500) {
+    if (printCounter >= 30) {
         send_balls_info(sock);
         send_player_info(sock, player.rect.x,  player.rect.y,  player.rect.width, player.rect.height);
         printf("Estado de las bolas activas:\n");
@@ -437,6 +438,7 @@ void Game_update() {
             }
         }
         printCounter = 0;  // Reinicia el contador de fotogramas
+
     }
 
     if (Pausa == 1)

@@ -16,7 +16,7 @@ extern int puntaje_rojo;
 extern int puntaje_naranja;
 extern int puntaje_amarillo;
 extern int puntaje_verde;
-
+#define MAX_BALLS 10 // Define el número máximo de bolas
 
 void receive_message(int socket_fd) {
 
@@ -200,7 +200,7 @@ void receive_message(int socket_fd) {
         }
     }
     // Si el mensaje es de tipo brick_matriz y actualiza los bloques
-    else if (strcmp(json_type_message->valuestring, "brick_matriz") == 0) {
+    else if (strcmp(json_type_message->valuestring, "brick_matrix") == 0) {
         if (strcmp(tipo_jugador, "Spectator") == 0) {
             cJSON *bricks_array = cJSON_GetObjectItem(json, "bricks");
             cJSON *brick_json;
@@ -339,13 +339,30 @@ void send_bricks_info(int socket_fd, int column, int row, const char* poder) {
 
 void send_balls_info(int socket_fd) {
     DataBalls data_balls;
-    data_balls.balls = balls;
 
-    for (int i = 0; i < 10; i++) {
+    // Asignar memoria para el arreglo de bolas en el heap
+    data_balls.balls = malloc(MAX_BALLS * sizeof(Ball));
+
+    if (data_balls.balls == NULL) {
+        perror("Error al asignar memoria para data_balls.balls");
+        return;
+    }
+
+    printf("Memoria asignada correctamente\n");
+
+    // Copiar los valores de balls a data_balls.balls
+    for (int i = 0; i < MAX_BALLS - 1; i++) {
+        printf("Copiando datos de la bola %d\n", i);
         data_balls.balls[i].id = balls[i].id;
         data_balls.balls[i].active = balls[i].active;
         data_balls.balls[i].posx = balls[i].pos.x;
         data_balls.balls[i].posy = balls[i].pos.y;
+    }
+
+    // Verifica que los valores han sido copiados correctamente
+    for (int i = 0; i < MAX_BALLS - 1; i++) {
+        printf("Bola %d - ID: %d, Active: %d, PosX: %.2f, PosY: %.2f\n",
+            i, data_balls.balls[i].id, data_balls.balls[i].active, data_balls.balls[i].posx, data_balls.balls[i].posy);
     }
 
     // Crear el objeto JSON principal
@@ -383,6 +400,9 @@ void send_balls_info(int socket_fd) {
     cJSON_Delete(json);
     free(jsonString);
     free(jsonWithNewline);
+
+    // Liberar memoria después de usarla
+    free(data_balls.balls);
 }
 
 void send_register_message(int socket_fd, const char* type) {
