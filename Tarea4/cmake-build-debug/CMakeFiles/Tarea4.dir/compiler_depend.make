@@ -9,6 +9,7 @@ CMakeFiles/Tarea4.dir/Client/client.c.o: /home/darga19/Documents/TEC/Tarea_4_Par
   /home/darga19/Documents/TEC/Tarea_4_Paradigmas/Tarea4/Components/player.h \
   /home/darga19/Documents/TEC/Tarea_4_Paradigmas/Tarea4/Components/power_type.h \
   /home/darga19/Documents/TEC/Tarea_4_Paradigmas/Tarea4/Client/balls_data.h \
+  /home/darga19/Documents/TEC/Tarea_4_Paradigmas/Tarea4/Client/brickmatriz_data.h \
   /home/darga19/Documents/TEC/Tarea_4_Paradigmas/Tarea4/Client/bricks_data.h \
   /home/darga19/Documents/TEC/Tarea_4_Paradigmas/Tarea4/Client/client.h \
   /home/darga19/Documents/TEC/Tarea_4_Paradigmas/Tarea4/Client/data.h \
@@ -209,6 +210,7 @@ CMakeFiles/Tarea4.dir/main.c.o: /home/darga19/Documents/TEC/Tarea_4_Paradigmas/T
   /home/darga19/Documents/TEC/Tarea_4_Paradigmas/Tarea4/Components/player.h \
   /home/darga19/Documents/TEC/Tarea_4_Paradigmas/Tarea4/Components/power_type.h \
   /home/darga19/Documents/TEC/Tarea_4_Paradigmas/Tarea4/Client/balls_data.h \
+  /home/darga19/Documents/TEC/Tarea_4_Paradigmas/Tarea4/Client/brickmatriz_data.h \
   /home/darga19/Documents/TEC/Tarea_4_Paradigmas/Tarea4/Client/bricks_data.h \
   /home/darga19/Documents/TEC/Tarea_4_Paradigmas/Tarea4/Client/client.h \
   /home/darga19/Documents/TEC/Tarea_4_Paradigmas/Tarea4/Client/data.h \
@@ -386,6 +388,10 @@ CMakeFiles/Tarea4.dir/main.c.o: /home/darga19/Documents/TEC/Tarea_4_Paradigmas/T
 
 /usr/include/x86_64-linux-gnu/bits/types/locale_t.h:
 
+/usr/include/x86_64-linux-gnu/bits/types/clockid_t.h:
+
+/home/darga19/Documents/TEC/Tarea_4_Paradigmas/Tarea4/Client/brickmatriz_data.h:
+
 /usr/include/x86_64-linux-gnu/sys/select.h:
 
 /usr/include/strings.h:
@@ -418,6 +424,12 @@ CMakeFiles/Tarea4.dir/main.c.o: /home/darga19/Documents/TEC/Tarea_4_Paradigmas/T
 
 /home/darga19/Documents/TEC/Tarea_4_Paradigmas/Tarea4/Client/parties_data.h:
 
+/usr/include/x86_64-linux-gnu/bits/time.h:
+
+/usr/include/x86_64-linux-gnu/bits/math-vector.h:
+
+/usr/include/alloca.h:
+
 /usr/include/tgmath.h:
 
 /home/darga19/Documents/TEC/Tarea_4_Paradigmas/Tarea4/Components/ball.h:
@@ -438,8 +450,6 @@ CMakeFiles/Tarea4.dir/main.c.o: /home/darga19/Documents/TEC/Tarea_4_Paradigmas/T
 
 /home/darga19/Documents/TEC/Tarea_4_Paradigmas/Tarea4/Components/brick_array.h:
 
-/usr/include/x86_64-linux-gnu/asm/posix_types.h:
-
 /usr/include/endian.h:
 
 /usr/include/x86_64-linux-gnu/bits/pthreadtypes.h:
@@ -453,12 +463,6 @@ CMakeFiles/Tarea4.dir/main.c.o: /home/darga19/Documents/TEC/Tarea_4_Paradigmas/T
 /usr/include/asm-generic/sockios.h:
 
 /home/darga19/Documents/TEC/Tarea_4_Paradigmas/Tarea4/Client/client.h:
-
-/usr/include/x86_64-linux-gnu/bits/time.h:
-
-/usr/include/x86_64-linux-gnu/bits/math-vector.h:
-
-/usr/include/alloca.h:
 
 /home/darga19/Documents/TEC/Tarea_4_Paradigmas/Tarea4/Client/bricks_data.h:
 
@@ -490,6 +494,8 @@ CMakeFiles/Tarea4.dir/main.c.o: /home/darga19/Documents/TEC/Tarea_4_Paradigmas/T
 
 /home/darga19/Documents/TEC/Tarea_4_Paradigmas/Tarea4/Components/player.h:
 
+/usr/include/x86_64-linux-gnu/asm/posix_types.h:
+
 /usr/include/x86_64-linux-gnu/asm/bitsperlong.h:
 
 /usr/include/x86_64-linux-gnu/asm/posix_types_64.h:
@@ -503,8 +509,6 @@ CMakeFiles/Tarea4.dir/main.c.o: /home/darga19/Documents/TEC/Tarea_4_Paradigmas/T
 /usr/include/x86_64-linux-gnu/asm/sockios.h:
 
 /usr/include/x86_64-linux-gnu/bits/atomic_wide_counter.h:
-
-/usr/include/x86_64-linux-gnu/bits/types/clockid_t.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/struct_itimerspec.h:
 

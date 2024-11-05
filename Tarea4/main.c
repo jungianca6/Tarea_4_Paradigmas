@@ -31,7 +31,10 @@ struct sockaddr_in server_addr;
 char* tipo_jugador = "Spectator";
 float PAUS_SPEED = 0.0f;
 
-
+int puntaje_rojo = 50;
+int puntaje_naranja = 30;
+int puntaje_amarillo = 20;
+int puntaje_verde = 10;
 PartyList partyList; // Lista global de partidas
 int selectedPartyIndex = 0; // Índice de la partida seleccionada
 #define MAX_BALLS 10 // Define el número máximo de bolas
@@ -70,7 +73,6 @@ void Spawn_bricks(BrickArray *brick_array) {
                 strcpy(new_brick.cond, "g");
             }
 
-
             brick_array->data[brick_array->size++] = new_brick;
         }
     }
@@ -79,13 +81,13 @@ void Spawn_bricks(BrickArray *brick_array) {
 #include <stdio.h>
 int GetScoreForCondition(const char* condition) {
     if (strcmp(condition, "r") == 0) {
-        return 50; // Puntaje para el bloque rojo
+        return puntaje_rojo; // Puntaje para el bloque rojo
     } else if (strcmp(condition, "o") == 0) {
-        return 30; // Puntaje para el bloque naranja
+        return puntaje_naranja; // Puntaje para el bloque naranja
     } else if (strcmp(condition, "y") == 0) {
-        return 20; // Puntaje para el bloque amarillo
+        return puntaje_amarillo; // Puntaje para el bloque amarillo
     } else if (strcmp(condition, "g") == 0) {
-        return 10; // Puntaje para el bloque verde
+        return puntaje_verde; // Puntaje para el bloque verde
     }
     return 0; // Puntaje por defecto
 }
@@ -550,7 +552,7 @@ int main(void) {
     partyList.count = 0; // Inicializar la lista de partidas
 
     // Inicializa el socket
-    initialize_socket(&sock, &server_addr, config.port, config.ip_address);
+    //initialize_socket(&sock, &server_addr, config.port, config.ip_address);
 
     InitWindow(screen_w, screen_h, "breakOutTec");
 

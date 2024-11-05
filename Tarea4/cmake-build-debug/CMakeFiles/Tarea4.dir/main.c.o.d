@@ -67,6 +67,7 @@ CMakeFiles/Tarea4.dir/main.c.o: \
  /home/darga19/Documents/TEC/Tarea_4_Paradigmas/Tarea4/./Client/partie.h \
  /home/darga19/Documents/TEC/Tarea_4_Paradigmas/Tarea4/./Client/register_data.h \
  /home/darga19/Documents/TEC/Tarea_4_Paradigmas/Tarea4/./Client/balls_data.h \
+ /home/darga19/Documents/TEC/Tarea_4_Paradigmas/Tarea4/./Client/brickmatriz_data.h \
  /usr/include/arpa/inet.h /usr/include/netinet/in.h \
  /usr/include/x86_64-linux-gnu/bits/stdint-uintn.h \
  /usr/include/x86_64-linux-gnu/sys/socket.h \

@@ -86,6 +86,7 @@ CMakeFiles/Tarea4.dir/Client/client.c.o: \
  /home/darga19/Documents/TEC/Tarea_4_Paradigmas/Tarea4/Client/partie.h \
  /home/darga19/Documents/TEC/Tarea_4_Paradigmas/Tarea4/Client/register_data.h \
  /home/darga19/Documents/TEC/Tarea_4_Paradigmas/Tarea4/Client/balls_data.h \
+ /home/darga19/Documents/TEC/Tarea_4_Paradigmas/Tarea4/Client/brickmatriz_data.h \
  /home/darga19/Documents/TEC/Tarea_4_Paradigmas/Tarea4/Client/../Components/brick.h \
  /home/darga19/Documents/TEC/Tarea_4_Paradigmas/Tarea4/Client/../Components/brick_factory.h \
  /home/darga19/Documents/TEC/Tarea_4_Paradigmas/Tarea4/Client/../Components/power_type.h \

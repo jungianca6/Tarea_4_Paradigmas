@@ -12,7 +12,7 @@ typedef struct {
     Color color;
     PowerType power; // Cambiamos hasPower por power
     char cond[20];
-    bool active
+    bool active;
 } Brick;
 
 
