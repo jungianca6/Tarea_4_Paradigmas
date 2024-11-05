@@ -38,7 +38,6 @@ void receive_message(int socket_fd) {
     }
     // Imprimir el mensaje JSON recibido
     //printf("Mensaje JSON recibido: %s\n", buffer);
-    printf("Mensaje JSON recibido: %s\n", buffer);
 
     // Obtener el tipo de mensaje
     cJSON *json_type_message = cJSON_GetObjectItem(json, "type_message");
@@ -169,6 +168,7 @@ void receive_message(int socket_fd) {
         }
     }
     else {
+        printf("Mensaje JSON recibido: %s\n", buffer);
         printf("Error: tipo de mensaje desconocido.\n");
     }
 

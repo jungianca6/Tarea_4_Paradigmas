@@ -207,7 +207,7 @@ void Game_startup(BrickArray *brick_array) {
     player.score = 0;
     player.w = 75.0f;
     player.h = 10.0f;
-    player.lives = 3;
+    player.lives = 1000;
     player.level = 1;
 
 // Configuración inicial de las bolas
@@ -459,7 +459,7 @@ void Game_update() {
     printCounter++;
     // Imprime cada 30 fotogramas
     if (printCounter >= 500) {
-
+        send_balls_info(sock);
         send_player_info(sock, player.rect.x,  player.rect.y,  player.rect.width, player.rect.height);
         printf("Estado de las bolas activas:\n");
         for (int i = 0; i < MAX_BALLS; i++) {
