@@ -37,7 +37,7 @@ void receive_message(int socket_fd) {
     }
     // Imprimir el mensaje JSON recibido
     //printf("Mensaje JSON recibido: %s\n", buffer);
-
+    printf("Mensaje JSON recibido: %s\n", buffer);
 
     // Obtener el tipo de mensaje
     cJSON *json_type_message = cJSON_GetObjectItem(json, "type_message");
@@ -110,7 +110,7 @@ void receive_message(int socket_fd) {
         }
     }
     else if (strcmp(json_type_message->valuestring, "power_block") == 0) {
-        printf("Mensaje JSON recibido: %s\n", buffer);
+
         if (strcmp(tipo_jugador, "Player") == 0) {
             cJSON *json_brick_row = cJSON_GetObjectItem(json, "row");
             cJSON *json_brick_column = cJSON_GetObjectItem(json, "column");

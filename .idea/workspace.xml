@@ -148,7 +148,7 @@
       <workItem from="1730581735486" duration="4541000" />
       <workItem from="1730593665016" duration="10066000" />
       <workItem from="1730685169144" duration="26510000" />
-      <workItem from="1730763606373" duration="2397000" />
+      <workItem from="1730763606373" duration="4702000" />
     </task>
     <task id="LOCAL-00001" summary="commit">
       <option name="closed" value="true" />
@@ -342,7 +342,15 @@
       <option name="project" value="LOCAL" />
       <updated>1730708554791</updated>
     </task>
-    <option name="localTasksCounter" value="25" />
+    <task id="LOCAL-00025" summary="bugfixes">
+      <option name="closed" value="true" />
+      <created>1730766387480</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1730766387480</updated>
+    </task>
+    <option name="localTasksCounter" value="26" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -396,6 +404,7 @@
     <MESSAGE value="Se anadio el reconocimiento de la destruccion de un bloque para los jugadores espectadores" />
     <MESSAGE value="Se agrego la funcionalidad de poder agregar un poder desde el servidor" />
     <MESSAGE value="a" />
-    <option name="LAST_COMMIT_MESSAGE" value="a" />
+    <MESSAGE value="bugfixes" />
+    <option name="LAST_COMMIT_MESSAGE" value="bugfixes" />
   </component>
 </project>

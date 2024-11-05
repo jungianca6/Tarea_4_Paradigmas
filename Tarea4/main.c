@@ -268,18 +268,6 @@ void Game_update() {
         }
 
     }
-    printCounter++;
-    // Imprime cada 30 fotogramas
-    if (printCounter >= 500) {
-        printf("Estado de las bolas activas:\n");
-        for (int i = 0; i < MAX_BALLS; i++) {
-            if (balls[i].active) {
-                printf("Bola %d - Posición: (%.2f, %.2f), Velocidad: %.2f\n",
-                       balls[i].id, balls[i].pos.x, balls[i].pos.y, balls[i].vel);
-            }
-        }
-        printCounter = 0;  // Reinicia el contador de fotogramas
-    }
     // Actualización de la posición de la bola
     for (int i = 0; i < MAX_BALLS; i++) {
         if (balls[i].active) {  // Solo actualiza la bola activa
@@ -432,7 +420,20 @@ void Game_update() {
         player.rect.x = (screen_w - player.rect.width);
     }
 
-    send_player_info(sock, player.rect.x,  player.rect.y,  player.rect.width, player.rect.height);
+    printCounter++;
+    // Imprime cada 30 fotogramas
+    if (printCounter >= 500) {
+        send_player_info(sock, player.rect.x,  player.rect.y,  player.rect.width, player.rect.height);
+        printf("Estado de las bolas activas:\n");
+        for (int i = 0; i < MAX_BALLS; i++) {
+            if (balls[i].active) {
+                printf("Bola %d - Posición: (%.2f, %.2f), Velocidad: %.2f\n",
+                       balls[i].id, balls[i].pos.x, balls[i].pos.y, balls[i].vel);
+            }
+        }
+        printCounter = 0;  // Reinicia el contador de fotogramas
+    }
+
 
 
 }
