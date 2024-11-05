@@ -11,6 +11,7 @@ extern PartyList partyList; // Lista global de partidas
 extern char* tipo_jugador;
 extern BrickArray bricks;
 extern struct Player player;
+extern struct Ball balls[10];
 
 void receive_message(int socket_fd) {
 
@@ -255,15 +256,15 @@ void send_bricks_info(int socket_fd, int column, int row, const char* poder) {
     free(jsonWithNewline);
 }
 //brick_matriz
-void send_balls_info(int socket_fd, bool active, int id, int posx, int posy) {
+void send_balls_info(int socket_fd) {
     DataBalls data_balls;
     data_balls.balls = balls;
 
     for (int i = 0; i < 10; i++) {
-        data_balls.balls[id].id = id;
-        data_balls.balls[id].active = active;
-        data_balls.balls[id].posx = posx;
-        data_balls.balls[id].posy = posy;
+        data_balls.balls[i].id = balls[i].id;
+        data_balls.balls[i].active = balls[i].active;
+        data_balls.balls[i].posx = balls[i].pos.x;
+        data_balls.balls[i].posy = balls[i].pos.y;
     }
 
     // Crear el objeto JSON principal
@@ -276,10 +277,10 @@ void send_balls_info(int socket_fd, bool active, int id, int posx, int posy) {
     // Agregar cada bola al array
     for (int i = 0; i < 10; i++) { // Suponiendo que NUM_BALLS es el número de bolas
         cJSON *ball = cJSON_CreateObject();
-        cJSON_AddNumberToObject(ball, "id", data_balls.balls[id].id);
-        cJSON_AddBoolToObject(ball, "active", data_balls.balls[id].active);
-        cJSON_AddNumberToObject(ball, "posx", data_balls.balls[id].posx);
-        cJSON_AddNumberToObject(ball, "posy", data_balls.balls[id].posy);
+        cJSON_AddNumberToObject(ball, "id", data_balls.balls[i].id);
+        cJSON_AddBoolToObject(ball, "active", data_balls.balls[i].active);
+        cJSON_AddNumberToObject(ball, "posx", data_balls.balls[i].posx);
+        cJSON_AddNumberToObject(ball, "posy", data_balls.balls[i].posy);
         cJSON_AddItemToArray(balls_array, ball); // Añadir la bola al array
     }
 
