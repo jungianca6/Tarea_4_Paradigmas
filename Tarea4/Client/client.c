@@ -114,6 +114,7 @@ void receive_message(int socket_fd) {
     }
     // Si el mensaje es de tipo power_block y aplica el poder
     else if (strcmp(json_type_message->valuestring, "power_block") == 0) {
+
         if (strcmp(tipo_jugador, "Player") == 0) {
             cJSON *json_brick_row = cJSON_GetObjectItem(json, "row");
             cJSON *json_brick_column = cJSON_GetObjectItem(json, "column");
