@@ -23,14 +23,16 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="75554750-353e-47f0-ae30-1498d22c2337" name="Changes" comment="a">
+    <list default="true" id="75554750-353e-47f0-ae30-1498d22c2337" name="Changes" comment="bugfixes">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tarea4/Client/client.c" beforeDir="false" afterPath="$PROJECT_DIR$/Tarea4/Client/client.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Tarea4/cmake-build-debug/.ninja_deps" beforeDir="false" afterPath="$PROJECT_DIR$/Tarea4/cmake-build-debug/.ninja_deps" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Tarea4/cmake-build-debug/.ninja_log" beforeDir="false" afterPath="$PROJECT_DIR$/Tarea4/cmake-build-debug/.ninja_log" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Tarea4/cmake-build-debug/CMakeFiles/Tarea4.dir/Client/client.c.o" beforeDir="false" afterPath="$PROJECT_DIR$/Tarea4/cmake-build-debug/CMakeFiles/Tarea4.dir/Client/client.c.o" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Tarea4/cmake-build-debug/CMakeFiles/Tarea4.dir/main.c.o" beforeDir="false" afterPath="$PROJECT_DIR$/Tarea4/cmake-build-debug/CMakeFiles/Tarea4.dir/main.c.o" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Tarea4/cmake-build-debug/Tarea4" beforeDir="false" afterPath="$PROJECT_DIR$/Tarea4/cmake-build-debug/Tarea4" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Tarea4/cmake-build-debug/Testing/Temporary/LastTest.log" beforeDir="false" afterPath="$PROJECT_DIR$/Tarea4/cmake-build-debug/Testing/Temporary/LastTest.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tarea4/main.c" beforeDir="false" afterPath="$PROJECT_DIR$/Tarea4/main.c" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -62,8 +64,14 @@
   }
 }</component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$PROJECT_DIR$/Tarea4/Config/Config.c" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Tarea4/Config/Config.h" root0="FORCE_HIGHLIGHTING" />
+    <setting file="mock:///home/space-ba/CLionProjects/BreakoutTEC/Tarea4/Client/client.c" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///home/space-ba/CLionProjects/BreakoutTEC/Tarea4/Client/client.c" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///home/space-ba/CLionProjects/BreakoutTEC/Tarea4/Client/client.c" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///home/space-ba/CLionProjects/BreakoutTEC/Tarea4/Client/client.c" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///home/space-ba/CLionProjects/BreakoutTEC/Tarea4/main.c" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///home/space-ba/CLionProjects/BreakoutTEC/Tarea4/main.c" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///home/space-ba/CLionProjects/BreakoutTEC/Tarea4/main.c" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///home/space-ba/CLionProjects/BreakoutTEC/Tarea4/main.c" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="ProjectApplicationVersion">
     <option name="ide" value="CLion" />
@@ -86,6 +94,7 @@
     &quot;C/C++ File.main.c - Default.executor&quot;: &quot;Run&quot;,
     &quot;C/C++ File.main.c.executor&quot;: &quot;Run&quot;,
     &quot;CMake Application.Tarea4.executor&quot;: &quot;Run&quot;,
+    &quot;CMake Debug.Tarea4.executor&quot;: &quot;Debug&quot;,
     &quot;RunOnceActivity.RadMigrateCodeStyle&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
@@ -109,12 +118,12 @@
     </key>
   </component>
   <component name="RunManager">
-    <configuration default="true" type="CLionExternalRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true">
+    <configuration name="Tarea4" type="CMakeRunConfiguration" factoryName="Application" singleton="false" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Tarea4" TARGET_NAME="Tarea4" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="Tarea4" RUN_TARGET_NAME="Tarea4">
       <method v="2">
-        <option name="CLION.EXTERNAL.BUILD" enabled="true" />
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="Tarea4" type="CMakeRunConfiguration" factoryName="Application" singleton="false" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Tarea4" TARGET_NAME="Tarea4" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="Tarea4" RUN_TARGET_NAME="Tarea4">
+    <configuration default="true" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
@@ -138,7 +147,8 @@
       <workItem from="1730580000331" duration="1193000" />
       <workItem from="1730581735486" duration="4541000" />
       <workItem from="1730593665016" duration="10066000" />
-      <workItem from="1730685169144" duration="15307000" />
+      <workItem from="1730685169144" duration="26510000" />
+      <workItem from="1730763606373" duration="2397000" />
     </task>
     <task id="LOCAL-00001" summary="commit">
       <option name="closed" value="true" />
@@ -308,7 +318,31 @@
       <option name="project" value="LOCAL" />
       <updated>1730697482206</updated>
     </task>
-    <option name="localTasksCounter" value="22" />
+    <task id="LOCAL-00022" summary="a">
+      <option name="closed" value="true" />
+      <created>1730705954509</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1730705954509</updated>
+    </task>
+    <task id="LOCAL-00023" summary="Se agrego la funcionalidad de poder agregar un poder desde el servidor">
+      <option name="closed" value="true" />
+      <created>1730708432432</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1730708432432</updated>
+    </task>
+    <task id="LOCAL-00024" summary="a">
+      <option name="closed" value="true" />
+      <created>1730708554791</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1730708554791</updated>
+    </task>
+    <option name="localTasksCounter" value="25" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -360,6 +394,7 @@
     <MESSAGE value="imporatacion del brick array en el client.h" />
     <MESSAGE value="ola :v" />
     <MESSAGE value="Se anadio el reconocimiento de la destruccion de un bloque para los jugadores espectadores" />
+    <MESSAGE value="Se agrego la funcionalidad de poder agregar un poder desde el servidor" />
     <MESSAGE value="a" />
     <option name="LAST_COMMIT_MESSAGE" value="a" />
   </component>

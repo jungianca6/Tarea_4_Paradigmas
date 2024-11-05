@@ -67,7 +67,7 @@ void Spawn_bricks(BrickArray *brick_array) {
             }
 
 
-
+            /*
             // Asigna poderes aleatorios: 25% cada uno para aumentar longitud, disminuir longitud, aumentar vidas o ninguno
             int randomPower = rand() % 19; // Ajusta la probabilidad total
             if (randomPower < 3) {
@@ -90,6 +90,7 @@ void Spawn_bricks(BrickArray *brick_array) {
             else {
                 new_brick.power = NO_POWER;
             }
+            */
 
 
             brick_array->data[brick_array->size++] = new_brick;
@@ -556,7 +557,7 @@ int main(void) {
         // Establecer timeout para select
         struct timeval timeout;
         timeout.tv_sec = 0;  // 0 segundos
-        timeout.tv_usec = 10000;  // 10 milisegundos
+        timeout.tv_usec = 1000;  // 1 milisegundos
 
         // Esperar actividad en el socket
         int activity = select(sock + 1, &read_fds, NULL, NULL, &timeout);

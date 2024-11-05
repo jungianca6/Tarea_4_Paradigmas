@@ -47,6 +47,7 @@ void receive_message(int socket_fd) {
         return; // O puedes decidir cerrar el socket aquí
     }
 
+
     if (strcmp(json_type_message->valuestring, "data_parties") == 0) {
         // Manejo del mensaje de tipo "data_parties"
         DataParties data_parties;
@@ -108,20 +109,20 @@ void receive_message(int socket_fd) {
             }
         }
     }
-
     else if (strcmp(json_type_message->valuestring, "power_block") == 0) {
         printf("Mensaje JSON recibido: %s\n", buffer);
         if (strcmp(tipo_jugador, "Player") == 0) {
             cJSON *json_brick_row = cJSON_GetObjectItem(json, "row");
             cJSON *json_brick_column = cJSON_GetObjectItem(json, "column");
             cJSON *json_brick_power = cJSON_GetObjectItem(json, "power");
+            /*
             // Imprimir el poder del bloque
             if (json_brick_power != NULL && json_brick_power->valuestring != NULL) {
                 printf("Poder del bloque: %s\n", json_brick_power->valuestring);
+
             } else {
                 printf("No se encontró el poder del bloque.\n");
-            }
-
+            }*/
             for (int i = 0; i < bricks.size; i++) {
                 Brick brick = bricks.data[i];
                 int brickRow = (brick.base.rect.y - 50) / 26;
@@ -146,12 +147,14 @@ void receive_message(int socket_fd) {
                         case 'D':
                             bricks.data[i].power = DECREASE_SPEED;
                             break;
+                        case 'E':
+                            bricks.data[i].power = CREATE_EXTRA_BALL;
+                            break;
                     }
                 }
             }
         }
     }
-
     else if (strcmp(json_type_message->valuestring, "player_data") == 0) {
         if (strcmp(tipo_jugador, "Spectator") == 0) {
             cJSON *json_player_posx = cJSON_GetObjectItem(json, "posx");
@@ -168,6 +171,7 @@ void receive_message(int socket_fd) {
         printf("Error: tipo de mensaje desconocido.\n");
     }
 
+    memset(buffer, 0, sizeof(buffer));
     // Limpiar
     cJSON_Delete(json);
 }
