@@ -43,7 +43,6 @@ void receive_message(int socket_fd) {
     }
     // Imprimir el mensaje JSON recibido
     //printf("Mensaje JSON recibido: %s\n", buffer);
-    printf("Mensaje JSON recibido: %s\n", buffer);
 
     // Obtener el tipo de mensaje
     cJSON *json_type_message = cJSON_GetObjectItem(json, "type_message");
@@ -99,15 +98,16 @@ void receive_message(int socket_fd) {
     else if (strcmp(json_type_message->valuestring, "break_block") == 0){
         printf("Mensaje JSON recibido: %s\n", buffer);
         if (strcmp(tipo_jugador, "Spectator") == 0){
-            printf("Mensaje JSON recibido: %s\n", buffer);
             cJSON *json_brick_row = cJSON_GetObjectItem(json, "row");
             cJSON *json_brick_column = cJSON_GetObjectItem(json, "column");
+
             for (int i = 0; i < bricks.size; i++) {
                 Brick brick = bricks.data[i];
                 int brickRow = (brick.base.rect.y - 50) / 26;
                 int brickColumn = (brick.base.rect.x - 5) / 61;
+
                 if (brickRow == cJSON_GetNumberValue(json_brick_row) && brickColumn == cJSON_GetNumberValue(json_brick_column) ) {
-                    // Elimina el bloque desplazando el resto de elementos
+                    // Eliminar el bloque
                     for (int j = i; j < bricks.size - 1; j++) {
                         bricks.data[j] = bricks.data[j + 1];
                     }
@@ -209,6 +209,7 @@ void receive_message(int socket_fd) {
     // Si el mensaje es de tipo brick_matriz y actualiza los bloques
     else if (strcmp(json_type_message->valuestring, "brick_matrix") == 0) {
         if (strcmp(tipo_jugador, "Spectator") == 0) {
+            /*
             cJSON *bricks_array = cJSON_GetObjectItem(json, "bricks");
             cJSON *brick_json;
             int index = 0;
@@ -232,9 +233,11 @@ void receive_message(int socket_fd) {
                     player.rect.height = cJSON_GetNumberValue(json_player_largo);
                 }
 
+
                 index++;
             }
             bricks.size = index; // Actualiza el tamaño del array de bloques
+            */
         }
     }
     // Si el mensaje es de tipo score_level_data y actualiza los bloques
