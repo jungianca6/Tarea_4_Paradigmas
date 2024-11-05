@@ -88,7 +88,9 @@ void receive_message(int socket_fd) {
         // Libera la memoria
         free(data_parties.parties);
 
-    }else if (strcmp(json_type_message->valuestring, "break_block") == 0){
+    }
+    // si el mensaje es de tipo brak_block y lo actualiza
+    else if (strcmp(json_type_message->valuestring, "break_block") == 0){
         if (strcmp(tipo_jugador, "Spectator") == 0){
             cJSON *json_brick_row = cJSON_GetObjectItem(json, "row");
             cJSON *json_brick_column = cJSON_GetObjectItem(json, "column");
@@ -109,8 +111,8 @@ void receive_message(int socket_fd) {
             }
         }
     }
+    // Si el mensaje es de tipo power_block y aplica el poder
     else if (strcmp(json_type_message->valuestring, "power_block") == 0) {
-
         if (strcmp(tipo_jugador, "Player") == 0) {
             cJSON *json_brick_row = cJSON_GetObjectItem(json, "row");
             cJSON *json_brick_column = cJSON_GetObjectItem(json, "column");
@@ -155,6 +157,7 @@ void receive_message(int socket_fd) {
             }
         }
     }
+    //Si el mensaje es de tipo player_data y lo actualiza
     else if (strcmp(json_type_message->valuestring, "player_data") == 0) {
         if (strcmp(tipo_jugador, "Spectator") == 0) {
             cJSON *json_player_posx = cJSON_GetObjectItem(json, "posx");
@@ -165,6 +168,33 @@ void receive_message(int socket_fd) {
             player.rect.y = cJSON_GetNumberValue(json_player_posy);
             player.rect.width = cJSON_GetNumberValue(json_player_ancho);
             player.rect.height = cJSON_GetNumberValue(json_player_largo);
+        }
+    }
+    //Si el mensaje es de tipo balls_data y las actualiza
+    else if (strcmp(json_type_message->valuestring, "balls_data") == 0) {
+        if (strcmp(tipo_jugador, "Spectator") == 0) {
+            cJSON *balls_array = cJSON_GetObjectItem(json, "balls");
+            cJSON *ball_json;
+            int index = 0;
+            printf("Array de las bolas de koki recibido");
+            cJSON_ArrayForEach(ball_json, balls_array) {
+                if (index >= 10) break; // Evitar desbordar el array local
+                cJSON *id = cJSON_GetObjectItem(ball_json, "id");
+                cJSON *active = cJSON_GetObjectItem(ball_json, "active");
+                cJSON *posx = cJSON_GetObjectItem(ball_json, "posx");
+                cJSON *posy = cJSON_GetObjectItem(ball_json, "posy");
+
+                if (cJSON_IsNumber(id) && cJSON_IsBool(active) && cJSON_IsNumber(posx) && cJSON_IsNumber(posy)) {
+                    int ball_id = id->valueint;
+                    if (ball_id >= 0 && ball_id < 10) {
+                        balls[ball_id].id = ball_id;
+                        balls[ball_id].active = active->valueint;
+                        balls[ball_id].pos.x = posx->valueint;
+                        balls[ball_id].pos.y = posy->valueint;
+                    }
+                }
+                index++;
+            }
         }
     }
     else {
