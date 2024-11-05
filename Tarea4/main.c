@@ -175,7 +175,7 @@ void Game_startup(BrickArray *brick_array) {
     player.score = 0;
     player.w = 75.0f;
     player.h = 10.0f;
-    player.lives = 3;
+    player.lives = 1000;
     player.level = 1;
 
 // Configuración inicial de las bolas
@@ -620,7 +620,7 @@ int main(void) {
             DrawParties();
         } else if (menuActive == 3){
         ClearBackground(BLACK);
-        tipo_jugador = "Player";
+        tipo_jugador = "Spectator";
         Game_render();  // Dibuja el juego
         }else {
                 DrawText("No hay partidas disponibles.", 10, 80, 20, DARKGRAY);

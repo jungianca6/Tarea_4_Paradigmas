@@ -20,7 +20,7 @@ extern int puntaje_verde;
 
 void receive_message(int socket_fd) {
 
-    char buffer[1024]; // Buffer para almacenar la respuesta
+    char buffer[2048]; // Buffer para almacenar la respuesta
     ssize_t bytes_received = recv(socket_fd, buffer, sizeof(buffer) - 1, 0); // Deja espacio para el terminador nulo
 
     if (bytes_received < 0) {
