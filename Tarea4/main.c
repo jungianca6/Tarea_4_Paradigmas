@@ -642,11 +642,19 @@ int main(void) {
                                          partyList.parties[selectedPartyIndex].ip,
                                          partyList.parties[selectedPartyIndex].puerto);
                     printf("Seleccionada la partida: %s\n", partyList.parties[selectedPartyIndex].id_partida);
+                    menuActive = 3; // Cambia a modo de juego
+                    tipo_jugador = "Player";
+
+
                 }
             }
 
             DrawParties();
-            } else {
+        } else if (menuActive == 3){
+        ClearBackground(BLACK);
+        tipo_jugador = "Player";
+        Game_render();  // Dibuja el juego
+        }else {
                 DrawText("No hay partidas disponibles.", 10, 80, 20, DARKGRAY);
             }
         EndDrawing();
