@@ -207,7 +207,7 @@ void Game_startup(BrickArray *brick_array) {
     player.score = 0;
     player.w = 75.0f;
     player.h = 10.0f;
-    player.lives = 1000;
+    player.lives = 3;
     player.level = 1;
 
 // Configuración inicial de las bolas
