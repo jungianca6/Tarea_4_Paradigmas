@@ -53,6 +53,7 @@ void Spawn_bricks(BrickArray *brick_array) {
             new_brick.base.rect.y = 50 + (j * 26);
             new_brick.base.rect.width = new_brick.base.w;
             new_brick.base.rect.height = new_brick.base.h;
+            new_brick.active = true;
 
             // Establece el color según la fila
             if (j < 2) {
@@ -68,32 +69,6 @@ void Spawn_bricks(BrickArray *brick_array) {
                 new_brick.color = GREEN;
                 strcpy(new_brick.cond, "g");
             }
-
-
-            /*
-            // Asigna poderes aleatorios: 25% cada uno para aumentar longitud, disminuir longitud, aumentar vidas o ninguno
-            int randomPower = rand() % 19; // Ajusta la probabilidad total
-            if (randomPower < 3) {
-                new_brick.power = INCREASE_LENGTH;
-            } else if (randomPower < 6) {
-                new_brick.power = DECREASE_LENGTH;
-            } else if (randomPower < 9) {
-                new_brick.power = INCREASE_LIVES;
-            } else if (randomPower < 12) {
-                new_brick.power = INCREASE_SPEED;  // Nuevo poder para aumentar la velocidad
-            } else if (randomPower < 15) {
-                new_brick.power = DECREASE_SPEED;
-                // Nuevo poder para disminuir la velocidad
-            }
-            else if (randomPower < 18) {
-            new_brick.power = CREATE_EXTRA_BALL;
-            // Nuevo poder para disminuir la velocidad
-            }
-
-            else {
-                new_brick.power = NO_POWER;
-            }
-            */
 
 
             brick_array->data[brick_array->size++] = new_brick;
@@ -131,12 +106,7 @@ void PrintBricks(const BrickArray *brick_array) {
     }
 }
 
-void PrintBall(const struct Ball *ball) {
-    //printf("Posición de la bola: (%.2f, %.2f)\n", ball->pos.x, ball->pos.y);
-    //printf("Aceleración de la bola: (%.2f, %.2f)\n", ball->accel.x, ball->accel.y);
-    //printf("Velocidad de la bola: %.2f\n", ball->vel);
-    //printf("Radio de la bola: %.2f\n", ball->r);
-}
+
 
 void DrawMenu() {
     // Dibuja el fondo del menú
@@ -178,11 +148,7 @@ void DrawMenu() {
     }
 }
 
-void PrintBallState(const struct Ball *ball) {
-    //printf("Bola %d - Posición: (%.2f, %.2f), Aceleración: (%.2f, %.2f), Velocidad: %.2f\n",
-      //     ball->id, ball->pos.x, ball->pos.y, ball->accel.x, ball->accel.y, ball->vel);
-    //printf("Posición del jugador: (%.2f, %.2f), Ancho: %.2f, Alto: %.2f\n", player.rect.x, player.rect.y, player.rect.width, player.rect.height);
-}
+
 void ActivateNewBall() {
     for (int i = 0; i < MAX_BALLS; i++) {
         if (!balls[i].active) { // Busca una bola inactiva
@@ -220,7 +186,6 @@ void Game_startup(BrickArray *brick_array) {
         balls[i].vel = 270.0f;
         balls[i].active = false; // Inicializa como inactiva
          }
-    PrintBall(&ball);
     //Codigo que carga la lista de bloques
     brick_array->size = 0;
     brick_array->capacity = 64; // Initial capacity (adjust as needed)
@@ -355,6 +320,7 @@ void Game_update() {
                         Menos_velocidad();
 
                     }
+                     brick.active = false;
 
                     // Imprime mensaje de destrucción del bloque
                     int column = (brick.base.rect.x - 5) / 61;
