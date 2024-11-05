@@ -252,6 +252,11 @@ void Menos_velocidad() {
 }
 
 void Game_update() {
+    if (activeBallsCount == 0)
+    {
+        // Establece el color del texto (puedes elegir otro color)
+        DrawText("PRESIONE ESPACIO", GetScreenWidth() / 2 - MeasureText("PRESIONE ESPACIO", 40) / 2, GetScreenHeight() / 2 - 20, 40, RED);
+    }
     float framet = GetFrameTime();
     static int printCounter = 0;  // Contador para controlar la impresión
     if (gg) return;
@@ -368,6 +373,7 @@ void Game_update() {
             }
         }
     }
+
     //Chequeo de si todos los bloues estan destruidos, si ese es el caso, se aumenta el nivel, se reestablecen los bloques y se aumenta la velocidad de la bola.
     if (bricks.size == 0) {
         player.level++;
@@ -464,7 +470,11 @@ void Game_update() {
         printCounter = 0;  // Reinicia el contador de fotogramas
     }
 
-
+    if (Pausa == 1)
+    {
+        // Establece el color del texto (puedes elegir otro color)
+        DrawText("PAUSA", GetScreenWidth() / 2 - MeasureText("PAUSA", 40) / 2, GetScreenHeight() / 2 - 20, 40, DARKGRAY);
+    }
 
 }
 
