@@ -8,6 +8,7 @@ import java.util.UUID;
 import Game.Partida;
 import Server.Client.ClientInfo;
 import Server.Messaging.MessageHandler;
+import Server.Messaging.MessageSender;
 import org.ini4j.Ini;
 import Server.*;
 import Observer.Observer;
@@ -230,8 +231,8 @@ public class Main implements Observer {
             JOptionPane.showMessageDialog(null, "El bloque en la posición (" + fila + ", " + columna + ") no existe o no está activo.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        MessageHandler messageHandler = new MessageHandler(server, selectedClientInfo.getSocket(), selectedClientInfo.getClientId());
 
+        MessageSender messageSender = new MessageSender(server, selectedClientInfo.getClientId());
         // Crear el bloque utilizando la fábrica
         AbstractBloque nuevoBloque = bloqueFactory.crearBloque(tipoBloque, fila, columna);
 
@@ -239,31 +240,31 @@ public class Main implements Observer {
         switch (nuevoBloque.getClass().getSimpleName()) {
             case "ConcreteBloqueNormal":
                 JOptionPane.showMessageDialog(null, "Bloque normal creado en la posición: (" + fila + ", " + columna + ")", "Bloque Creado", JOptionPane.INFORMATION_MESSAGE);
-                messageHandler.sendPowerBlockMessage(partidaId, fila, columna, "N");
+                messageSender.sendPowerBlockMessage(partidaId, fila, columna, "N");
                 break;
             case "ConcreteBloqueMasVelocidad":
                 JOptionPane.showMessageDialog(null, "Bloque de más velocidad creado en la posición: (" + fila + ", " + columna + ")", "Bloque Creado", JOptionPane.INFORMATION_MESSAGE);
-                messageHandler.sendPowerBlockMessage(partidaId, fila, columna, "A");
+                messageSender.sendPowerBlockMessage(partidaId, fila, columna, "A");
                 break;
             case "ConcreteBloqueMenosVelocidad":
                 JOptionPane.showMessageDialog(null, "Bloque de menos velocidad creado en la posición: (" + fila + ", " + columna + ")", "Bloque Creado", JOptionPane.INFORMATION_MESSAGE);
-                messageHandler.sendPowerBlockMessage(partidaId, fila, columna, "D");
+                messageSender.sendPowerBlockMessage(partidaId, fila, columna, "D");
                 break;
             case "ConcreteRaquetaDoble":
                 JOptionPane.showMessageDialog(null, "Bloque de raqueta doble creado en la posición: (" + fila + ", " + columna + ")", "Bloque Creado", JOptionPane.INFORMATION_MESSAGE);
-                messageHandler.sendPowerBlockMessage(partidaId, fila, columna, "L");
+                messageSender.sendPowerBlockMessage(partidaId, fila, columna, "L");
                 break;
             case "ConcreteRaquetaMitad":
                 JOptionPane.showMessageDialog(null, "Bloque de raqueta a mitad creado en la posición: (" + fila + ", " + columna + ")", "Bloque Creado", JOptionPane.INFORMATION_MESSAGE);
-                messageHandler.sendPowerBlockMessage(partidaId, fila, columna, "S");
+                messageSender.sendPowerBlockMessage(partidaId, fila, columna, "S");
                 break;
             case "ConcreteBloqueMasVidas":
                 JOptionPane.showMessageDialog(null, "Bloque de mas vidas creado en la posición: (" + fila + ", " + columna + ")", "Bloque Creado", JOptionPane.INFORMATION_MESSAGE);
-                messageHandler.sendPowerBlockMessage(partidaId, fila, columna, "V");
+                messageSender.sendPowerBlockMessage(partidaId, fila, columna, "V");
                 break;
             case "ConcreteBloqueMasBolas":
                 JOptionPane.showMessageDialog(null, "Bloque de mas bolas creado en la posición: (" + fila + ", " + columna + ")", "Bloque Creado", JOptionPane.INFORMATION_MESSAGE);
-                messageHandler.sendPowerBlockMessage(partidaId, fila, columna, "B");
+                messageSender.sendPowerBlockMessage(partidaId, fila, columna, "E");
                 break;
             default:
                 JOptionPane.showMessageDialog(null, "Tipo de bloque desconocido después de la creación.", "Error", JOptionPane.ERROR_MESSAGE);

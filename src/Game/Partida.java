@@ -9,8 +9,7 @@ public class Partida {
     private String ip; // Dirección IP
     private int puerto; // Puerto
     private Bloque[][] bloques; // Matriz de bloques
-
-
+    private Ball[] bolas;
 
     public Partida(UUID id_partida, String ip, int puerto) {
         this.id_partida = id_partida;
@@ -27,13 +26,20 @@ public class Partida {
                 this.bloques[i][j] = new Bloque(true); // Bloques inactivos inicialmente
             }
         }
+
+        this.bolas = new Ball[10];
+        for (int i = 0; i < 10; i++) {
+            this.bolas[i] = new Ball(0,0,false);  // Inicializar cada objeto Ball
+        }
+
+
     }
 
     // Método para desactivar un bloque específico
     public void desactivarBloque(int fila, int columna) {
         if (fila >= 0 && fila < bloques.length && columna >= 0 && columna < bloques[0].length) {
             bloques[fila][columna].setActivo(false); // Desactivar el bloque
-            System.out.println("Bloque en [" + fila + "][" + columna + "] desactivado.");
+            //System.out.println("Bloque en [" + fila + "][" + columna + "] desactivado.");
         } else {
             System.out.println("Posición fuera de los límites.");
         }
@@ -60,5 +66,13 @@ public class Partida {
 
     public int getPuerto() {
         return puerto;
+    }
+
+    public Ball[] getBolas() {
+        return bolas;
+    }
+
+    public void setBolas(Ball[] bolas) {
+        this.bolas = bolas;
     }
 }
