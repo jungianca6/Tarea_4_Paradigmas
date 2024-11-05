@@ -167,7 +167,7 @@ public class MessageHandler {
                 // Desactivar el bloque específico en la partida
                 partida.desactivarBloque(fila, columna);
 
-                messageSender.sendPowerBlockMessage(partida.getId_partida(), fila, columna, "poder");
+                messageSender.sendBreakBlockMessage(partida.getId_partida(), fila, columna, "poder");
 
             } else {
                 System.out.println("Cliente o partida no encontrados.");

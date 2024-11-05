@@ -183,7 +183,7 @@ public class Main implements Observer {
             return;
         }
         String nivel = (String) levelDropdown.getSelectedItem(); // Obtener el nivel seleccionado
-        String nuevoPuntajeStr = puntajeField.getText(); // Obtener el puntaje directamente del campo de texto
+        String nuevoPuntajeStr = puntajeField.getText().toLowerCase(); // Obtener el puntaje directamente del campo de texto
 
         if (nuevoPuntajeStr != null && !nuevoPuntajeStr.trim().isEmpty()) { // Verificar que no esté vacío
             try {
