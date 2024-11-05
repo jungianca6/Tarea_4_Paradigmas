@@ -175,7 +175,11 @@ void receive_message(int socket_fd) {
             player.rect.y = cJSON_GetNumberValue(json_player_posy);
             player.rect.width = cJSON_GetNumberValue(json_player_ancho);
             player.rect.height = cJSON_GetNumberValue(json_player_largo);
+            // Verificación de la asignación correcta
+            printf("Player actualizado - PosX: %.2f, PosY: %.2f, Ancho: %.2f, Largo: %.2f\n",
+                   player.rect.x, player.rect.y, player.rect.width, player.rect.height);
         }
+
     }
     //Si el mensaje es de tipo balls_data y las actualiza
     else if (strcmp(json_type_message->valuestring, "balls_data") == 0) {
@@ -200,7 +204,7 @@ void receive_message(int socket_fd) {
         }
     }
     // Si el mensaje es de tipo brick_matriz y actualiza los bloques
-    else if (strcmp(json_type_message->valuestring, "brick_matrix") == 0) {
+    else if (strcmp(json_type_message->valuestring, "brick_matriz") == 0) {
         if (strcmp(tipo_jugador, "Spectator") == 0) {
             cJSON *bricks_array = cJSON_GetObjectItem(json, "bricks");
             cJSON *brick_json;
