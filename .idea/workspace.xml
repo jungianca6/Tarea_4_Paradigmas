@@ -24,12 +24,28 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="75554750-353e-47f0-ae30-1498d22c2337" name="Changes" comment=":v">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tarea4/Client/client.c" beforeDir="false" afterPath="$PROJECT_DIR$/Tarea4/Client/client.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tarea4/cmake-build-debug/.cmake/api/v1/reply/cache-v2-969b83c12d1d6b6ff2e0.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tarea4/cmake-build-debug/.cmake/api/v1/reply/cmakeFiles-v1-03af6ac8cdc439934dab.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tarea4/cmake-build-debug/.cmake/api/v1/reply/codemodel-v2-d243f75adcbdb6e24b69.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tarea4/cmake-build-debug/.cmake/api/v1/reply/index-2024-11-05T06-23-22-0351.json" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Tarea4/cmake-build-debug/.ninja_deps" beforeDir="false" afterPath="$PROJECT_DIR$/Tarea4/cmake-build-debug/.ninja_deps" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Tarea4/cmake-build-debug/.ninja_log" beforeDir="false" afterPath="$PROJECT_DIR$/Tarea4/cmake-build-debug/.ninja_log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Tarea4/cmake-build-debug/CMakeFiles/Tarea4.dir/main.c.o" beforeDir="false" afterPath="$PROJECT_DIR$/Tarea4/cmake-build-debug/CMakeFiles/Tarea4.dir/main.c.o" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tarea4/cmake-build-debug/CMakeCache.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Tarea4/cmake-build-debug/CMakeCache.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tarea4/cmake-build-debug/CMakeFiles/3.29.6/CMakeSystem.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/Tarea4/cmake-build-debug/CMakeFiles/3.29.6/CMakeSystem.cmake" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tarea4/cmake-build-debug/CMakeFiles/CMakeConfigureLog.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/Tarea4/cmake-build-debug/CMakeFiles/CMakeConfigureLog.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tarea4/cmake-build-debug/CMakeFiles/Tarea4.dir/Client/client.c.o" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tarea4/cmake-build-debug/CMakeFiles/Tarea4.dir/Config/config.c.o" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tarea4/cmake-build-debug/CMakeFiles/Tarea4.dir/INI/ini.c.o" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tarea4/cmake-build-debug/CMakeFiles/Tarea4.dir/main.c.o" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tarea4/cmake-build-debug/CMakeFiles/TargetDirectories.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Tarea4/cmake-build-debug/CMakeFiles/TargetDirectories.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tarea4/cmake-build-debug/CMakeFiles/clion-Debug-log.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tarea4/cmake-build-debug/CMakeFiles/rules.ninja" beforeDir="false" afterPath="$PROJECT_DIR$/Tarea4/cmake-build-debug/CMakeFiles/rules.ninja" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Tarea4/cmake-build-debug/Tarea4" beforeDir="false" afterPath="$PROJECT_DIR$/Tarea4/cmake-build-debug/Tarea4" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Tarea4/cmake-build-debug/Testing/Temporary/LastTest.log" beforeDir="false" afterPath="$PROJECT_DIR$/Tarea4/cmake-build-debug/Testing/Temporary/LastTest.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tarea4/cmake-build-debug/build.ninja" beforeDir="false" afterPath="$PROJECT_DIR$/Tarea4/cmake-build-debug/build.ninja" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tarea4/cmake-build-debug/cmake_install.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/Tarea4/cmake-build-debug/cmake_install.cmake" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tarea4/main.c" beforeDir="false" afterPath="$PROJECT_DIR$/Tarea4/main.c" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -115,12 +131,12 @@
     </key>
   </component>
   <component name="RunManager">
-    <configuration name="Tarea4" type="CMakeRunConfiguration" factoryName="Application" singleton="false" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Tarea4" TARGET_NAME="Tarea4" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="Tarea4" RUN_TARGET_NAME="Tarea4">
+    <configuration default="true" type="CLionExternalRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true">
       <method v="2">
-        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+        <option name="CLION.EXTERNAL.BUILD" enabled="true" />
       </method>
     </configuration>
-    <configuration default="true" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true">
+    <configuration name="Tarea4" type="CMakeRunConfiguration" factoryName="Application" singleton="false" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Tarea4" TARGET_NAME="Tarea4" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="Tarea4" RUN_TARGET_NAME="Tarea4">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
@@ -146,6 +162,7 @@
       <workItem from="1730593665016" duration="10066000" />
       <workItem from="1730685169144" duration="26510000" />
       <workItem from="1730763606373" duration="9773000" />
+      <workItem from="1730795279454" duration="1000" />
     </task>
     <task id="LOCAL-00001" summary="commit">
       <option name="closed" value="true" />

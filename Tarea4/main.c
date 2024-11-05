@@ -91,11 +91,9 @@ int GetScoreForCondition(const char* condition) {
     }
     return 0; // Puntaje por defecto
 }
-
 void PrintBricks(const BrickArray *brick_array) {
     for (int i = 0; i < brick_array->size; i++) {
         Brick brick = brick_array->data[i];
-        /*
         printf("Brick %d: Color: %d, Position: (%f, %f), Size: (%f, %f), Power Type: %s\n",
                i,
                brick.color, // Suponiendo que 'color' es un entero o enum
@@ -107,7 +105,6 @@ void PrintBricks(const BrickArray *brick_array) {
                (brick.power == INCREASE_LENGTH) ? "Increase Length" :
                (brick.power == DECREASE_LENGTH) ? "Decrease Length" :
                (brick.power == INCREASE_LIVES) ? "Increase Lives" : "Unknown"); // Agregado el poder de aumentar vidas
-               */
     }
 }
 
@@ -178,7 +175,7 @@ void Game_startup(BrickArray *brick_array) {
     player.score = 0;
     player.w = 75.0f;
     player.h = 10.0f;
-    player.lives = 1000;
+    player.lives = 3;
     player.level = 1;
 
 // Configuración inicial de las bolas
@@ -230,6 +227,7 @@ void Game_update() {
     float framet = GetFrameTime();
     static int printCounter = 0;  // Contador para controlar la impresión
     if (gg) return;
+
     // Control del jugador sobre la barra de juego.
     if(IsKeyDown(KEY_LEFT) || IsKeyDown(KEY_A)) {
         if (Pausa == 0) {
@@ -241,19 +239,26 @@ void Game_update() {
             player.rect.x += player.velocity * framet;
         }
     }
+
     if(IsKeyPressed(KEY_Q) || IsKeyPressed(KEY_P)) {
         if ( Pausa == 0) {
             Pausa = 1; // Incrementa el contador de bolas activas            // Inicializa las propiedades de la nueva bola aquí
             for (int i = 0; i < MAX_BALLS; i++) {
                 PAUS_SPEED = balls[i].vel;
                 balls[i].vel = 0.0f;
+
             }
+
         }
         else{
             Pausa = 0;
+
             for (int i = 0; i < MAX_BALLS; i++) {
                 balls[i].vel = PAUS_SPEED;
+
             }
+
+
         }
     }
 
@@ -275,8 +280,8 @@ void Game_update() {
 
 
     // Solo imprime cada 30 fotogramas
-    // Colisión entre la bola y los bloques
-    // Colisión entre la bola y los bloques
+ // Colisión entre la bola y los bloques
+// Colisión entre la bola y los bloques
     for (int j = 0; j < MAX_BALLS; j++) {
         if (balls[j].active) {  // Solo actualiza la bola activa
             for (int i = 0; i < bricks.size; i++) {
@@ -293,7 +298,7 @@ void Game_update() {
                     player.score += GetScoreForCondition(brick.cond);
 
                     // Verifica si el bloque tiene un poder y actúa según el poder
-                    // Velocidad mínima
+  // Velocidad mínima
 
                     if (brick.power == INCREASE_LENGTH) {
                         player.w *= 2;
@@ -324,7 +329,6 @@ void Game_update() {
                     int row = (brick.base.rect.y - 50) / 26;     // Calcula la fila
                     printf("El bloque se destruyó en la fila %d, columna %d\n", row, column); // Imprime fila y columna
                     send_bricks_info(sock, row, column, "normal");
-
                     // Eliminar el bloque
                     for (int j = i; j < bricks.size - 1; j++) {
                         bricks.data[j] = bricks.data[j + 1];
@@ -423,13 +427,13 @@ void Game_update() {
     printCounter++;
     // Imprime cada 30 fotogramas
     if (printCounter >= 500) {
-        send_balls_info(sock);
+
         send_player_info(sock, player.rect.x,  player.rect.y,  player.rect.width, player.rect.height);
-        //printf("Estado de las bolas activas:\n");
+        printf("Estado de las bolas activas:\n");
         for (int i = 0; i < MAX_BALLS; i++) {
             if (balls[i].active) {
-                //printf("Bola %d - Posición: (%.2f, %.2f), Velocidad: %.2f\n",
-               //        balls[i].id, balls[i].pos.x, balls[i].pos.y, balls[i].vel);
+                printf("Bola %d - Posición: (%.2f, %.2f), Velocidad: %.2f\n",
+                       balls[i].id, balls[i].pos.x, balls[i].pos.y, balls[i].vel);
             }
         }
         printCounter = 0;  // Reinicia el contador de fotogramas
@@ -559,6 +563,8 @@ int main(void) {
 
     while (!WindowShouldClose()) {
         BeginDrawing();
+
+
         // Configurar el conjunto de descriptores para select
         fd_set read_fds;
         FD_ZERO(&read_fds);
@@ -607,13 +613,14 @@ int main(void) {
                     menuActive = 3; // Cambia a modo de juego
                     tipo_jugador = "Player";
 
+
                 }
             }
 
             DrawParties();
         } else if (menuActive == 3){
         ClearBackground(BLACK);
-        tipo_jugador = "Spectator";
+        tipo_jugador = "Player";
         Game_render();  // Dibuja el juego
         }else {
                 DrawText("No hay partidas disponibles.", 10, 80, 20, DARKGRAY);
