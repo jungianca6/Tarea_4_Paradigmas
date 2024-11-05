@@ -112,6 +112,29 @@ public class MessageSender {
         }
     }
 
+
+    public void sendScoreLevelMessage(UUID partidaId, String nivel, int score) {
+        // Crea la instancia del objeto Bricks_Data con la información del bloque de poder
+        Score_Level_Data score_level_data = new Score_Level_Data("score_level_data", nivel, score);
+
+        // Convierte el objeto Bricks_Data a formato JSON
+        String jsonMessage = createJson(score_level_data);
+
+        // Sincroniza el acceso a la lista de clientes
+        synchronized (server.clients) {
+            for (ClientInfo client : server.clients) {
+                // Verifica si el cliente está en la partida correcta y es un jugador
+                if (client.getPartida() != null && client.getPartida().getId_partida().equals(partidaId) &&
+                        client.getClientType().equals("Player")) {
+                    // Envía el mensaje al cliente correspondiente
+                    sendMessageToClient(client, jsonMessage);
+                    // Registra el mensaje enviado
+                    System.out.println("Mensaje enviado al cliente " + client.getClientId() + ": " + jsonMessage);
+                }
+            }
+        }
+    }
+
     public void sendMatrixBlockMessage(Partida partida) {
         ClientInfo client = server.getClientInfobyID(clientId); // Obtiene la información del cliente
         // Crea la instancia del objeto Bricks_Data con la información del bloque de poder
@@ -185,7 +208,6 @@ public class MessageSender {
 
         // Convierte el objeto Parties_Data a JSON y lo envía al cliente especificado
         sendMessageToClient(client, partiesData.toJson());
-        //System.out.println("Mensaje enviado al cliente " + client.getClientId() + ": " + partiesData.toJson());
     }
 
     /**

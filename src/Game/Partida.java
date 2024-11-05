@@ -29,7 +29,7 @@ public class Partida {
 
         this.bolas = new Ball[10];
         for (int i = 0; i < 10; i++) {
-            this.bolas[i] = new Ball(0,0,false);  // Inicializar cada objeto Ball
+            this.bolas[i] = new Ball(0,0,0,false);  // Inicializar cada objeto Ball
         }
 
 

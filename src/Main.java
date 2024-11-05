@@ -15,8 +15,6 @@ import Observer.Observer;
 import Fabrica_Bloques.*;
 import Bloques.*;
 
-
-
 public class Main implements Observer {
     private ConcreteBloqueFactory bloqueFactory;
     private JList<String> clientList;
@@ -28,61 +26,64 @@ public class Main implements Observer {
     private JTextField columnaField;
     private JTextField puntajeField;
     private JTextArea selectedClientTextArea;
-    private JButton startServerButton; // Botón de iniciar servidor
-    private ClientInfo selectedClientInfo; // Almacena la información del cliente seleccionado
+    private JButton startServerButton;
+    private ClientInfo selectedClientInfo;
 
     public Main() {
         this.bloqueFactory = new ConcreteBloqueFactory();
         JFrame frame = new JFrame("BreakOutTEC Server");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(700, 500); // Tamaño de ventSSana ajustado
+        frame.setSize(700, 500);
         frame.setLayout(new BorderLayout());
+
+        // Panel principal con fondo blanco
+        JPanel mainPanel = new JPanel(new BorderLayout());
+        mainPanel.setBackground(Color.WHITE);
+        frame.setContentPane(mainPanel);
 
         // Panel para la lista de clientes
         JPanel clientPanel = new JPanel(new BorderLayout());
         clientPanel.setBorder(BorderFactory.createTitledBorder("Clientes Conectados"));
-        clientPanel.setBackground(new Color(230, 230, 250)); // Color de fondo suave
+        clientPanel.setBackground(Color.WHITE);
 
         clientListModel = new DefaultListModel<>();
         clientList = new JList<>(clientListModel);
         clientList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        clientList.setFont(new Font("Arial", Font.PLAIN, 14)); // Cambia la fuente
+        clientList.setFont(new Font("Roboto", Font.PLAIN, 16));
         JScrollPane clientScrollPane = new JScrollPane(clientList);
-        clientScrollPane.setPreferredSize(new Dimension(300, 450));
+        clientScrollPane.setPreferredSize(new Dimension(330, 450));
         clientPanel.add(clientScrollPane, BorderLayout.CENTER);
 
         startServerButton = new JButton("Iniciar Servidor");
         startServerButton.addActionListener(e -> startServer());
-        startServerButton.setBackground(new Color(100, 149, 237)); // Color del botón
-        startServerButton.setForeground(Color.WHITE);
-        startServerButton.setFocusPainted(false);
-        startServerButton.setBorderPainted(false);
+        styleButton(startServerButton);
         clientPanel.add(startServerButton, BorderLayout.SOUTH);
 
-        frame.add(clientPanel, BorderLayout.WEST);
+        mainPanel.add(clientPanel, BorderLayout.WEST);
 
         // Panel para el cliente seleccionado
         JPanel selectedClientPanel = new JPanel(new BorderLayout());
         selectedClientPanel.setBorder(BorderFactory.createTitledBorder("Cliente Seleccionado"));
+        selectedClientPanel.setBackground(Color.WHITE);
         selectedClientTextArea = new JTextArea("Ninguno");
         selectedClientTextArea.setEditable(false);
         selectedClientTextArea.setLineWrap(true);
         selectedClientTextArea.setWrapStyleWord(true);
-        selectedClientTextArea.setFont(new Font("Arial", Font.PLAIN, 14)); // Cambia la fuente
+        selectedClientTextArea.setFont(new Font("Roboto", Font.PLAIN, 16));
         JScrollPane selectedClientScrollPane = new JScrollPane(selectedClientTextArea);
-        selectedClientScrollPane.setPreferredSize(new Dimension(300, 100));
+        selectedClientScrollPane.setPreferredSize(new Dimension(330, 100)); // Asegúrate de que ambos paneles tengan el mismo tamaño
         selectedClientPanel.add(selectedClientScrollPane, BorderLayout.CENTER);
-        frame.add(selectedClientPanel, BorderLayout.CENTER);
+        mainPanel.add(selectedClientPanel, BorderLayout.CENTER);
 
         // Panel para agrupar nivel y puntaje
         JPanel scorePanel = new JPanel(new GridBagLayout());
         scorePanel.setBorder(BorderFactory.createTitledBorder("Nivel y Puntaje"));
-        scorePanel.setBackground(new Color(240, 255, 255)); // Color de fondo suave
+        scorePanel.setBackground(Color.WHITE);
 
         GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(10, 10, 5, 10); // Espaciado ajustado
+        gbc.insets = new Insets(10, 10, 5, 10);
+        gbc.fill = GridBagConstraints.HORIZONTAL;
 
-        // Nivel
         gbc.gridx = 0;
         gbc.gridy = 0;
         scorePanel.add(new JLabel("Nivel:"), gbc);
@@ -91,7 +92,6 @@ public class Main implements Observer {
         levelDropdown = new JComboBox<>(new String[]{"Rojo", "Naranja", "Amarillo", "Verde"});
         scorePanel.add(levelDropdown, gbc);
 
-        // Puntaje
         gbc.gridx = 0;
         gbc.gridy = 1;
         scorePanel.add(new JLabel("Puntaje:"), gbc);
@@ -100,24 +100,19 @@ public class Main implements Observer {
         puntajeField = new JTextField(10);
         scorePanel.add(puntajeField, gbc);
 
-        // Botón para modificar puntaje
         gbc.gridx = 0;
         gbc.gridy = 2;
-        gbc.gridwidth = 2; // Abarcar ambas columnas
+        gbc.gridwidth = 2;
         JButton modifyScoreButton = new JButton("Modificar Puntaje");
         modifyScoreButton.addActionListener(e -> modificarPuntaje());
-        modifyScoreButton.setBackground(new Color(100, 149, 237)); // Color del botón
-        modifyScoreButton.setForeground(Color.WHITE);
-        modifyScoreButton.setFocusPainted(false);
-        modifyScoreButton.setBorderPainted(false);
+        styleButton(modifyScoreButton);
         scorePanel.add(modifyScoreButton, gbc);
 
         // Panel para la creación de bloques
         JPanel blockPanel = new JPanel(new GridBagLayout());
         blockPanel.setBorder(BorderFactory.createTitledBorder("Crear Bloque"));
-        blockPanel.setBackground(new Color(240, 255, 255)); // Color de fondo suave
+        blockPanel.setBackground(Color.WHITE);
 
-        // Tipo de bloque
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.gridwidth = 1;
@@ -128,7 +123,6 @@ public class Main implements Observer {
                 "RaquetaMitad", "MasBolas", "MasVidas"});
         blockPanel.add(blockTypeDropdown, gbc);
 
-        // Fila
         gbc.gridx = 0;
         gbc.gridy = 1;
         blockPanel.add(new JLabel("Fila:"), gbc);
@@ -137,7 +131,6 @@ public class Main implements Observer {
         filaField = new JTextField(10);
         blockPanel.add(filaField, gbc);
 
-        // Columna
         gbc.gridx = 0;
         gbc.gridy = 2;
         blockPanel.add(new JLabel("Columna:"), gbc);
@@ -146,46 +139,66 @@ public class Main implements Observer {
         columnaField = new JTextField(10);
         blockPanel.add(columnaField, gbc);
 
-        // Botón para crear el bloque
         gbc.gridx = 0;
         gbc.gridy = 3;
-        gbc.gridwidth = 2; // Abarcar ambas columnas
+        gbc.gridwidth = 2;
         JButton createBlockButton = new JButton("Crear Bloque");
         createBlockButton.addActionListener(e -> crearBloque());
-        createBlockButton.setBackground(new Color(100, 149, 237)); // Color del botón
-        createBlockButton.setForeground(Color.WHITE);
-        createBlockButton.setFocusPainted(false);
-        createBlockButton.setBorderPainted(false);
+        styleButton(createBlockButton);
         blockPanel.add(createBlockButton, gbc);
 
         // Agregar los paneles al marco
-        JPanel mainPanel = new JPanel(new GridLayout(1, 2, 10, 10)); // Panel principal para organizar
-        mainPanel.add(scorePanel);
-        mainPanel.add(blockPanel);
-        frame.add(mainPanel, BorderLayout.SOUTH);
+        JPanel lowerPanel = new JPanel(new GridLayout(1, 2, 10, 10));
+        lowerPanel.setBackground(Color.WHITE);
+        lowerPanel.add(scorePanel);
+        lowerPanel.add(blockPanel);
+        mainPanel.add(lowerPanel, BorderLayout.SOUTH);
 
         // Listener para mostrar el cliente seleccionado
         clientList.addListSelectionListener(e -> mostrarClienteSeleccionado());
 
         // Estilo de la ventana
-        frame.setResizable(false); // No permitir que se redimensione
-        frame.getContentPane().setBackground(new Color(255, 255, 255)); // Color de fondo de la ventana
+        frame.setResizable(false);
         frame.setVisible(true);
-        frame.setLocationRelativeTo(null); // Centrar la ventana
+        frame.setLocationRelativeTo(null);
+    }
+
+    private void styleButton(JButton button) {
+        button.setBackground(new Color(100, 149, 237));
+        button.setForeground(Color.WHITE);
+        button.setFocusPainted(false);
+        button.setBorderPainted(false);
+        button.setFont(new Font("Roboto", Font.BOLD, 14));
+        button.setPreferredSize(new Dimension(200, 40)); // Tamaño de los botones
     }
 
     private void modificarPuntaje() {
-        String nivel = (String) levelDropdown.getSelectedItem();
-        String nuevoPuntajeStr = JOptionPane.showInputDialog(null, "Ingrese el nuevo puntaje para el nivel " + nivel + ":");
+        if (selectedClientInfo == null) {
+            JOptionPane.showMessageDialog(null, "Debe seleccionar un cliente antes de crear un bloque.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
 
-        if (nuevoPuntajeStr != null) {
+        if (selectedClientInfo.getClientType().equals("Spectator")) {
+            JOptionPane.showMessageDialog(null, "Este cliente solo es espectador.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        String nivel = (String) levelDropdown.getSelectedItem(); // Obtener el nivel seleccionado
+        String nuevoPuntajeStr = puntajeField.getText(); // Obtener el puntaje directamente del campo de texto
+
+        if (nuevoPuntajeStr != null && !nuevoPuntajeStr.trim().isEmpty()) { // Verificar que no esté vacío
             try {
-                int nuevoPuntaje = Integer.parseInt(nuevoPuntajeStr);
-                puntajeField.setText(String.valueOf(nuevoPuntaje)); // Actualiza el campo de puntaje
+                int nuevoPuntaje = Integer.parseInt(nuevoPuntajeStr); // Convertir a número
+                UUID partidaId = selectedClientInfo.getClientId();
+                // Aquí puedes agregar la lógica para modificar el puntaje en el servidor o en el modelo
+                MessageSender messageSender = new MessageSender(server, selectedClientInfo.getClientId());
+                messageSender.sendScoreLevelMessage(partidaId, nivel, nuevoPuntaje);
+
                 JOptionPane.showMessageDialog(null, "Puntaje del nivel " + nivel + " modificado a: " + nuevoPuntaje);
             } catch (NumberFormatException e) {
                 JOptionPane.showMessageDialog(null, "El puntaje debe ser un número entero.", "Error", JOptionPane.ERROR_MESSAGE);
             }
+        } else {
+            JOptionPane.showMessageDialog(null, "El puntaje no puede estar vacío.", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 

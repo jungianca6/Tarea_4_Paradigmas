@@ -9,6 +9,10 @@ public class Balls_Data {
     @JsonProperty("balls")
     Ball[] balls;
 
+    // Constructor predeterminado
+    public Balls_Data() {
+    }
+
     public Balls_Data(String typeMessage, Ball[] balls) {
         this.typeMessage = typeMessage;
         this.balls = balls;
