@@ -91,6 +91,7 @@ int GetScoreForCondition(const char* condition) {
     }
     return 0; // Puntaje por defecto
 }
+
 void PrintBricks(const BrickArray *brick_array) {
     for (int i = 0; i < brick_array->size; i++) {
         Brick brick = brick_array->data[i];
@@ -227,7 +228,6 @@ void Game_update() {
     float framet = GetFrameTime();
     static int printCounter = 0;  // Contador para controlar la impresión
     if (gg) return;
-
     // Control del jugador sobre la barra de juego.
     if(IsKeyDown(KEY_LEFT) || IsKeyDown(KEY_A)) {
         if (Pausa == 0) {
@@ -239,26 +239,19 @@ void Game_update() {
             player.rect.x += player.velocity * framet;
         }
     }
-
     if(IsKeyPressed(KEY_Q) || IsKeyPressed(KEY_P)) {
         if ( Pausa == 0) {
             Pausa = 1; // Incrementa el contador de bolas activas            // Inicializa las propiedades de la nueva bola aquí
             for (int i = 0; i < MAX_BALLS; i++) {
                 PAUS_SPEED = balls[i].vel;
                 balls[i].vel = 0.0f;
-
             }
-
         }
         else{
             Pausa = 0;
-
             for (int i = 0; i < MAX_BALLS; i++) {
                 balls[i].vel = PAUS_SPEED;
-
             }
-
-
         }
     }
 
@@ -280,8 +273,8 @@ void Game_update() {
 
 
     // Solo imprime cada 30 fotogramas
- // Colisión entre la bola y los bloques
-// Colisión entre la bola y los bloques
+    // Colisión entre la bola y los bloques
+    // Colisión entre la bola y los bloques
     for (int j = 0; j < MAX_BALLS; j++) {
         if (balls[j].active) {  // Solo actualiza la bola activa
             for (int i = 0; i < bricks.size; i++) {
@@ -298,7 +291,7 @@ void Game_update() {
                     player.score += GetScoreForCondition(brick.cond);
 
                     // Verifica si el bloque tiene un poder y actúa según el poder
-  // Velocidad mínima
+                    // Velocidad mínima
 
                     if (brick.power == INCREASE_LENGTH) {
                         player.w *= 2;
@@ -552,7 +545,7 @@ int main(void) {
     partyList.count = 0; // Inicializar la lista de partidas
 
     // Inicializa el socket
-    //initialize_socket(&sock, &server_addr, config.port, config.ip_address);
+    initialize_socket(&sock, &server_addr, config.port, config.ip_address);
 
     InitWindow(screen_w, screen_h, "breakOutTec");
 
@@ -563,8 +556,6 @@ int main(void) {
 
     while (!WindowShouldClose()) {
         BeginDrawing();
-
-
         // Configurar el conjunto de descriptores para select
         fd_set read_fds;
         FD_ZERO(&read_fds);
@@ -612,7 +603,6 @@ int main(void) {
                     printf("Seleccionada la partida: %s\n", partyList.parties[selectedPartyIndex].id_partida);
                     menuActive = 3; // Cambia a modo de juego
                     tipo_jugador = "Player";
-
 
                 }
             }

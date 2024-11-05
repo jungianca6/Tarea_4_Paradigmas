@@ -20,7 +20,7 @@ extern int puntaje_verde;
 
 void receive_message(int socket_fd) {
 
-    char buffer[1024]; // Buffer para almacenar la respuesta
+    char buffer[2048]; // Buffer para almacenar la respuesta
     ssize_t bytes_received = recv(socket_fd, buffer, sizeof(buffer) - 1, 0); // Deja espacio para el terminador nulo
 
     if (bytes_received < 0) {
@@ -43,6 +43,7 @@ void receive_message(int socket_fd) {
     }
     // Imprimir el mensaje JSON recibido
     //printf("Mensaje JSON recibido: %s\n", buffer);
+    printf("Mensaje JSON recibido: %s\n", buffer);
 
     // Obtener el tipo de mensaje
     cJSON *json_type_message = cJSON_GetObjectItem(json, "type_message");
@@ -96,7 +97,9 @@ void receive_message(int socket_fd) {
     }
     // si el mensaje es de tipo brak_block y lo actualiza
     else if (strcmp(json_type_message->valuestring, "break_block") == 0){
+        printf("Mensaje JSON recibido: %s\n", buffer);
         if (strcmp(tipo_jugador, "Spectator") == 0){
+            printf("Mensaje JSON recibido: %s\n", buffer);
             cJSON *json_brick_row = cJSON_GetObjectItem(json, "row");
             cJSON *json_brick_column = cJSON_GetObjectItem(json, "column");
             for (int i = 0; i < bricks.size; i++) {
@@ -204,7 +207,7 @@ void receive_message(int socket_fd) {
         }
     }
     // Si el mensaje es de tipo brick_matriz y actualiza los bloques
-    else if (strcmp(json_type_message->valuestring, "brick_matriz") == 0) {
+    else if (strcmp(json_type_message->valuestring, "brick_matrix") == 0) {
         if (strcmp(tipo_jugador, "Spectator") == 0) {
             cJSON *bricks_array = cJSON_GetObjectItem(json, "bricks");
             cJSON *brick_json;
@@ -231,23 +234,22 @@ void receive_message(int socket_fd) {
 
                 index++;
             }
-
             bricks.size = index; // Actualiza el tamaño del array de bloques
         }
     }
     // Si el mensaje es de tipo score_level_data y actualiza los bloques
     else if (strcmp(json_type_message->valuestring, "score_level_data") == 0) {
-        if (strcmp(tipo_jugador, "Spectator") == 0) {
+        if (strcmp(tipo_jugador, "Player") == 0) {
+            printf("Mensaje JSON recibido: %s\n", buffer);
             cJSON *color_json = cJSON_GetObjectItem(json, "nivel");
             cJSON *score_json = cJSON_GetObjectItem(json, "score");
-
-            if (strcmp(color_json->valuestring, "rojo") == 0) {
+            if (strcmp(color_json->valuestring, "Rojo") == 0) {
                 puntaje_rojo = score_json->valueint;
-            }else if (strcmp(color_json->valuestring, "naranja") == 0) {
+            }else if (strcmp(color_json->valuestring, "Naranja") == 0) {
                 puntaje_naranja = score_json->valueint;
-            }else if (strcmp(color_json->valuestring, "amarillo") == 0){
+            }else if (strcmp(color_json->valuestring, "Amarillo") == 0){
                 puntaje_amarillo = score_json->valueint;
-            }else if (strcmp(color_json->valuestring, "verde") == 0) {
+            }else if (strcmp(color_json->valuestring, "Verde") == 0) {
                 puntaje_verde = score_json->valueint;
             }
         }
@@ -372,7 +374,7 @@ void send_balls_info(int socket_fd) {
 
     // Serializar el objeto JSON a una cadena
     char *jsonString = cJSON_PrintUnformatted(json);
-    printf("Enviando JSON de bolas: %s\n", jsonString);
+    //printf("Enviando JSON de bolas: %s\n", jsonString);
 
     // Agregar el carácter de nueva línea y enviar
     size_t jsonLength = strlen(jsonString);

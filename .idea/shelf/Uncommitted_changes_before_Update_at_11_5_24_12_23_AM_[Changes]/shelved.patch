@@ -1,0 +1,36 @@
+Index: Tarea4/cmake-build-debug/.ninja_log
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+># ninja log v6\n3\t45\t1730706170207023472\tCMakeFiles/Tarea4.dir/Config/config.c.o\te30b18d74773482e\n5\t101\t1730766556699398390\tCMakeFiles/Tarea4.dir/Client/client.c.o\t990302c6f773e762\n2\t48\t1730706170206023454\tCMakeFiles/Tarea4.dir/INI/ini.c.o\t1abfcd3531c48742\n2\t128\t1730775191675285923\tCMakeFiles/Tarea4.dir/main.c.o\t9eaf94845ace890d\n1\t26\t1730776186806124948\tbuild.ninja\t7b5c939128b3a0e0\n128\t221\t1730775191801288739\tTarea4\t82fa99dfe76eebd4\n3\t57\t1730776933077493771\tCMakeFiles/Tarea4.dir/Config/config.c.o\te30b18d74773482e\n2\t75\t1730776933076493747\tCMakeFiles/Tarea4.dir/INI/ini.c.o\t1abfcd3531c48742\n1\t142\t1730776961947155949\tCMakeFiles/Tarea4.dir/main.c.o\t9eaf94845ace890d\n2\t138\t1730777085526986190\tCMakeFiles/Tarea4.dir/main.c.o\t9eaf94845ace890d\n2\t93\t1730777111148572206\tCMakeFiles/Tarea4.dir/Client/client.c.o\t990302c6f773e762\n1\t132\t1730777111147572184\tCMakeFiles/Tarea4.dir/main.c.o\t9eaf94845ace890d\n132\t241\t1730777111278575180\tTarea4\t82fa99dfe76eebd4\n2\t94\t1730777532144174460\tCMakeFiles/Tarea4.dir/Client/client.c.o\t990302c6f773e762\n94\t185\t1730777532236176554\tTarea4\t82fa99dfe76eebd4\n2\t48\t1730778771189706807\tCMakeFiles/Tarea4.dir/Config/config.c.o\te30b18d74773482e\n2\t59\t1730778771189706807\tCMakeFiles/Tarea4.dir/INI/ini.c.o\t1abfcd3531c48742\n1\t99\t1730778771188706785\tCMakeFiles/Tarea4.dir/Client/client.c.o\t990302c6f773e762\n1\t149\t1730778771188706785\tCMakeFiles/Tarea4.dir/main.c.o\t9eaf94845ace890d\n149\t246\t1730778771336710090\tTarea4\t82fa99dfe76eebd4\n2\t129\t1730778816669722817\tCMakeFiles/Tarea4.dir/main.c.o\t9eaf94845ace890d\n129\t233\t1730778816796725655\tTarea4\t82fa99dfe76eebd4\n1\t95\t1730780052562485312\tCMakeFiles/Tarea4.dir/Client/client.c.o\t990302c6f773e762\n95\t182\t1730780052656487424\tTarea4\t82fa99dfe76eebd4\n2\t90\t1730780101542585693\tCMakeFiles/Tarea4.dir/Client/client.c.o\t990302c6f773e762\n90\t178\t1730780101630587671\tTarea4\t82fa99dfe76eebd4\n2\t105\t1730780445256314374\tCMakeFiles/Tarea4.dir/Client/client.c.o\t990302c6f773e762\n105\t198\t1730780445359316692\tTarea4\t82fa99dfe76eebd4\n2\t160\t1730780552217721255\tCMakeFiles/Tarea4.dir/main.c.o\t9eaf94845ace890d\n163\t270\t1730780552377724856\tTarea4\t82fa99dfe76eebd4\n1\t125\t1730780683609678655\tCMakeFiles/Tarea4.dir/main.c.o\t9eaf94845ace890d\n125\t217\t1730780683733681447\tTarea4\t82fa99dfe76eebd4\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/Tarea4/cmake-build-debug/.ninja_log b/Tarea4/cmake-build-debug/.ninja_log
+--- a/Tarea4/cmake-build-debug/.ninja_log	(revision a8fbe953a79003a505822be1188388ea0fb53235)
++++ b/Tarea4/cmake-build-debug/.ninja_log	(date 1730784543154)
+@@ -31,3 +31,9 @@
+ 163	270	1730780552377724856	Tarea4	82fa99dfe76eebd4
+ 1	125	1730780683609678655	CMakeFiles/Tarea4.dir/main.c.o	9eaf94845ace890d
+ 125	217	1730780683733681447	Tarea4	82fa99dfe76eebd4
++2	91	1730780787113008814	CMakeFiles/Tarea4.dir/Client/client.c.o	990302c6f773e762
++91	172	1730780787202010818	Tarea4	82fa99dfe76eebd4
++1	89	1730781682699180327	CMakeFiles/Tarea4.dir/Client/client.c.o	990302c6f773e762
++89	168	1730781682787182309	Tarea4	82fa99dfe76eebd4
++1	91	1730784542977254415	CMakeFiles/Tarea4.dir/Client/client.c.o	990302c6f773e762
++91	178	1730784543067256398	Tarea4	82fa99dfe76eebd4
+Index: Tarea4/cmake-build-debug/Testing/Temporary/LastTest.log
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>Start testing: Nov 04 22:24 CST\n----------------------------------------------------------\nEnd testing: Nov 04 22:24 CST\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/Tarea4/cmake-build-debug/Testing/Temporary/LastTest.log b/Tarea4/cmake-build-debug/Testing/Temporary/LastTest.log
+--- a/Tarea4/cmake-build-debug/Testing/Temporary/LastTest.log	(revision a8fbe953a79003a505822be1188388ea0fb53235)
++++ b/Tarea4/cmake-build-debug/Testing/Temporary/LastTest.log	(date 1730787272161)
+@@ -1,3 +1,3 @@
+-Start testing: Nov 04 22:24 CST
++Start testing: Nov 05 00:14 CST
+ ----------------------------------------------------------
+-End testing: Nov 04 22:24 CST
++End testing: Nov 05 00:14 CST
