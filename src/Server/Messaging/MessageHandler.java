@@ -195,7 +195,7 @@ public class MessageHandler {
                     // Actualizar la lista de bolas
                     partida.setBolas(balls);
                     // Enviar el mensaje de desactivación de bloque a los clientes en la misma partida
-                    messageSender.sendBallsDataMessage(partida.getId_partida(), balls);
+                    messageSender.sendBallsDataMessage(partida.getId_partida(), partida.getBolas());
 
             } else {
                 System.out.println("Cliente o partida no encontrados.");
