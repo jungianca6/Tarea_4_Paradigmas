@@ -459,6 +459,7 @@ void Game_update() {
     printCounter++;
     // Imprime cada 30 fotogramas
     if (printCounter >= 500) {
+
         send_player_info(sock, player.rect.x,  player.rect.y,  player.rect.width, player.rect.height);
         printf("Estado de las bolas activas:\n");
         for (int i = 0; i < MAX_BALLS; i++) {

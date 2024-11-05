@@ -49,8 +49,8 @@
 	"kind" : "codemodel",
 	"paths" : 
 	{
-		"build" : "/home/darga19/Documents/TEC/Tarea_4_Paradigmas/Tarea4/cmake-build-debug",
-		"source" : "/home/darga19/Documents/TEC/Tarea_4_Paradigmas/Tarea4"
+		"build" : "/home/space-ba/CLionProjects/BreakoutTEC/Tarea4/cmake-build-debug",
+		"source" : "/home/space-ba/CLionProjects/BreakoutTEC/Tarea4"
 	},
 	"version" : 
 	{

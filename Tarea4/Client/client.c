@@ -11,10 +11,11 @@ extern PartyList partyList; // Lista global de partidas
 extern char* tipo_jugador;
 extern BrickArray bricks;
 extern struct Player player;
+extern struct Ball balls[10];
 
 void receive_message(int socket_fd) {
 
-    char buffer[1024]; // Buffer para almacenar la respuesta
+    char buffer[2048]; // Buffer para almacenar la respuesta
     ssize_t bytes_received = recv(socket_fd, buffer, sizeof(buffer) - 1, 0); // Deja espacio para el terminador nulo
 
     if (bytes_received < 0) {
@@ -260,10 +261,10 @@ void send_balls_info(int socket_fd, bool active, int id, int posx, int posy) {
     data_balls.balls = balls;
 
     for (int i = 0; i < 10; i++) {
-        data_balls.balls[id].id = id;
-        data_balls.balls[id].active = active;
-        data_balls.balls[id].posx = posx;
-        data_balls.balls[id].posy = posy;
+        data_balls.balls[i].id = id;
+        data_balls.balls[i].active = active;
+        data_balls.balls[i].posx = posx;
+        data_balls.balls[i].posy = posy;
     }
 
     // Crear el objeto JSON principal
