@@ -31,7 +31,7 @@ void update_party_list(DataParties *data_parties);
 void send_choice_message(int socket_fd, const char* party_id, const char* ip, int port);
 void send_player_info(int socket_fd, int posx, int posy, float ancho, float alto);
 void send_bricks_info(int socket_fd, int column, int row, const char* poder);
-void send_balls_info(int socket_fd, bool active, int id, int posx, int posy);
+void send_balls_info(int socket_fd);
 
 
 #endif // CLIENT_H

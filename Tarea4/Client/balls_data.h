@@ -10,8 +10,8 @@ typedef struct {
     char type_message[20]; // Tipo de mensaje (ej. "ball_data")
     bool active; //True o False
     int id;
-    int posx;
-    int posy;
+    float posx;
+    float posy;
 
 } DataBall;
 
