@@ -38,7 +38,7 @@
 			{
 				"command" : 2,
 				"file" : 0,
-				"line" : 36,
+				"line" : 37,
 				"parent" : 0
 			}
 		]
@@ -158,7 +158,8 @@
 				16,
 				17,
 				18,
-				19
+				19,
+				20
 			]
 		}
 	],
@@ -266,6 +267,11 @@
 		{
 			"backtrace" : 1,
 			"path" : "Client/balls_data.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "Client/brickmatriz_data.h",
 			"sourceGroupIndex" : 1
 		}
 	],
