@@ -29,11 +29,14 @@ int menuActive = 0; // Controla si el menú está activo
 int sock;
 struct sockaddr_in server_addr;
 char* tipo_jugador = "Spectator";
+float PAUS_SPEED = 0.0f;
+
 
 PartyList partyList; // Lista global de partidas
 int selectedPartyIndex = 0; // Índice de la partida seleccionada
 #define MAX_BALLS 10 // Define el número máximo de bolas
 int activeBallsCount = 0; // Define el número máximo de bolas
+int Pausa = 0; // Define el número máximo de bolas
 
 struct Ball balls[MAX_BALLS];
 
@@ -254,18 +257,45 @@ void Game_update() {
     if (gg) return;
 
     // Control del jugador sobre la barra de juego.
-    if(IsKeyDown(KEY_LEFT)) {
-        player.rect.x -= player.velocity * framet;
+    if(IsKeyDown(KEY_LEFT) || IsKeyDown(KEY_A)) {
+        if (Pausa == 0) {
+            player.rect.x -= player.velocity * framet;
+        }
     }
-    if(IsKeyDown(KEY_RIGHT)) {
-        player.rect.x += player.velocity * framet;
+    if(IsKeyDown(KEY_RIGHT) || IsKeyDown(KEY_D) ) {
+        if (Pausa == 0) {
+            player.rect.x += player.velocity * framet;
+        }
     }
+
+    if(IsKeyPressed(KEY_Q) || IsKeyPressed(KEY_P)) {
+        if ( Pausa == 0) {
+            Pausa = 1; // Incrementa el contador de bolas activas            // Inicializa las propiedades de la nueva bola aquí
+            for (int i = 0; i < MAX_BALLS; i++) {
+                PAUS_SPEED = balls[i].vel;
+                balls[i].vel = 0.0f;
+
+            }
+
+        }
+        else{
+            Pausa = 0;
+
+            for (int i = 0; i < MAX_BALLS; i++) {
+                balls[i].vel = PAUS_SPEED;
+
+            }
+
+
+        }
+    }
+
     if(IsKeyDown(KEY_SPACE)) {
         if (activeBallsCount < 1) {
             balls[0].active = true;
             activeBallsCount ++;
-
         }
+
 
     }
     // Actualización de la posición de la bola
