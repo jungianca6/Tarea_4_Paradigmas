@@ -191,15 +191,10 @@ void receive_message(int socket_fd) {
                 cJSON *posx = cJSON_GetObjectItem(ball_json, "posx");
                 cJSON *posy = cJSON_GetObjectItem(ball_json, "posy");
 
-                if (cJSON_IsNumber(id) && cJSON_IsBool(active) && cJSON_IsNumber(posx) && cJSON_IsNumber(posy)) {
-                    int ball_id = id->valueint;
-                    if (ball_id >= 0 && ball_id < 10) {
-                        balls[ball_id].id = ball_id;
-                        balls[ball_id].active = active->valueint;
-                        balls[ball_id].pos.x = posx->valueint;
-                        balls[ball_id].pos.y = posy->valueint;
-                    }
-                }
+                balls[index].active = active->valueint;
+                balls[index].pos.x = posx->valueint;
+                balls[index].pos.y = posy->valueint;
+
                 index++;
             }
         }
