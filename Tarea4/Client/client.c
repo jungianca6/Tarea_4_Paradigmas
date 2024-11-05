@@ -102,8 +102,8 @@ void receive_message(int socket_fd) {
             cJSON *json_brick_column = cJSON_GetObjectItem(json, "column");
             for (int i = 0; i < bricks.size; i++) {
                 Brick brick = bricks.data[i];
-                int brickRow = (brick.base.rect.y - 50) / 26;
-                int brickColumn = (brick.base.rect.x - 5) / 61;
+                int brickColumn = (brick.base.rect.y - 50) / 26;
+                int  brickRow = (brick.base.rect.x - 5) / 61;
                 if (brickRow == cJSON_GetNumberValue(json_brick_row) && brickColumn == cJSON_GetNumberValue(json_brick_column) ) {
                     // Elimina el bloque desplazando el resto de elementos
                     for (int j = i; j < bricks.size - 1; j++) {
