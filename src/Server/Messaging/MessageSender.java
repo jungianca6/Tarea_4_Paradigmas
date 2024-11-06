@@ -82,6 +82,26 @@ public class MessageSender {
         }
     }
 
+    public void sendStatsDataMessage(UUID partidaId, int puntaje, int nivel, int vidas) {
+        // Crea la instancia del objeto Player_Data con la información del jugador
+        Stats_Data player_data = new Stats_Data("stats_data", puntaje, vidas, nivel);
+
+        // Convierte el objeto Player_Data a formato JSON
+        String jsonMessage = createJson(player_data);
+
+        // Sincroniza el acceso a la lista de clientes
+        synchronized (server.clients) {
+            for (ClientInfo client : server.clients) {
+                // Verifica si el cliente está en la partida correcta y es un espectador
+                if (client.getPartida() != null && client.getPartida().getId_partida().equals(partidaId) &&
+                        client.getClientType().equals("Spectator")) {
+                    // Envía el mensaje al cliente correspondiente
+                    sendMessageToClient(client, jsonMessage);
+                }
+            }
+        }
+    }
+
     /**
      * Envía la información de un bloque de poder a los clientes que son jugadores en la partida especificada.
      *

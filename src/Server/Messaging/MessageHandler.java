@@ -65,16 +65,19 @@ public class MessageHandler {
                     handleRegistration(jsonNode); // Maneja el registro
                     break;
                 case "choice": // Si el tipo es "choice"
-                    handleChoiceMessage(jsonNode); // Maneja el mensaje de elección
+                    handleChoiceMessage(jsonNode);
                     break;
                 case "player_data": // Si el tipo es "player_data"
-                    handlePlayerMessage(jsonNode); // Maneja el mensaje de elección
+                    handlePlayerMessage(jsonNode);
                     break;
                 case "bricks_data": // Si el tipo es "bricks_data"
-                    handleBrickMessage(jsonNode); // Maneja el mensaje de un bloque destruido
+                    handleBrickMessage(jsonNode);
                     break;
-                case "balls_data": // Si el tipo es "bricks_data"
-                    handleBallsDataMessage(jsonNode); // Maneja el mensaje de un bloque destruido
+                case "balls_data": // Si el tipo es "balls_data"
+                    handleBallsDataMessage(jsonNode);
+                    break;
+                case "stats_data": // Si el tipo es "stats_data"
+                    handleStatsDataMessage(jsonNode);
                     break;
                 default: // Si el tipo de mensaje es desconocido
                     System.out.println("Tipo de mensaje desconocido: " + messageType);
@@ -143,6 +146,23 @@ public class MessageHandler {
             }
         } catch(Exception e){
                 e.printStackTrace();
+        }
+    }
+
+    private void handleStatsDataMessage(JsonNode jsonNode) {
+        try {
+            // Obtener las coordenadas del bloque del mensaje JSON
+            int puntaje = jsonNode.get("puntaje").asInt();
+            int nivel = jsonNode.get("nivel").asInt();
+            int vidas = jsonNode.get("vidas").asInt();
+            // Buscar el cliente asociado al ID
+            ClientInfo client = server.getClientById(clientId); // Método para obtener el cliente por ID
+            if (client != null && client.getPartida() != null) {
+                Partida partida = client.getPartida();
+                messageSender.sendStatsDataMessage(partida.getId_partida(), puntaje, nivel, vidas);
+            }
+        } catch(Exception e){
+            e.printStackTrace();
         }
     }
 
