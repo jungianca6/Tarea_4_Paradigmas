@@ -152,9 +152,9 @@ public class MessageHandler {
     private void handleStatsDataMessage(JsonNode jsonNode) {
         try {
             // Obtener las coordenadas del bloque del mensaje JSON
-            int puntaje = jsonNode.get("puntaje").asInt();
-            int nivel = jsonNode.get("nivel").asInt();
-            int vidas = jsonNode.get("vidas").asInt();
+            int puntaje = jsonNode.get("score").asInt();
+            int nivel = jsonNode.get("level").asInt();
+            int vidas = jsonNode.get("lives").asInt();
             // Buscar el cliente asociado al ID
             ClientInfo client = server.getClientById(clientId); // Método para obtener el cliente por ID
             if (client != null && client.getPartida() != null) {
