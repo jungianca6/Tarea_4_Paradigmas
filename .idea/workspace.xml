@@ -23,28 +23,10 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="75554750-353e-47f0-ae30-1498d22c2337" name="Changes" comment=":v">
-      <change beforePath="$PROJECT_DIR$/Tarea4/Client/client.c" beforeDir="false" afterPath="$PROJECT_DIR$/Tarea4/Client/client.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Tarea4/cmake-build-debug/.cmake/api/v1/reply/cache-v2-969b83c12d1d6b6ff2e0.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Tarea4/cmake-build-debug/.cmake/api/v1/reply/cmakeFiles-v1-03af6ac8cdc439934dab.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Tarea4/cmake-build-debug/.cmake/api/v1/reply/codemodel-v2-d243f75adcbdb6e24b69.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Tarea4/cmake-build-debug/.cmake/api/v1/reply/index-2024-11-05T06-23-22-0351.json" beforeDir="false" />
+    <list default="true" id="75554750-353e-47f0-ae30-1498d22c2337" name="Changes" comment="Bugfixes">
       <change beforePath="$PROJECT_DIR$/Tarea4/cmake-build-debug/.ninja_deps" beforeDir="false" afterPath="$PROJECT_DIR$/Tarea4/cmake-build-debug/.ninja_deps" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Tarea4/cmake-build-debug/.ninja_log" beforeDir="false" afterPath="$PROJECT_DIR$/Tarea4/cmake-build-debug/.ninja_log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Tarea4/cmake-build-debug/CMakeCache.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Tarea4/cmake-build-debug/CMakeCache.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Tarea4/cmake-build-debug/CMakeFiles/3.29.6/CMakeSystem.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/Tarea4/cmake-build-debug/CMakeFiles/3.29.6/CMakeSystem.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Tarea4/cmake-build-debug/CMakeFiles/CMakeConfigureLog.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/Tarea4/cmake-build-debug/CMakeFiles/CMakeConfigureLog.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Tarea4/cmake-build-debug/CMakeFiles/Tarea4.dir/Client/client.c.o" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Tarea4/cmake-build-debug/CMakeFiles/Tarea4.dir/Config/config.c.o" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Tarea4/cmake-build-debug/CMakeFiles/Tarea4.dir/INI/ini.c.o" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Tarea4/cmake-build-debug/CMakeFiles/Tarea4.dir/main.c.o" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Tarea4/cmake-build-debug/CMakeFiles/TargetDirectories.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Tarea4/cmake-build-debug/CMakeFiles/TargetDirectories.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Tarea4/cmake-build-debug/CMakeFiles/clion-Debug-log.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Tarea4/cmake-build-debug/CMakeFiles/rules.ninja" beforeDir="false" afterPath="$PROJECT_DIR$/Tarea4/cmake-build-debug/CMakeFiles/rules.ninja" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Tarea4/cmake-build-debug/Tarea4" beforeDir="false" afterPath="$PROJECT_DIR$/Tarea4/cmake-build-debug/Tarea4" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Tarea4/cmake-build-debug/Testing/Temporary/LastTest.log" beforeDir="false" afterPath="$PROJECT_DIR$/Tarea4/cmake-build-debug/Testing/Temporary/LastTest.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Tarea4/cmake-build-debug/build.ninja" beforeDir="false" afterPath="$PROJECT_DIR$/Tarea4/cmake-build-debug/build.ninja" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Tarea4/cmake-build-debug/cmake_install.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/Tarea4/cmake-build-debug/cmake_install.cmake" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Tarea4/main.c" beforeDir="false" afterPath="$PROJECT_DIR$/Tarea4/main.c" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -77,14 +59,7 @@
   }
 }</component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="mock:///home/space-ba/CLionProjects/BreakoutTEC/Tarea4/Client/client.c" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///home/space-ba/CLionProjects/BreakoutTEC/Tarea4/Client/client.c" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///home/space-ba/CLionProjects/BreakoutTEC/Tarea4/Client/client.c" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///home/space-ba/CLionProjects/BreakoutTEC/Tarea4/Client/client.c" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///home/space-ba/CLionProjects/BreakoutTEC/Tarea4/main.c" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///home/space-ba/CLionProjects/BreakoutTEC/Tarea4/main.c" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///home/space-ba/CLionProjects/BreakoutTEC/Tarea4/main.c" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///home/space-ba/CLionProjects/BreakoutTEC/Tarea4/main.c" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Tarea4/main.c" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="ProjectApplicationVersion">
     <option name="ide" value="CLion" />
@@ -101,42 +76,42 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;C/C++ File.Unnamed.executor&quot;: &quot;Run&quot;,
-    &quot;C/C++ File.main.c - Default.executor&quot;: &quot;Run&quot;,
-    &quot;C/C++ File.main.c.executor&quot;: &quot;Run&quot;,
-    &quot;CMake Application.Tarea4.executor&quot;: &quot;Run&quot;,
-    &quot;CMake Debug.Tarea4.executor&quot;: &quot;Debug&quot;,
-    &quot;RunOnceActivity.RadMigrateCodeStyle&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.readMode.enableVisualFormatting&quot;: &quot;true&quot;,
-    &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
-    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;cliente__C&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/home/space-ba/CLionProjects/BreakoutTEC/Tarea4/CMakeLists.txt&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;CPPToolchains&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "C/C++ File.Unnamed.executor": "Run",
+    "C/C++ File.main.c - Default.executor": "Run",
+    "C/C++ File.main.c.executor": "Run",
+    "CMake Application.Tarea4.executor": "Run",
+    "CMake Debug.Tarea4.executor": "Debug",
+    "RunOnceActivity.RadMigrateCodeStyle": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.cidr.known.project.marker": "true",
+    "RunOnceActivity.readMode.enableVisualFormatting": "true",
+    "cf.first.check.clang-format": "false",
+    "cidr.known.project.marker": "true",
+    "git-widget-placeholder": "cliente__C",
+    "last_opened_file_path": "/home/space-ba/Desktop/Tarea_4_Paradigmas/Tarea_4_Paradigmas",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "CPPToolchains",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/Tarea4" />
     </key>
   </component>
   <component name="RunManager">
-    <configuration default="true" type="CLionExternalRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true">
+    <configuration name="Tarea4" type="CMakeRunConfiguration" factoryName="Application" singleton="false" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Tarea4" TARGET_NAME="Tarea4" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="Tarea4" RUN_TARGET_NAME="Tarea4">
       <method v="2">
-        <option name="CLION.EXTERNAL.BUILD" enabled="true" />
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="Tarea4" type="CMakeRunConfiguration" factoryName="Application" singleton="false" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Tarea4" TARGET_NAME="Tarea4" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="Tarea4" RUN_TARGET_NAME="Tarea4">
+    <configuration default="true" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
@@ -163,6 +138,7 @@
       <workItem from="1730685169144" duration="26510000" />
       <workItem from="1730763606373" duration="9773000" />
       <workItem from="1730795279454" duration="1000" />
+      <workItem from="1730796734027" duration="8470000" />
     </task>
     <task id="LOCAL-00001" summary="commit">
       <option name="closed" value="true" />
@@ -372,7 +348,47 @@
       <option name="project" value="LOCAL" />
       <updated>1730770460525</updated>
     </task>
-    <option name="localTasksCounter" value="27" />
+    <task id="LOCAL-00027" summary=":v">
+      <option name="closed" value="true" />
+      <created>1730797304251</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1730797304251</updated>
+    </task>
+    <task id="LOCAL-00028" summary="Bugfixes">
+      <option name="closed" value="true" />
+      <created>1730798433284</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1730798433284</updated>
+    </task>
+    <task id="LOCAL-00029" summary="Bugfixes">
+      <option name="closed" value="true" />
+      <created>1730803289516</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1730803289516</updated>
+    </task>
+    <task id="LOCAL-00030" summary="Bugfixes">
+      <option name="closed" value="true" />
+      <created>1730803520096</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1730803520096</updated>
+    </task>
+    <task id="LOCAL-00031" summary="Bugfixes">
+      <option name="closed" value="true" />
+      <created>1730804400875</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1730804400875</updated>
+    </task>
+    <option name="localTasksCounter" value="32" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -428,6 +444,7 @@
     <MESSAGE value="a" />
     <MESSAGE value="bugfixes" />
     <MESSAGE value=":v" />
-    <option name="LAST_COMMIT_MESSAGE" value=":v" />
+    <MESSAGE value="Bugfixes" />
+    <option name="LAST_COMMIT_MESSAGE" value="Bugfixes" />
   </component>
 </project>

@@ -298,7 +298,7 @@ void Game_update() {
                     player.score += GetScoreForCondition(brick.cond);
 
                     // Verifica si el bloque tiene un poder y actúa según el poder
-  // Velocidad mínima
+                    // Velocidad mínima
 
                     if (brick.power == INCREASE_LENGTH) {
                         player.w *= 2;
