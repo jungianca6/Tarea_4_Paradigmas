@@ -35,6 +35,8 @@ int puntaje_rojo = 50;
 int puntaje_naranja = 30;
 int puntaje_amarillo = 20;
 int puntaje_verde = 10;
+int player_score = 0;
+int player_lives = 50;
 PartyList partyList; // Lista global de partidas
 int selectedPartyIndex = 0; // Índice de la partida seleccionada
 #define MAX_BALLS 10 // Define el número máximo de bolas
@@ -172,10 +174,10 @@ void Game_startup(BrickArray *brick_array) {
     //Codigo que carga a memoria datos del jugador
     player.rect = (Rectangle) {212.0f, 540.0f, 75.0f, 4.0f};
     player.velocity = 450.0f;
-    player.score = 0;
+    player.score = player_score;
     player.w = 75.0f;
     player.h = 10.0f;
-    player.lives = 1000;
+    player.lives = player_lives;
     player.level = 1;
 
 // Configuración inicial de las bolas
@@ -357,6 +359,7 @@ void Game_update() {
         }
         Spawn_bricks(&bricks);
     }
+    send_ui_info(sock);
 
     //Colision entre la bola y las paredes, se invierte la aceleracion pues el choque causa cambio a direccion contraria.
     for (int j = 0; j < MAX_BALLS; j++) {
