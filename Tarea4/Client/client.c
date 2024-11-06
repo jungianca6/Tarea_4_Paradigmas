@@ -16,6 +16,8 @@ extern int puntaje_rojo;
 extern int puntaje_naranja;
 extern int puntaje_amarillo;
 extern int puntaje_verde;
+extern int player_score;
+extern int player_lives;
 #define MAX_BALLS 10 // Define el número máximo de bolas
 
 void receive_message(int socket_fd) {
@@ -249,6 +251,18 @@ void receive_message(int socket_fd) {
             }
         }
     }
+    // Si el mensaje es de tipo data_ui
+    else if (strcmp(json_type_message->valuestring, "data_ui") == 0) {
+        if (strcmp(tipo_jugador, "Spectator") == 0) {
+            cJSON *score = cJSON_GetObjectItem(json, "score");
+            cJSON *lives = cJSON_GetObjectItem(json, "lives");
+
+            printf("Score y Vidas recibidas");
+            printf(cJSON_GetStringValue(score));
+            player_score = cJSON_GetNumberValue(score);
+            player_lives = cJSON_GetNumberValue(lives);
+        }
+    }
 
     else {
         printf("Error: tipo de mensaje desconocido.\n");
@@ -451,7 +465,7 @@ void send_message(int socket_fd, Data data) {
 void send_bricks_matriz_info(int socket_fd) {
     // Crear el objeto JSON principal
     cJSON *json = cJSON_CreateObject();
-    cJSON_AddStringToObject(json, "type_message", "brick_matriz");
+    cJSON_AddStringToObject(json, "type_message", "brick_matrix");
 
     // Crear el array JSON para almacenar los bloques
     cJSON *bricks_array = cJSON_AddArrayToObject(json, "bricks");
@@ -480,6 +494,35 @@ void send_bricks_matriz_info(int socket_fd) {
     cJSON_Delete(json);
     free(jsonString);
     free(jsonWithNewline);
+}
+
+void send_ui_info(int socket_fd) {
+    DataUI data_ui;
+    data_ui.score = player_score;
+    data_ui.lives = player_lives;
+
+    // Serializar la estructura a JSON
+    cJSON *json = cJSON_CreateObject();
+    cJSON_AddStringToObject(json, "type_message", "data_ui"); // Añadir tipo de mensaje
+    cJSON_AddNumberToObject(json, "score", data_ui.score); // Añadir tipo
+    cJSON_AddNumberToObject(json, "lives", data_ui.lives); // Añadir tipo
+
+    char *jsonString = cJSON_PrintUnformatted(json);
+    //printf("Enviando JSON de player: %s\n", jsonString);
+
+    size_t jsonLength = strlen(jsonString);
+    char *jsonWithNewline = malloc(jsonLength + 2); // +2 para '\n' y '\0'
+    sprintf(jsonWithNewline, "%s\n", jsonString);
+
+    ssize_t bytes_sent = send(socket_fd, jsonWithNewline, strlen(jsonWithNewline), 0);
+    if (bytes_sent < 0) {
+        perror("Error sending register message");
+    }
+
+    cJSON_Delete(json);
+    free(jsonString);
+    free(jsonWithNewline);
+
 }
 
 void send_choice_message(int socket_fd, const char* party_id, const char* ip, int port) {
