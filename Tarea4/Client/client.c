@@ -156,7 +156,7 @@ void receive_message(int socket_fd) {
         }
     }
     //Si el mensaje es de tipo player_data y lo actualiza
-    /*else if (strcmp(json_type_message->valuestring, "player_data") == 0) {
+    else if (strcmp(json_type_message->valuestring, "player_data") == 0) {
         if (strcmp(tipo_jugador, "Spectator") == 0) {
             cJSON *json_player_posx = cJSON_GetObjectItem(json, "pos_x");
             cJSON *json_player_posy = cJSON_GetObjectItem(json, "pos_y");
@@ -168,9 +168,9 @@ void receive_message(int socket_fd) {
             player.rect.height = cJSON_GetNumberValue(json_player_largo);
         }
 
-    }*/
+    }
     //Si el mensaje es de tipo balls_data y las actualiza
-    /*else if (strcmp(json_type_message->valuestring, "balls_data") == 0) {
+    else if (strcmp(json_type_message->valuestring, "balls_data") == 0) {
         if (strcmp(tipo_jugador, "Spectator") == 0) {
             cJSON *balls_array = cJSON_GetObjectItem(json, "balls");
             cJSON *ball_json;
@@ -189,7 +189,7 @@ void receive_message(int socket_fd) {
                 index++;
             }
         }
-    }*/
+    }
     // Si el mensaje es de tipo brick_matrix y actualiza los bloques
     else if (strcmp(json_type_message->valuestring, "brick_matrix") == 0) {
         if (strcmp(tipo_jugador, "Spectator") == 0) {
