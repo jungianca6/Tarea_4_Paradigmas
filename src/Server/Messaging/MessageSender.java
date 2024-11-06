@@ -188,7 +188,7 @@ public class MessageSender {
                     // Envía el mensaje al cliente correspondiente
                     sendMessageToClient(client, jsonMessage);
                     // Registra el mensaje enviado
-                    System.out.println("Mensaje enviado al cliente " + client.getClientId() + ": " + jsonMessage);
+                    //System.out.println("Mensaje enviado al cliente " + client.getClientId() + ": " + jsonMessage);
                 }
             }
         }

@@ -17,7 +17,7 @@ public class ClientInfo {
     private String ipAddress;          // Dirección IP del cliente
     private int port;                  // Puerto del cliente
     private String client_type;        // Tipo de cliente: "jugador", "espectador" o "Client"
-    private Partida partida;           // Partida asociada al cliente
+    public Partida partida;           // Partida asociada al cliente
 
     /**
      * Constructor de ClientInfo.

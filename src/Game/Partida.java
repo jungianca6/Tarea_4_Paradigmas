@@ -56,6 +56,15 @@ public class Partida {
         }
     }
 
+    // Método para imprimir el estado de la matriz de bloques
+    public void imprimirMatrizBloques() {
+        for (int i = 0; i < bloques.length; i++) {
+            for (int j = 0; j < bloques[i].length; j++) {
+                System.out.printf("Bloque [%d][%d]: %s\n", i, j, bloques[i][j].isActivo() ? "Activo" : "Inactivo");
+            }
+        }
+    }
+
     public Bloque[][] getBloques() {
         return bloques;
     }

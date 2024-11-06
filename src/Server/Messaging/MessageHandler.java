@@ -115,8 +115,9 @@ public class MessageHandler {
         try {
             // Convierte el nodo JSON en un objeto Party_Choice_Data
             Party_Choice_Data choiceData = objectMapper.treeToValue(jsonNode, Party_Choice_Data.class);
-            // Crea una nueva partida con la información de elección
-            Partida partida = new Partida(UUID.fromString(choiceData.getId_partida()), choiceData.getIp(), choiceData.getPuerto());
+            ClientInfo clientInfo = server.getClientInfobyID(UUID.fromString(choiceData.getId_partida()));
+            Partida partida = clientInfo.partida;
+
             updateClientChoice(partida); // Actualiza la elección del cliente
             messageSender.sendMatrixBlockMessage(partida);
         } catch (Exception e) {
@@ -181,19 +182,18 @@ public class MessageHandler {
             ClientInfo client = server.getClientById(clientId); // Método para obtener el cliente por ID
 
             if (client != null && client.getPartida() != null) {
-                // Obtener la partida asociada al cliente
-                Partida partida = client.getPartida();
-
+                client.partida.imprimirMatrizBloques();
                 // Desactivar el bloque específico en la partida
-                partida.desactivarBloque(fila, columna);
+                client.partida.desactivarBloque(fila, columna);
+                client.partida.imprimirMatrizBloques();
+                // Desactivar el bloque específico en la partida
 
-                messageSender.sendBreakBlockMessage(partida.getId_partida(), fila, columna, "poder");
+                messageSender.sendBreakBlockMessage(client.partida.getId_partida(), fila, columna, "poder");
 
             } else {
                 System.out.println("Cliente o partida no encontrados.");
             }
         } catch (Exception e) {
-            e.printStackTrace();
         }
     }
 
