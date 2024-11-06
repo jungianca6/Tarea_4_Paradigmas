@@ -263,7 +263,6 @@ void receive_message(int socket_fd) {
             player_lives = cJSON_GetNumberValue(lives);
         }
     }
-
     else {
         printf("Error: tipo de mensaje desconocido.\n");
     }
