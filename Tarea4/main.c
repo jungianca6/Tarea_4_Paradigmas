@@ -549,7 +549,7 @@ int main(void) {
     partyList.count = 0; // Inicializar la lista de partidas
 
     // Inicializa el socket
-    //initialize_socket(&sock, &server_addr, config.port, config.ip_address);
+    initialize_socket(&sock, &server_addr, config.port, config.ip_address);
 
     InitWindow(screen_w, screen_h, "breakOutTec");
 

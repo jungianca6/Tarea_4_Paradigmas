@@ -119,7 +119,6 @@ void receive_message(int socket_fd) {
     }
     // Si el mensaje es de tipo power_block y aplica el poder
     else if (strcmp(json_type_message->valuestring, "power_block") == 0) {
-
         if (strcmp(tipo_jugador, "Player") == 0) {
             cJSON *json_brick_row = cJSON_GetObjectItem(json, "row");
             cJSON *json_brick_column = cJSON_GetObjectItem(json, "column");
@@ -184,7 +183,7 @@ void receive_message(int socket_fd) {
             cJSON *balls_array = cJSON_GetObjectItem(json, "balls");
             cJSON *ball_json;
             int index = 0;
-            printf("Array de las bolas de koki recibido");
+            //printf("Array de las bolas de koki recibido");
             cJSON_ArrayForEach(ball_json, balls_array) {
                 if (index >= 10) break; // Evitar desbordar el array local
                 cJSON *id = cJSON_GetObjectItem(ball_json, "id");
@@ -201,37 +200,45 @@ void receive_message(int socket_fd) {
         }
     }
     // Si el mensaje es de tipo brick_matriz y actualiza los bloques
-    else if (strcmp(json_type_message->valuestring, "brick_matriz") == 0) {
+    else if (strcmp(json_type_message->valuestring, "brick_matrix") == 0) {
         if (strcmp(tipo_jugador, "Spectator") == 0) {
-            cJSON *bricks_array = cJSON_GetObjectItem(json, "bricks");
-            cJSON *brick_json;
-
-            int index = 0;
-            printf("Array de bloques recibido\n");
-
-            cJSON_ArrayForEach(brick_json, bricks_array) {
-                if (index >= bricks.capacity) break; // Evitar desbordar el array de bloques
-
-                cJSON *active = cJSON_GetObjectItem(brick_json, "active");
-
-                // Verifica que el valor sea booleano
-                if (cJSON_IsBool(active)) {
-                    bricks.data[index].active = active->valueint; // Actualiza el estado activo/inactivo del bloque
-                    cJSON *json_player_posx = cJSON_GetObjectItem(json, "posx");
-                    cJSON *json_player_posy = cJSON_GetObjectItem(json, "posy");
-                    cJSON *json_player_ancho = cJSON_GetObjectItem(json, "ancho");
-                    cJSON *json_player_largo = cJSON_GetObjectItem(json, "largo");
-                    player.rect.x = cJSON_GetNumberValue(json_player_posx);
-                    player.rect.y = cJSON_GetNumberValue(json_player_posy);
-                    player.rect.width = cJSON_GetNumberValue(json_player_ancho);
-                    player.rect.height = cJSON_GetNumberValue(json_player_largo);
-                }
-
-                index++;
+            // Extraer el tipo de mensaje
+            cJSON *type_message = cJSON_GetObjectItemCaseSensitive(json, "type_message");
+            if (cJSON_IsString(type_message) && type_message->valuestring != NULL) {
+                printf("Tipo de mensaje: %s\n", type_message->valuestring);
             }
+            // Extraer la matriz de bloques
+            cJSON *bricks = cJSON_GetObjectItemCaseSensitive(json, "brick_matrix");
+            if (cJSON_IsArray(bricks)) {
+                // Verificamos que la matriz tiene al menos una fila
+                int rows = cJSON_GetArraySize(bricks);
+                if (rows > 0) {
+                    cJSON *first_row = cJSON_GetArrayItem(bricks, 0);
+                    int cols = cJSON_GetArraySize(first_row); // Número de columnas, basado en la primera fila
 
-            bricks.size = index; // Actualiza el tamaño del array de bloques
-        }
+                    // Imprimir el estado de los bloques
+                    for (int i = 0; i < rows; i++) {
+                        cJSON *row = cJSON_GetArrayItem(bricks, i);
+                        if (cJSON_IsArray(row)) {
+                            for (int j = 0; j < cols; j++) {
+                                cJSON *brick = cJSON_GetArrayItem(row, j);
+                                if (cJSON_IsObject(brick)) {
+                                    cJSON *activo = cJSON_GetObjectItemCaseSensitive(brick, "activo");
+                                    if (cJSON_IsBool(activo)) {
+                                        printf("Bloque en [%d][%d]: %s\n", i, j, cJSON_IsTrue(activo) ? "Activo" : "Inactivo");
+                                    }
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    printf("Error: La matriz de bloques no tiene filas.\n");
+                }
+            } else {
+                printf("Error: No se encontró la matriz de bloques en el JSON.\n");
+            }
+    }
+
     }
     // Si el mensaje es de tipo score_level_data y actualiza los bloques
     else if (strcmp(json_type_message->valuestring, "score_level_data") == 0) {
@@ -252,17 +259,17 @@ void receive_message(int socket_fd) {
     }
     // Si el mensaje es de tipo data_ui
     else if (strcmp(json_type_message->valuestring, "data_ui") == 0) {
-        printf("Mensaje JSON recibido: %s\n", buffer);
+        //printf("Mensaje JSON recibido: %s\n", buffer);
         if (strcmp(tipo_jugador, "Spectator") == 0) {
             cJSON *score = cJSON_GetObjectItem(json, "score");
             cJSON *lives = cJSON_GetObjectItem(json, "lives");
             cJSON *level = cJSON_GetObjectItem(json, "level");
 
-            printf("Score y Vidas recibidas");
-            printf(cJSON_GetStringValue(score));
-            player.score = cJSON_GetNumberValue(score);
-            player.lives = cJSON_GetNumberValue(lives);
-            player.level = cJSON_GetNumberValue(level);
+            //printf("Score y Vidas recibidas");
+            //printf(cJSON_GetStringValue(score));
+            //player.score = cJSON_GetNumberValue(score);
+            //player.lives = cJSON_GetNumberValue(lives);
+            //player.level = cJSON_GetNumberValue(level);
         }
     }
     else {
