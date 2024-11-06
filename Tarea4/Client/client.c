@@ -16,9 +16,6 @@ extern int puntaje_rojo;
 extern int puntaje_naranja;
 extern int puntaje_amarillo;
 extern int puntaje_verde;
-extern int player_score;
-extern int player_lives;
-
 #define MAX_BALLS 10 // Define el número máximo de bolas
 
 void receive_message(int socket_fd) {
@@ -46,7 +43,7 @@ void receive_message(int socket_fd) {
     }
     // Imprimir el mensaje JSON recibido
     //printf("Mensaje JSON recibido: %s\n", buffer);
-    printf("Mensaje JSON recibido: %s\n", buffer);
+
 
     // Obtener el tipo de mensaje
     cJSON *json_type_message = cJSON_GetObjectItem(json, "type_message");
@@ -254,6 +251,7 @@ void receive_message(int socket_fd) {
     }
     // Si el mensaje es de tipo data_ui
     else if (strcmp(json_type_message->valuestring, "data_ui") == 0) {
+        printf("Mensaje JSON recibido: %s\n", buffer);
         if (strcmp(tipo_jugador, "Spectator") == 0) {
             cJSON *score = cJSON_GetObjectItem(json, "score");
             cJSON *lives = cJSON_GetObjectItem(json, "lives");
@@ -261,9 +259,9 @@ void receive_message(int socket_fd) {
 
             printf("Score y Vidas recibidas");
             printf(cJSON_GetStringValue(score));
-            player_score = cJSON_GetNumberValue(score);
-            player_lives = cJSON_GetNumberValue(lives);
-            //player_level = cJSON_GetNumberValue(level);
+            player.score = cJSON_GetNumberValue(score);
+            player.lives = cJSON_GetNumberValue(lives);
+            player.level = cJSON_GetNumberValue(level);
         }
     }
     else {
@@ -500,8 +498,8 @@ void send_bricks_matriz_info(int socket_fd) {
 
 void send_ui_info(int socket_fd) {
     DataUI data_ui;
-    data_ui.score = player_score;
-    data_ui.lives = player_lives;
+    data_ui.score = player.score;
+    data_ui.lives = player.lives;
     data_ui.level = player.level;
 
     // Serializar la estructura a JSON

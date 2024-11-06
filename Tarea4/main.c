@@ -35,8 +35,6 @@ int puntaje_rojo = 50;
 int puntaje_naranja = 30;
 int puntaje_amarillo = 20;
 int puntaje_verde = 10;
-int player_score = 0;
-int player_lives = 50;
 PartyList partyList; // Lista global de partidas
 int selectedPartyIndex = 0; // Índice de la partida seleccionada
 #define MAX_BALLS 10 // Define el número máximo de bolas
@@ -174,10 +172,10 @@ void Game_startup(BrickArray *brick_array) {
     //Codigo que carga a memoria datos del jugador
     player.rect = (Rectangle) {212.0f, 540.0f, 75.0f, 4.0f};
     player.velocity = 450.0f;
-    player.score = player_score;
+    player.score = 0;
     player.w = 75.0f;
     player.h = 10.0f;
-    player.lives = player_lives;
+    player.lives = 1;
     player.level = 1;
 
 // Configuración inicial de las bolas
@@ -296,7 +294,6 @@ void Game_update() {
                     } else {
                         balls[j].accel.y *= -1;
                     }
-
                     player.score += GetScoreForCondition(brick.cond);
 
                     // Verifica si el bloque tiene un poder y actúa según el poder
@@ -359,7 +356,6 @@ void Game_update() {
         }
         Spawn_bricks(&bricks);
     }
-    send_ui_info(sock);
 
     //Colision entre la bola y las paredes, se invierte la aceleracion pues el choque causa cambio a direccion contraria.
     for (int j = 0; j < MAX_BALLS; j++) {
@@ -430,9 +426,10 @@ void Game_update() {
 
     printCounter++;
     // Imprime cada 30 fotogramas
-    if (printCounter >= 20) {
+    if (printCounter >= 30) {
         send_balls_info(sock);
         send_player_info(sock, player.rect.x,  player.rect.y,  player.rect.width, player.rect.height);
+        send_ui_info(sock);
         printCounter = 0;  // Reinicia el contador de fotogramas
     }
 
