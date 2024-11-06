@@ -109,8 +109,8 @@ void receive_message(int socket_fd) {
                     for (int j = i; j < bricks.size - 1; j++) {
                         bricks.data[j] = bricks.data[j + 1];
                     }
-                    printf("Destrui un bloque :D");
-                    printf("\n");
+                    //printf("Destrui un bloque :D");
+                    //printf("\n");
                     bricks.size--;
                     break;
                 }
@@ -123,14 +123,6 @@ void receive_message(int socket_fd) {
             cJSON *json_brick_row = cJSON_GetObjectItem(json, "row");
             cJSON *json_brick_column = cJSON_GetObjectItem(json, "column");
             cJSON *json_brick_power = cJSON_GetObjectItem(json, "power");
-            /*
-            // Imprimir el poder del bloque
-            if (json_brick_power != NULL && json_brick_power->valuestring != NULL) {
-                printf("Poder del bloque: %s\n", json_brick_power->valuestring);
-
-            } else {
-                printf("No se encontró el poder del bloque.\n");
-            }*/
             for (int i = 0; i < bricks.size; i++) {
                 Brick brick = bricks.data[i];
                 int brickRow = (brick.base.rect.y - 50) / 26;
@@ -164,7 +156,7 @@ void receive_message(int socket_fd) {
         }
     }
     //Si el mensaje es de tipo player_data y lo actualiza
-    else if (strcmp(json_type_message->valuestring, "player_data") == 0) {
+    /*else if (strcmp(json_type_message->valuestring, "player_data") == 0) {
         if (strcmp(tipo_jugador, "Spectator") == 0) {
             cJSON *json_player_posx = cJSON_GetObjectItem(json, "pos_x");
             cJSON *json_player_posy = cJSON_GetObjectItem(json, "pos_y");
@@ -176,14 +168,13 @@ void receive_message(int socket_fd) {
             player.rect.height = cJSON_GetNumberValue(json_player_largo);
         }
 
-    }
+    }*/
     //Si el mensaje es de tipo balls_data y las actualiza
-    else if (strcmp(json_type_message->valuestring, "balls_data") == 0) {
+    /*else if (strcmp(json_type_message->valuestring, "balls_data") == 0) {
         if (strcmp(tipo_jugador, "Spectator") == 0) {
             cJSON *balls_array = cJSON_GetObjectItem(json, "balls");
             cJSON *ball_json;
             int index = 0;
-            //printf("Array de las bolas de koki recibido");
             cJSON_ArrayForEach(ball_json, balls_array) {
                 if (index >= 10) break; // Evitar desbordar el array local
                 cJSON *id = cJSON_GetObjectItem(ball_json, "id");
@@ -198,48 +189,31 @@ void receive_message(int socket_fd) {
                 index++;
             }
         }
-    }
-    // Si el mensaje es de tipo brick_matriz y actualiza los bloques
+    }*/
+    // Si el mensaje es de tipo brick_matrix y actualiza los bloques
     else if (strcmp(json_type_message->valuestring, "brick_matrix") == 0) {
         if (strcmp(tipo_jugador, "Spectator") == 0) {
-            // Extraer el tipo de mensaje
-            cJSON *type_message = cJSON_GetObjectItemCaseSensitive(json, "type_message");
-            if (cJSON_IsString(type_message) && type_message->valuestring != NULL) {
-                printf("Tipo de mensaje: %s\n", type_message->valuestring);
-            }
+            printf(json_type_message->valuestring);
             // Extraer la matriz de bloques
-            cJSON *bricks = cJSON_GetObjectItemCaseSensitive(json, "brick_matrix");
-            if (cJSON_IsArray(bricks)) {
-                // Verificamos que la matriz tiene al menos una fila
-                int rows = cJSON_GetArraySize(bricks);
-                if (rows > 0) {
-                    cJSON *first_row = cJSON_GetArrayItem(bricks, 0);
-                    int cols = cJSON_GetArraySize(first_row); // Número de columnas, basado en la primera fila
+            cJSON *jsonbricks = cJSON_GetObjectItemCaseSensitive(json, "brick_matrix");
 
-                    // Imprimir el estado de los bloques
-                    for (int i = 0; i < rows; i++) {
-                        cJSON *row = cJSON_GetArrayItem(bricks, i);
-                        if (cJSON_IsArray(row)) {
-                            for (int j = 0; j < cols; j++) {
-                                cJSON *brick = cJSON_GetArrayItem(row, j);
-                                if (cJSON_IsObject(brick)) {
-                                    cJSON *activo = cJSON_GetObjectItemCaseSensitive(brick, "activo");
-                                    if (cJSON_IsBool(activo)) {
-                                        printf("Bloque en [%d][%d]: %s\n", i, j, cJSON_IsTrue(activo) ? "Activo" : "Inactivo");
-                                    }
-                                }
-                            }
-                        }
-                    }
-                } else {
-                    printf("Error: La matriz de bloques no tiene filas.\n");
+            // Verificar que la matriz tiene al menos una fila
+            int rows = cJSON_GetArraySize(jsonbricks);
+
+            for (int i = 0; i < rows; i++) {
+                cJSON *row = cJSON_GetArrayItem(jsonbricks, i);
+                int cols = cJSON_GetArraySize(row); // Número de columnas, basado en la fila actual
+
+                for (int j = 0; j < cols; j++) {
+                    cJSON *jsonbrick = cJSON_GetArrayItem(row, j);
+                    cJSON *activo = cJSON_GetObjectItemCaseSensitive(jsonbrick, "activo");
+
+                    bricks.data[i * cols + j].active = cJSON_IsTrue(activo);
                 }
-            } else {
-                printf("Error: No se encontró la matriz de bloques en el JSON.\n");
             }
+        }
     }
 
-    }
     // Si el mensaje es de tipo score_level_data y actualiza los bloques
     else if (strcmp(json_type_message->valuestring, "score_level_data") == 0) {
         if (strcmp(tipo_jugador, "Spectator") == 0) {
@@ -486,7 +460,7 @@ void send_bricks_matriz_info(int socket_fd) {
     }
     // Serializar el objeto JSON a una cadena
     char *jsonString = cJSON_PrintUnformatted(json);
-    printf("Enviando JSON de bloques: %s\n", jsonString);
+    //printf("Enviando JSON de bloques: %s\n", jsonString);
 
     // Agregar el carácter de nueva línea y enviar
     size_t jsonLength = strlen(jsonString);

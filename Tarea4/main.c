@@ -323,12 +323,7 @@ void Game_update() {
                             Menos_velocidad();
 
                         }
-                        // Imprimir solo el estado 'active'
-                        printf("active = %d\n", bricks.data[i].active);
                         bricks.data[i].active = false;
-                        // Imprimir solo el estado 'active'
-                        printf("active = %d\n", bricks.data[i].active);
-
                         // Imprime mensaje de destrucción del bloque
                         int column = (brick.base.rect.x - 5) / 61;
                         int row = (brick.base.rect.y - 50) / 26;     // Calcula la fila
@@ -472,6 +467,7 @@ void Game_render() {
             DrawCircle(balls[i].pos.x, balls[i].pos.y, balls[i].r, RAYWHITE);
         }
     }
+
     //Codigo que renderiza al jugador
     DrawRectangle(player.rect.x, player.rect.y, player.rect.width, player.rect.height, WHITE);
 
