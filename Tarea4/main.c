@@ -175,7 +175,7 @@ void Game_startup(BrickArray *brick_array) {
     player.score = 0;
     player.w = 75.0f;
     player.h = 10.0f;
-    player.lives = 1;
+    player.lives = 1000;
     player.level = 1;
 
 // Configuración inicial de las bolas
@@ -286,57 +286,57 @@ void Game_update() {
         if (balls[j].active) {  // Solo actualiza la bola activa
             for (int i = 0; i < bricks.size; i++) {
                 Brick brick = bricks.data[i];
-                if (CheckCollisionCircleRec(balls[j].pos, balls[j].r,
-                                            brick.base.rect)) {                // Verifica de qué lado ocurrió la colisión
-                    if (balls[j].pos.x < brick.base.rect.x ||
-                        balls[j].pos.x > brick.base.rect.x + brick.base.rect.width) {
-                        balls[j].accel.x *= -1;
-                    } else {
-                        balls[j].accel.y *= -1;
-                    }
-                    player.score += GetScoreForCondition(brick.cond);
+                if(bricks.data[i].active == true){
+                    if (CheckCollisionCircleRec(balls[j].pos, balls[j].r,
+                                                brick.base.rect)) {                // Verifica de qué lado ocurrió la colisión
+                        if (balls[j].pos.x < brick.base.rect.x ||
+                            balls[j].pos.x > brick.base.rect.x + brick.base.rect.width) {
+                            balls[j].accel.x *= -1;
+                            } else {
+                                balls[j].accel.y *= -1;
+                            }
+                        player.score += GetScoreForCondition(brick.cond);
 
-                    // Verifica si el bloque tiene un poder y actúa según el poder
-                    // Velocidad mínima
+                        // Verifica si el bloque tiene un poder y actúa según el poder
+                        // Velocidad mínima
 
-                    if (brick.power == INCREASE_LENGTH) {
-                        player.w *= 2;
-                        if (player.w > 150)
-                            player.w = 150;
-                        player.rect.width = player.w;
-                    }
-                     else if (brick.power == CREATE_EXTRA_BALL) {
-                        ActivateNewBall();
-                         printf("Se creo una nueva bola :D");
-                    }else if (brick.power == DECREASE_LENGTH) {
-                        player.w *= 0.5;
-                        if (player.w < 37.5)
-                            player.w = 37.5;
-                        player.rect.width = player.w;
-                    } else if (brick.power == INCREASE_LIVES) {
-                        player.lives++;
-                    } else if (brick.power == INCREASE_SPEED) {
-                        Mas_velocidad();
+                        if (brick.power == INCREASE_LENGTH) {
+                            player.w *= 2;
+                            if (player.w > 150)
+                                player.w = 150;
+                            player.rect.width = player.w;
+                        }
+                        else if (brick.power == CREATE_EXTRA_BALL) {
+                            ActivateNewBall();
+                            printf("Se creo una nueva bola :D");
+                        }else if (brick.power == DECREASE_LENGTH) {
+                            player.w *= 0.5;
+                            if (player.w < 37.5)
+                                player.w = 37.5;
+                            player.rect.width = player.w;
+                        } else if (brick.power == INCREASE_LIVES) {
+                            player.lives++;
+                        } else if (brick.power == INCREASE_SPEED) {
+                            Mas_velocidad();
 
-                    } else if (brick.power == DECREASE_SPEED) {
-                        Menos_velocidad();
+                        } else if (brick.power == DECREASE_SPEED) {
+                            Menos_velocidad();
 
-                    }
-                     brick.active = false;
+                        }
+                        // Imprimir solo el estado 'active'
+                        printf("active = %d\n", bricks.data[i].active);
+                        bricks.data[i].active = false;
+                        // Imprimir solo el estado 'active'
+                        printf("active = %d\n", bricks.data[i].active);
 
-                    // Imprime mensaje de destrucción del bloque
-                    int column = (brick.base.rect.x - 5) / 61;
-                    int row = (brick.base.rect.y - 50) / 26;     // Calcula la fila
-                    printf("El bloque se destruyó en la fila %d, columna %d\n", row, column); // Imprime fila y columna
-                    send_bricks_info(sock, row, column, "normal");
-                    // Eliminar el bloque
-                    for (int j = i; j < bricks.size - 1; j++) {
-                        bricks.data[j] = bricks.data[j + 1];
-                    }
+                        // Imprime mensaje de destrucción del bloque
+                        int column = (brick.base.rect.x - 5) / 61;
+                        int row = (brick.base.rect.y - 50) / 26;     // Calcula la fila
+                        printf("El bloque se destruyó en la fila %d, columna %d\n", row, column); // Imprime fila y columna
+                        send_bricks_info(sock, row, column, "normal");
 
-                    bricks.size--;
-                    i--; // Decrementa 'i' para verificar el siguiente bloque en la próxima iteración
-                    break;
+                        break;
+                                                }
                 }
             }
         }
@@ -442,7 +442,6 @@ void Game_update() {
 }
 
 void Game_render() {
-
     //Codigo que renderiza el fondo, se expande la imagen original para que se vea en toda la pantalla.
     Rectangle source = {0,0,background_text.width, background_text.height};
     Rectangle dest = {0,0,600,600};
@@ -450,17 +449,21 @@ void Game_render() {
 
     DrawTexturePro(background_text, source, dest, origin, 0.0f, RAYWHITE);
 
+
     //Codigo que renderiza los bloques del Breakout.
     for (size_t i = 0; i < bricks.size; i++) {
         Brick brick = bricks.data[i];
-        DrawRectangle(
-                brick.base.rect.x,
-                brick.base.rect.y,
-                brick.base.rect.width,
-                brick.base.rect.height,
-                brick.color
-        );
+        if (brick.active == true){
+            DrawRectangle(
+                    brick.base.rect.x,
+                    brick.base.rect.y,
+                    brick.base.rect.width,
+                    brick.base.rect.height,
+                    brick.color
+                    );
+        }
     }
+
 
     //Codigo que renderiza a la bola
     for (int i = 0; i < MAX_BALLS; i++) {
@@ -546,7 +549,7 @@ int main(void) {
     partyList.count = 0; // Inicializar la lista de partidas
 
     // Inicializa el socket
-    initialize_socket(&sock, &server_addr, config.port, config.ip_address);
+    //initialize_socket(&sock, &server_addr, config.port, config.ip_address);
 
     InitWindow(screen_w, screen_h, "breakOutTec");
 

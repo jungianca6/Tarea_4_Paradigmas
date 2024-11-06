@@ -205,6 +205,7 @@ void receive_message(int socket_fd) {
         if (strcmp(tipo_jugador, "Spectator") == 0) {
             cJSON *bricks_array = cJSON_GetObjectItem(json, "bricks");
             cJSON *brick_json;
+
             int index = 0;
             printf("Array de bloques recibido\n");
 
