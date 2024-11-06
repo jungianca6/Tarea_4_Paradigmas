@@ -18,6 +18,7 @@ extern int puntaje_amarillo;
 extern int puntaje_verde;
 extern int player_score;
 extern int player_lives;
+
 #define MAX_BALLS 10 // Define el número máximo de bolas
 
 void receive_message(int socket_fd) {
@@ -256,11 +257,13 @@ void receive_message(int socket_fd) {
         if (strcmp(tipo_jugador, "Spectator") == 0) {
             cJSON *score = cJSON_GetObjectItem(json, "score");
             cJSON *lives = cJSON_GetObjectItem(json, "lives");
+            cJSON *level = cJSON_GetObjectItem(json, "level");
 
             printf("Score y Vidas recibidas");
             printf(cJSON_GetStringValue(score));
             player_score = cJSON_GetNumberValue(score);
             player_lives = cJSON_GetNumberValue(lives);
+            //player_level = cJSON_GetNumberValue(level);
         }
     }
     else {
@@ -499,12 +502,14 @@ void send_ui_info(int socket_fd) {
     DataUI data_ui;
     data_ui.score = player_score;
     data_ui.lives = player_lives;
+    data_ui.level = player.level;
 
     // Serializar la estructura a JSON
     cJSON *json = cJSON_CreateObject();
     cJSON_AddStringToObject(json, "type_message", "data_ui"); // Añadir tipo de mensaje
     cJSON_AddNumberToObject(json, "score", data_ui.score); // Añadir tipo
     cJSON_AddNumberToObject(json, "lives", data_ui.lives); // Añadir tipo
+    cJSON_AddNumberToObject(json, "level", data_ui.level); // Añadir tipo
 
     char *jsonString = cJSON_PrintUnformatted(json);
     //printf("Enviando JSON de player: %s\n", jsonString);

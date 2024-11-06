@@ -10,6 +10,7 @@ typedef struct {
     char type_message[20]; // Tipo de mensaje (ej. "data_ui")
     int score;
     int lives;
+    int level;
 
 } DataUI;
 #endif //UI_DATA_H
