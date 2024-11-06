@@ -76,7 +76,7 @@ public class MessageHandler {
                 case "balls_data": // Si el tipo es "balls_data"
                     handleBallsDataMessage(jsonNode);
                     break;
-                case "stats_data": // Si el tipo es "stats_data"
+                case "data_ui": // Si el tipo es "stats_data"
                     handleStatsDataMessage(jsonNode);
                     break;
                 default: // Si el tipo de mensaje es desconocido

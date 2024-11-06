@@ -84,7 +84,7 @@ public class MessageSender {
 
     public void sendStatsDataMessage(UUID partidaId, int puntaje, int nivel, int vidas) {
         // Crea la instancia del objeto Player_Data con la información del jugador
-        Stats_Data player_data = new Stats_Data("stats_data", puntaje, vidas, nivel);
+        Stats_Data player_data = new Stats_Data("data_ui", puntaje, vidas, nivel);
 
         // Convierte el objeto Player_Data a formato JSON
         String jsonMessage = createJson(player_data);

@@ -6,22 +6,22 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class Stats_Data {
     @JsonProperty("type_message")
     public String typeMessage; // Tipo de mensaje (ej. "balls_data")
-    @JsonProperty("puntaje")
-    int puntaje;
-    @JsonProperty("vidas")
-    int vidas;
-    @JsonProperty("nivel")
-    int nivel;
+    @JsonProperty("score")
+    int score;
+    @JsonProperty("lives")
+    int lives;
+    @JsonProperty("level")
+    int level;
 
     // Constructor predeterminado
     public Stats_Data() {
     }
 
-    public Stats_Data(String typeMessage, int puntaje, int vidas, int nivel) {
+    public Stats_Data(String typeMessage, int score, int lives, int level) {
         this.typeMessage = typeMessage;
-        this.puntaje = puntaje;
-        this.vidas = vidas;
-        this.nivel = nivel;
+        this.score = score;
+        this.lives = lives;
+        this.level = level;
     }
     public String getTypeMessage() {
         return typeMessage;
@@ -31,29 +31,27 @@ public class Stats_Data {
         this.typeMessage = typeMessage;
     }
 
-
-    public int getPuntaje() {
-        return puntaje;
+    public int getScore() {
+        return score;
     }
 
-    public void setPuntaje(int puntaje) {
-        this.puntaje = puntaje;
+    public void setScore(int score) {
+        this.score = score;
     }
 
-    public int getVidas() {
-        return vidas;
+    public int getLives() {
+        return lives;
     }
 
-    public void setVidas(int vidas) {
-        this.vidas = vidas;
+    public void setLives(int lives) {
+        this.lives = lives;
     }
 
-    public int getNivel() {
-        return nivel;
+    public int getLevel() {
+        return level;
     }
 
-    public void setNivel(int nivel) {
-        this.nivel = nivel;
+    public void setLevel(int level) {
+        this.level = level;
     }
-
 }
