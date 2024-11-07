@@ -240,11 +240,9 @@ void receive_message(int socket_fd) {
             cJSON *lives = cJSON_GetObjectItem(json, "lives");
             cJSON *level = cJSON_GetObjectItem(json, "level");
 
-            //printf("Score y Vidas recibidas");
-            //printf(cJSON_GetStringValue(score));
-            //player.score = cJSON_GetNumberValue(score);
-            //player.lives = cJSON_GetNumberValue(lives);
-            //player.level = cJSON_GetNumberValue(level);
+            player.score = cJSON_GetNumberValue(score);
+            player.lives = cJSON_GetNumberValue(lives);
+            player.level = cJSON_GetNumberValue(level);
         }
     }
     else {
