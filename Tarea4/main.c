@@ -175,7 +175,7 @@ void Game_startup(BrickArray *brick_array) {
     player.score = 0;
     player.w = 75.0f;
     player.h = 10.0f;
-    player.lives = 1000;
+    player.lives = 3;
     player.level = 1;
 
 // Configuración inicial de las bolas
@@ -584,7 +584,7 @@ int main(void) {
             Game_render();  // Dibuja el juego
         } else if (menuActive == 2) {
             ClearBackground(BLACK);
-            DrawText("Presione 'A' para actualizar las partidas disponibles", 10, 50, 20, DARKGRAY);
+            DrawText("Presione 'A' para actualizar", 10, 50, 20, DARKGRAY);
             // Manejar entrada del teclado para registrar espectador
             if (IsKeyPressed(KEY_A)) {
                 send_register_message(sock, "Spectator");
