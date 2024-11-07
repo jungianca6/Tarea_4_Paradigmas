@@ -41,7 +41,7 @@ void receive_message(int socket_fd) {
         printf("Error parsing JSON: %s\n", cJSON_GetErrorPtr());
         exit(EXIT_FAILURE);
     }
-    // Imprimir el mensaje JSON recibido
+    //Imprimir el mensaje JSON recibido
     //printf("Mensaje JSON recibido: %s\n", buffer);
 
 
@@ -216,17 +216,18 @@ void receive_message(int socket_fd) {
 
     // Si el mensaje es de tipo score_level_data y actualiza los bloques
     else if (strcmp(json_type_message->valuestring, "score_level_data") == 0) {
-        if (strcmp(tipo_jugador, "Spectator") == 0) {
+        if (strcmp(tipo_jugador, "Player") == 0) {
             cJSON *color_json = cJSON_GetObjectItem(json, "nivel");
             cJSON *score_json = cJSON_GetObjectItem(json, "score");
 
-            if (strcmp(color_json->valuestring, "rojo") == 0) {
+            if (strcmp(color_json->valuestring, "Rojo") == 0) {
                 puntaje_rojo = score_json->valueint;
-            }else if (strcmp(color_json->valuestring, "naranja") == 0) {
+
+            }else if (strcmp(color_json->valuestring, "Naranja") == 0) {
                 puntaje_naranja = score_json->valueint;
-            }else if (strcmp(color_json->valuestring, "amarillo") == 0){
+            }else if (strcmp(color_json->valuestring, "Amarillo") == 0){
                 puntaje_amarillo = score_json->valueint;
-            }else if (strcmp(color_json->valuestring, "verde") == 0) {
+            }else if (strcmp(color_json->valuestring, "Verde") == 0) {
                 puntaje_verde = score_json->valueint;
             }
         }

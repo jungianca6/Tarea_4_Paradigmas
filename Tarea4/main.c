@@ -240,8 +240,18 @@ void Game_update() {
         }
     }
 
+
+
+    if(IsKeyDown(KEY_SPACE)) {
+        if (activeBallsCount < 1) {
+            balls[0].active = true;
+            activeBallsCount ++;
+        }
+
+
+    }
     if(IsKeyPressed(KEY_Q) || IsKeyPressed(KEY_P)) {
-        if ( Pausa == 0) {
+        if ( Pausa == 0 && activeBallsCount > 0) {
             Pausa = 1; // Incrementa el contador de bolas activas            // Inicializa las propiedades de la nueva bola aquí
             for (int i = 0; i < MAX_BALLS; i++) {
                 PAUS_SPEED = balls[i].vel;
@@ -250,7 +260,7 @@ void Game_update() {
             }
 
         }
-        else{
+        else if ( Pausa == 1 && activeBallsCount > 0) {
             Pausa = 0;
 
             for (int i = 0; i < MAX_BALLS; i++) {
@@ -260,15 +270,6 @@ void Game_update() {
 
 
         }
-    }
-
-    if(IsKeyDown(KEY_SPACE)) {
-        if (activeBallsCount < 1) {
-            balls[0].active = true;
-            activeBallsCount ++;
-        }
-
-
     }
     // Actualización de la posición de la bola
     for (int i = 0; i < MAX_BALLS; i++) {
