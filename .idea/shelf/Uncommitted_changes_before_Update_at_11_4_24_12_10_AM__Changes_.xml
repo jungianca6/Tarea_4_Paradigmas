@@ -1,0 +1,24 @@
+<changelist name="Uncommitted_changes_before_Update_at_11_4_24_12_10_AM_[Changes]" date="1730700676869" recycled="true" deleted="true">
+  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_11_4_24_12_10_AM_[Changes]/shelved.patch" />
+  <option name="DESCRIPTION" value="Uncommitted changes before Update at 11/4/24 12:10 AM [Changes]" />
+  <binary>
+    <option name="BEFORE_PATH" value="Tarea4/cmake-build-debug/Tarea4" />
+    <option name="AFTER_PATH" value="Tarea4/cmake-build-debug/Tarea4" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_11_4_24_12_10_AM_[Changes]/Tarea4" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="Tarea4/cmake-build-debug/CMakeFiles/Tarea4.dir/main.c.o" />
+    <option name="AFTER_PATH" value="Tarea4/cmake-build-debug/CMakeFiles/Tarea4.dir/main.c.o" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_11_4_24_12_10_AM_[Changes]/main.c.o" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="Tarea4/cmake-build-debug/.ninja_deps" />
+    <option name="AFTER_PATH" value="Tarea4/cmake-build-debug/.ninja_deps" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_11_4_24_12_10_AM_[Changes]/.ninja_deps" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="Tarea4/cmake-build-debug/CMakeFiles/Tarea4.dir/Client/client.c.o" />
+    <option name="AFTER_PATH" value="Tarea4/cmake-build-debug/CMakeFiles/Tarea4.dir/Client/client.c.o" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_11_4_24_12_10_AM_[Changes]/client.c.o" />
+  </binary>
+</changelist>

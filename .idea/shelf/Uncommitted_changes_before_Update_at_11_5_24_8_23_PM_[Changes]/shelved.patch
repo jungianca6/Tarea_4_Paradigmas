@@ -1,0 +1,16 @@
+Index: Tarea4/cmake-build-debug/Testing/Temporary/LastTest.log
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>Start testing: Nov 05 20:06 CST\n----------------------------------------------------------\nEnd testing: Nov 05 20:06 CST\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/Tarea4/cmake-build-debug/Testing/Temporary/LastTest.log b/Tarea4/cmake-build-debug/Testing/Temporary/LastTest.log
+--- a/Tarea4/cmake-build-debug/Testing/Temporary/LastTest.log	(revision db305392d1a6e1e451b15d2875b0ead6494e3cd1)
++++ b/Tarea4/cmake-build-debug/Testing/Temporary/LastTest.log	(date 1730859538614)
+@@ -1,3 +1,3 @@
+-Start testing: Nov 05 20:06 CST
++Start testing: Nov 05 20:18 CST
+ ----------------------------------------------------------
+-End testing: Nov 05 20:06 CST
++End testing: Nov 05 20:18 CST
